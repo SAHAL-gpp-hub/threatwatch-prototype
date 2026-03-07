@@ -1,0 +1,601 @@
+employee_id,name,initials,department,role,day,login_hour,files_accessed,privilege_attempts,emails_sent,usb_events,sentiment_score
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,1,9,20,0,27,0,0.52
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,2,9,18,0,17,0,0.34
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,3,7,18,0,21,0,0.37
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,4,7,17,0,32,0,0.54
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,5,7,22,0,18,0,0.33
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,6,8,18,0,18,0,0.54
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,7,9,11,0,20,1,0.51
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,8,9,15,0,23,0,0.4
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,9,9,12,0,18,0,0.57
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,10,9,25,0,18,0,0.39
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,11,9,25,0,19,0,0.66
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,12,8,25,0,14,0,0.47
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,13,9,28,0,27,0,0.42
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,14,8,13,0,24,0,0.48
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,15,10,18,0,17,0,0.56
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,16,10,22,0,26,0,0.51
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,17,8,19,0,12,0,0.1
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,18,9,19,0,22,0,0.46
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,19,10,21,0,19,1,0.48
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,20,7,15,0,20,0,0.42
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,21,8,22,0,14,1,0.6
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,22,7,17,0,15,0,0.69
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,23,9,31,0,17,0,0.74
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,24,9,21,0,23,0,0.3
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,25,7,28,0,18,0,0.43
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,26,9,26,0,26,0,0.86
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,27,9,24,0,13,0,0.57
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,28,10,22,0,20,0,0.3
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,29,7,24,0,23,0,0.6
+EMP-001,Marcus Webb,MW,Engineering,Senior DevOps Engineer,30,10,23,0,15,0,0.5
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,1,7,18,0,21,0,0.62
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,2,9,36,0,12,0,0.43
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,3,7,25,0,23,0,0.42
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,4,9,20,0,25,0,0.39
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,5,8,16,0,21,0,0.47
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,6,7,28,0,24,0,0.6
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,7,7,18,0,22,0,0.44
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,8,9,30,0,26,0,0.59
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,9,8,26,0,18,0,0.43
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,10,8,14,0,17,0,0.45
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,11,8,28,0,14,0,0.52
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,12,7,34,1,26,1,0.56
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,13,7,23,0,24,0,0.32
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,14,10,21,0,21,0,0.2
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,15,7,27,1,25,0,0.33
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,16,7,21,1,19,0,0.3
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,17,8,16,1,12,0,0.42
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,18,8,23,1,22,0,0.58
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,19,8,19,0,18,0,0.16
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,20,9,19,1,23,0,0.45
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,21,8,19,0,17,0,0.35
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,22,8,27,1,21,0,0.53
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,23,7,20,0,23,1,0.17
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,24,7,19,0,27,0,0.37
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,25,10,23,0,18,0,0.4
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,26,8,32,0,11,0,0.37
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,27,9,26,0,23,0,0.34
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,28,8,12,1,18,0,0.56
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,29,9,20,0,21,0,0.38
+EMP-002,Priya Nair,PN,Finance,Financial Analyst,30,8,25,0,25,0,0.37
+EMP-003,Derek Sloane,DS,Sales,Account Executive,1,8,21,0,27,0,0.4
+EMP-003,Derek Sloane,DS,Sales,Account Executive,2,8,19,0,26,0,0.57
+EMP-003,Derek Sloane,DS,Sales,Account Executive,3,8,24,0,17,0,0.46
+EMP-003,Derek Sloane,DS,Sales,Account Executive,4,9,24,0,31,0,0.51
+EMP-003,Derek Sloane,DS,Sales,Account Executive,5,10,18,0,20,0,0.43
+EMP-003,Derek Sloane,DS,Sales,Account Executive,6,9,15,0,19,0,0.25
+EMP-003,Derek Sloane,DS,Sales,Account Executive,7,7,23,0,29,0,0.54
+EMP-003,Derek Sloane,DS,Sales,Account Executive,8,9,26,0,23,0,0.43
+EMP-003,Derek Sloane,DS,Sales,Account Executive,9,9,20,0,26,1,0.49
+EMP-003,Derek Sloane,DS,Sales,Account Executive,10,9,10,0,19,0,0.44
+EMP-003,Derek Sloane,DS,Sales,Account Executive,11,8,22,0,23,0,0.24
+EMP-003,Derek Sloane,DS,Sales,Account Executive,12,9,27,1,15,0,0.4
+EMP-003,Derek Sloane,DS,Sales,Account Executive,13,10,23,0,20,0,0.6
+EMP-003,Derek Sloane,DS,Sales,Account Executive,14,8,17,0,27,0,0.58
+EMP-003,Derek Sloane,DS,Sales,Account Executive,15,9,13,0,9,0,0.48
+EMP-003,Derek Sloane,DS,Sales,Account Executive,16,7,20,0,24,0,0.5
+EMP-003,Derek Sloane,DS,Sales,Account Executive,17,7,22,0,19,0,0.62
+EMP-003,Derek Sloane,DS,Sales,Account Executive,18,7,21,0,14,0,0.52
+EMP-003,Derek Sloane,DS,Sales,Account Executive,19,8,27,0,22,0,0.33
+EMP-003,Derek Sloane,DS,Sales,Account Executive,20,8,15,0,20,0,0.11
+EMP-003,Derek Sloane,DS,Sales,Account Executive,21,8,23,0,18,0,0.34
+EMP-003,Derek Sloane,DS,Sales,Account Executive,22,9,19,0,31,0,0.4
+EMP-003,Derek Sloane,DS,Sales,Account Executive,23,10,21,0,21,0,0.3
+EMP-003,Derek Sloane,DS,Sales,Account Executive,24,8,30,0,15,0,0.31
+EMP-003,Derek Sloane,DS,Sales,Account Executive,25,8,17,1,24,0,0.32
+EMP-003,Derek Sloane,DS,Sales,Account Executive,26,8,34,0,17,0,0.69
+EMP-003,Derek Sloane,DS,Sales,Account Executive,27,7,15,0,29,0,0.45
+EMP-003,Derek Sloane,DS,Sales,Account Executive,28,8,20,0,17,0,0.36
+EMP-003,Derek Sloane,DS,Sales,Account Executive,29,8,18,0,15,0,0.51
+EMP-003,Derek Sloane,DS,Sales,Account Executive,30,8,23,0,16,0,0.37
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,1,8,25,0,22,0,0.39
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,2,7,22,0,17,0,0.42
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,3,9,13,0,13,0,0.45
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,4,8,18,0,25,0,0.59
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,5,7,17,0,18,0,0.5
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,6,8,23,0,19,0,0.49
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,7,8,19,0,17,0,0.14
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,8,9,20,0,18,0,0.67
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,9,7,19,0,28,0,0.43
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,10,9,25,0,15,0,0.51
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,11,7,27,0,17,0,0.61
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,12,8,19,0,14,0,0.35
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,13,8,19,0,21,0,0.66
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,14,8,19,0,24,0,0.62
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,15,9,30,0,13,0,0.5
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,16,9,17,0,20,0,0.87
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,17,8,25,0,21,0,0.51
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,18,7,14,1,20,0,0.49
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,19,7,20,0,25,0,0.38
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,20,8,26,0,24,0,0.12
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,21,7,15,0,28,0,0.3
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,22,8,21,0,24,0,0.45
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,23,10,27,0,14,0,0.47
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,24,9,18,0,16,0,0.57
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,25,8,18,0,17,0,0.68
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,26,7,11,0,14,0,0.5
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,27,7,17,0,28,0,0.54
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,28,8,21,0,16,0,0.36
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,29,8,23,0,23,0,0.59
+EMP-004,Aisha Okonkwo,AO,HR,HR Manager,30,7,22,0,28,0,0.32
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,1,9,20,0,13,0,0.27
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,2,7,28,0,23,0,0.25
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,3,7,30,0,19,0,0.61
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,4,8,20,0,30,0,0.56
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,5,8,21,0,21,0,0.22
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,6,9,32,0,17,0,0.54
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,7,9,26,1,25,0,0.44
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,8,9,23,0,18,0,0.49
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,9,8,14,0,13,0,0.55
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,10,7,32,0,20,0,0.49
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,11,8,22,1,19,0,0.41
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,12,9,22,0,29,0,0.45
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,13,9,19,0,24,0,0.2
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,14,9,15,0,25,0,0.48
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,15,9,27,0,22,0,0.23
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,16,8,26,0,22,1,0.43
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,17,8,25,0,20,0,0.25
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,18,9,16,0,18,0,0.48
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,19,10,22,0,12,0,0.26
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,20,9,25,0,26,0,0.36
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,21,11,20,0,27,0,0.33
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,22,9,20,0,14,0,0.3
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,23,8,23,0,15,0,0.44
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,24,7,33,0,25,0,0.7
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,25,8,19,0,17,0,0.39
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,26,8,20,0,23,0,0.62
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,27,8,25,0,12,0,0.33
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,28,8,20,0,22,0,0.62
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,29,8,18,0,16,0,0.33
+EMP-005,Tomás Rivera,TR,Legal,Compliance Officer,30,8,25,0,5,0,0.33
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,1,8,26,0,29,0,0.51
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,2,9,26,0,22,0,0.58
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,3,9,27,0,23,0,0.41
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,4,8,18,0,22,0,0.53
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,5,9,21,0,23,0,0.69
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,6,9,22,0,22,0,0.48
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,7,9,22,0,20,0,0.42
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,8,9,12,0,17,0,0.49
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,9,8,23,0,19,0,0.21
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,10,8,15,0,23,0,0.62
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,11,9,18,0,24,1,0.44
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,12,7,20,0,13,0,0.72
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,13,8,22,0,21,0,0.48
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,14,8,26,0,22,0,0.47
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,15,9,23,0,22,0,0.33
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,16,9,27,0,14,0,0.46
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,17,8,30,0,12,0,0.23
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,18,9,18,0,18,0,0.47
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,19,8,9,0,23,0,0.53
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,20,9,21,0,18,1,0.41
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,21,8,15,0,24,0,0.34
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,22,8,20,0,19,0,0.36
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,23,10,24,0,22,0,0.51
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,24,8,30,0,21,0,0.57
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,25,9,18,0,20,0,0.53
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,26,11,19,0,14,0,0.39
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,27,8,32,1,22,0,0.3
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,28,9,18,0,25,0,0.45
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,29,8,29,0,12,1,0.24
+EMP-006,Chen Wei,CW,Engineering,Backend Developer,30,10,20,1,11,0,0.38
+EMP-007,John Smith,FA,IT,Systems Administrator,1,10,30,0,21,0,0.48
+EMP-007,John Smith,FA,IT,Systems Administrator,2,8,15,0,19,0,0.59
+EMP-007,John Smith,FA,IT,Systems Administrator,3,9,14,0,14,1,0.55
+EMP-007,John Smith,FA,IT,Systems Administrator,4,7,29,0,12,0,0.39
+EMP-007,John Smith,FA,IT,Systems Administrator,5,8,17,0,17,0,0.53
+EMP-007,John Smith,FA,IT,Systems Administrator,6,7,19,0,24,0,0.61
+EMP-007,John Smith,FA,IT,Systems Administrator,7,9,25,0,21,0,0.38
+EMP-007,John Smith,FA,IT,Systems Administrator,8,8,23,0,19,0,0.27
+EMP-007,John Smith,FA,IT,Systems Administrator,9,8,13,0,21,0,0.11
+EMP-007,John Smith,FA,IT,Systems Administrator,10,11,19,0,15,0,0.53
+EMP-007,John Smith,FA,IT,Systems Administrator,11,8,33,0,21,0,0.43
+EMP-007,John Smith,FA,IT,Systems Administrator,12,10,28,0,17,0,0.44
+EMP-007,John Smith,FA,IT,Systems Administrator,13,9,29,0,14,0,0.31
+EMP-007,John Smith,FA,IT,Systems Administrator,14,8,28,0,21,0,0.65
+EMP-007,John Smith,FA,IT,Systems Administrator,15,8,28,0,13,0,0.54
+EMP-007,John Smith,FA,IT,Systems Administrator,16,9,29,0,20,0,0.28
+EMP-007,John Smith,FA,IT,Systems Administrator,17,7,16,1,15,0,0.2
+EMP-007,John Smith,FA,IT,Systems Administrator,18,8,17,0,20,0,0.32
+EMP-007,John Smith,FA,IT,Systems Administrator,19,7,34,0,18,0,0.36
+EMP-007,John Smith,FA,IT,Systems Administrator,20,8,17,0,27,0,0.16
+EMP-007,John Smith,FA,IT,Systems Administrator,21,10,26,0,24,1,0.39
+EMP-007,John Smith,FA,IT,Systems Administrator,22,9,22,0,19,0,0.29
+EMP-007,John Smith,FA,IT,Systems Administrator,23,7,17,0,26,0,0.66
+EMP-007,John Smith,FA,IT,Systems Administrator,24,9,20,0,19,0,0.41
+EMP-007,John Smith,FA,IT,Systems Administrator,25,8,16,0,21,0,0.64
+EMP-007,John Smith,FA,IT,Systems Administrator,26,1,198,8,57,1,-0.79
+EMP-007,John Smith,FA,IT,Systems Administrator,27,2,217,7,57,1,-0.75
+EMP-007,John Smith,FA,IT,Systems Administrator,28,1,232,7,53,1,-0.72
+EMP-007,John Smith,FA,IT,Systems Administrator,29,2,195,8,52,1,-0.62
+EMP-007,John Smith,FA,IT,Systems Administrator,30,1,214,7,66,1,-0.92
+EMP-008,James Thornton,JT,Marketing,Marketing Director,1,9,17,0,22,0,0.49
+EMP-008,James Thornton,JT,Marketing,Marketing Director,2,8,25,1,17,0,0.27
+EMP-008,James Thornton,JT,Marketing,Marketing Director,3,9,20,0,16,0,0.73
+EMP-008,James Thornton,JT,Marketing,Marketing Director,4,8,23,0,18,0,0.45
+EMP-008,James Thornton,JT,Marketing,Marketing Director,5,7,17,0,19,0,0.52
+EMP-008,James Thornton,JT,Marketing,Marketing Director,6,7,22,0,10,0,0.54
+EMP-008,James Thornton,JT,Marketing,Marketing Director,7,9,30,0,28,0,0.56
+EMP-008,James Thornton,JT,Marketing,Marketing Director,8,8,23,0,20,0,0.27
+EMP-008,James Thornton,JT,Marketing,Marketing Director,9,10,19,0,13,0,0.32
+EMP-008,James Thornton,JT,Marketing,Marketing Director,10,8,27,0,31,0,0.54
+EMP-008,James Thornton,JT,Marketing,Marketing Director,11,8,22,0,22,0,0.36
+EMP-008,James Thornton,JT,Marketing,Marketing Director,12,7,11,0,14,0,0.16
+EMP-008,James Thornton,JT,Marketing,Marketing Director,13,9,21,0,19,0,0.49
+EMP-008,James Thornton,JT,Marketing,Marketing Director,14,8,25,0,21,0,0.53
+EMP-008,James Thornton,JT,Marketing,Marketing Director,15,8,19,0,18,0,0.48
+EMP-008,James Thornton,JT,Marketing,Marketing Director,16,8,26,0,19,0,0.6
+EMP-008,James Thornton,JT,Marketing,Marketing Director,17,8,23,0,20,0,0.39
+EMP-008,James Thornton,JT,Marketing,Marketing Director,18,8,21,0,19,0,0.55
+EMP-008,James Thornton,JT,Marketing,Marketing Director,19,7,22,0,16,0,0.71
+EMP-008,James Thornton,JT,Marketing,Marketing Director,20,10,19,0,20,1,0.43
+EMP-008,James Thornton,JT,Marketing,Marketing Director,21,8,18,0,16,0,0.42
+EMP-008,James Thornton,JT,Marketing,Marketing Director,22,9,21,0,22,0,0.66
+EMP-008,James Thornton,JT,Marketing,Marketing Director,23,9,32,0,18,0,0.27
+EMP-008,James Thornton,JT,Marketing,Marketing Director,24,8,15,0,22,0,0.59
+EMP-008,James Thornton,JT,Marketing,Marketing Director,25,8,20,0,19,0,0.4
+EMP-008,James Thornton,JT,Marketing,Marketing Director,26,9,13,0,19,0,0.57
+EMP-008,James Thornton,JT,Marketing,Marketing Director,27,7,31,0,19,0,0.45
+EMP-008,James Thornton,JT,Marketing,Marketing Director,28,10,14,0,27,0,0.45
+EMP-008,James Thornton,JT,Marketing,Marketing Director,29,10,15,0,17,0,0.8
+EMP-008,James Thornton,JT,Marketing,Marketing Director,30,8,24,0,26,0,0.71
+EMP-009,Sarah Kim,SK,Finance,Accountant,1,7,21,0,28,0,0.42
+EMP-009,Sarah Kim,SK,Finance,Accountant,2,9,14,0,26,0,0.37
+EMP-009,Sarah Kim,SK,Finance,Accountant,3,8,19,0,16,0,0.62
+EMP-009,Sarah Kim,SK,Finance,Accountant,4,8,14,0,18,0,0.43
+EMP-009,Sarah Kim,SK,Finance,Accountant,5,9,27,0,20,1,0.37
+EMP-009,Sarah Kim,SK,Finance,Accountant,6,9,21,0,27,0,0.55
+EMP-009,Sarah Kim,SK,Finance,Accountant,7,7,23,0,18,0,0.31
+EMP-009,Sarah Kim,SK,Finance,Accountant,8,7,31,0,18,0,0.43
+EMP-009,Sarah Kim,SK,Finance,Accountant,9,7,26,0,21,0,0.44
+EMP-009,Sarah Kim,SK,Finance,Accountant,10,9,20,0,22,0,0.58
+EMP-009,Sarah Kim,SK,Finance,Accountant,11,7,24,0,20,0,0.53
+EMP-009,Sarah Kim,SK,Finance,Accountant,12,8,18,0,26,0,0.47
+EMP-009,Sarah Kim,SK,Finance,Accountant,13,11,26,0,20,0,0.58
+EMP-009,Sarah Kim,SK,Finance,Accountant,14,9,27,0,19,0,0.29
+EMP-009,Sarah Kim,SK,Finance,Accountant,15,9,16,0,17,0,0.72
+EMP-009,Sarah Kim,SK,Finance,Accountant,16,9,15,0,25,0,0.38
+EMP-009,Sarah Kim,SK,Finance,Accountant,17,7,15,0,15,0,0.73
+EMP-009,Sarah Kim,SK,Finance,Accountant,18,8,22,0,12,0,0.21
+EMP-009,Sarah Kim,SK,Finance,Accountant,19,10,18,0,15,0,0.39
+EMP-009,Sarah Kim,SK,Finance,Accountant,20,9,29,1,30,0,0.65
+EMP-009,Sarah Kim,SK,Finance,Accountant,21,8,25,0,26,0,0.44
+EMP-009,Sarah Kim,SK,Finance,Accountant,22,8,24,0,20,0,0.69
+EMP-009,Sarah Kim,SK,Finance,Accountant,23,8,17,0,19,0,0.7
+EMP-009,Sarah Kim,SK,Finance,Accountant,24,9,16,1,26,0,0.56
+EMP-009,Sarah Kim,SK,Finance,Accountant,25,9,19,0,10,0,0.4
+EMP-009,Sarah Kim,SK,Finance,Accountant,26,7,22,0,21,0,0.45
+EMP-009,Sarah Kim,SK,Finance,Accountant,27,9,20,0,22,0,0.29
+EMP-009,Sarah Kim,SK,Finance,Accountant,28,7,21,1,28,0,0.4
+EMP-009,Sarah Kim,SK,Finance,Accountant,29,9,16,0,17,0,0.45
+EMP-009,Sarah Kim,SK,Finance,Accountant,30,8,17,0,18,0,0.53
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,1,8,28,0,19,0,0.12
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,2,9,24,0,20,0,0.56
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,3,8,17,0,15,1,0.6
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,4,7,22,0,22,0,0.47
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,5,8,19,0,17,0,0.51
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,6,10,15,0,22,0,0.58
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,7,9,30,0,15,0,0.55
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,8,9,9,0,23,0,0.79
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,9,10,21,0,19,0,0.38
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,10,8,18,0,20,0,0.72
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,11,8,23,0,19,0,0.61
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,12,8,20,1,21,0,0.37
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,13,10,18,0,21,0,0.76
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,14,9,18,0,20,0,0.61
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,15,9,24,0,17,0,0.43
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,16,8,16,0,30,0,0.32
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,17,9,22,0,20,0,0.32
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,18,9,20,0,25,0,0.87
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,19,8,23,0,21,0,0.33
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,20,10,27,0,9,0,0.39
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,21,8,25,0,15,0,0.44
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,22,8,19,0,28,0,0.43
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,23,7,27,0,26,1,0.34
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,24,9,15,0,17,0,0.51
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,25,8,23,0,23,0,0.5
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,26,10,15,0,22,0,0.51
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,27,9,24,0,24,0,0.58
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,28,10,20,0,25,0,0.46
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,29,9,20,0,15,0,0.53
+EMP-010,Robert Liu,RL,Engineering,Frontend Developer,30,9,24,0,22,0,0.44
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,1,9,19,0,18,0,0.52
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,2,10,20,0,19,0,0.41
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,3,7,25,0,15,0,0.6
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,4,10,21,0,20,0,0.63
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,5,9,27,0,23,0,0.49
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,6,9,8,0,16,0,0.19
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,7,9,23,1,14,0,0.71
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,8,9,22,0,18,0,0.33
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,9,9,22,0,23,0,0.37
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,10,8,18,0,16,0,0.45
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,11,8,11,0,13,0,0.47
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,12,7,20,0,21,0,0.66
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,13,9,21,0,19,0,0.41
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,14,8,27,0,29,1,0.45
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,15,8,18,0,10,0,0.5
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,16,9,14,0,17,0,0.48
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,17,8,18,0,21,0,0.14
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,18,8,20,0,19,0,0.47
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,19,9,21,0,25,0,0.45
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,20,8,25,0,24,0,0.5
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,21,8,18,0,16,0,0.38
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,22,8,22,0,26,0,0.33
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,23,9,26,1,16,0,0.61
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,24,8,28,0,21,0,0.5
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,25,7,18,0,25,0,0.61
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,26,9,16,0,14,0,0.43
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,27,7,19,0,19,0,0.38
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,28,8,13,0,24,0,0.7
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,29,10,19,0,14,0,0.54
+EMP-011,Nina Patel,NP,HR,Talent Acquisition Lead,30,8,19,0,19,0,0.4
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,1,7,20,0,21,0,0.63
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,2,9,21,0,12,0,0.28
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,3,8,16,1,21,0,0.18
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,4,8,18,0,19,0,0.38
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,5,8,24,0,10,0,0.76
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,6,7,9,0,25,0,0.74
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,7,8,16,0,17,0,0.49
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,8,9,27,0,21,0,0.39
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,9,8,26,0,14,1,0.62
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,10,8,13,0,15,0,0.35
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,11,8,10,1,18,0,0.44
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,12,9,25,0,22,0,0.46
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,13,9,21,0,25,0,0.55
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,14,8,22,0,25,0,0.59
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,15,8,18,0,17,0,0.59
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,16,9,26,0,16,0,0.51
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,17,9,28,0,22,0,0.45
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,18,7,21,0,16,0,0.43
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,19,8,21,0,23,0,0.45
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,20,7,25,0,11,0,0.34
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,21,9,19,0,23,0,0.41
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,22,7,25,0,20,0,0.49
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,23,7,24,0,25,0,0.72
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,24,9,23,0,24,0,0.3
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,25,8,29,0,20,0,0.45
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,26,7,19,0,17,0,0.47
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,27,8,22,0,14,0,0.57
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,28,7,19,0,13,0,0.33
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,29,9,19,0,24,0,0.51
+EMP-012,Carlos Mendez,CM,Sales,Regional Sales Manager,30,8,23,0,7,0,0.43
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,1,9,17,0,20,0,0.48
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,2,9,18,0,23,0,0.65
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,3,9,20,0,20,0,0.39
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,4,7,18,0,17,0,0.69
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,5,8,23,0,30,0,0.57
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,6,7,13,0,21,0,0.33
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,7,9,14,0,16,0,0.42
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,8,9,18,0,20,0,0.32
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,9,7,15,0,6,0,0.83
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,10,9,21,0,20,0,0.55
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,11,9,17,0,27,1,0.57
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,12,9,19,0,20,0,0.7
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,13,9,14,0,23,0,0.23
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,14,8,20,0,19,0,0.72
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,15,9,21,0,16,0,0.41
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,16,8,27,0,14,0,0.51
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,17,7,29,0,24,0,0.43
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,18,9,26,0,18,0,0.49
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,19,7,20,0,22,0,0.77
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,20,8,20,0,19,0,0.68
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,21,8,21,0,13,0,0.41
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,22,9,13,0,30,0,0.27
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,23,9,21,0,17,0,0.53
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,24,8,18,0,29,0,0.44
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,25,10,27,0,13,0,0.42
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,26,8,15,0,24,0,0.4
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,27,8,17,0,17,0,0.42
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,28,8,25,0,16,0,0.67
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,29,9,22,0,22,0,0.37
+EMP-013,Yuki Tanaka,YT,Engineering,ML Engineer,30,9,11,0,13,0,0.58
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,1,7,22,0,19,0,0.48
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,2,9,31,0,28,0,0.48
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,3,9,20,0,17,0,0.24
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,4,8,15,0,24,0,0.4
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,5,8,25,0,18,0,0.65
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,6,7,25,0,11,0,0.51
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,7,9,9,0,14,0,0.56
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,8,7,25,0,11,0,0.36
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,9,9,24,0,14,0,0.37
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,10,10,30,0,20,0,0.34
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,11,9,19,0,20,0,0.56
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,12,7,27,0,18,0,0.5
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,13,7,22,0,24,0,0.49
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,14,9,25,0,24,0,0.37
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,15,7,15,0,24,0,0.46
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,16,9,16,0,23,0,0.59
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,17,8,24,0,14,0,0.54
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,18,8,22,0,23,0,0.52
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,19,9,28,0,18,0,0.39
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,20,7,25,0,25,0,0.55
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,21,9,31,0,16,0,0.31
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,22,7,14,0,16,0,0.69
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,23,8,26,1,16,0,0.44
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,24,8,22,0,25,0,0.68
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,25,10,19,0,17,0,0.51
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,26,8,22,0,18,0,0.32
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,27,8,30,0,11,0,0.45
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,28,7,17,0,21,0,0.47
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,29,8,22,0,15,0,0.27
+EMP-014,Amara Osei,AM,Finance,Risk Analyst,30,9,26,0,24,0,0.69
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,1,9,14,0,21,0,0.61
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,2,9,21,0,12,0,0.53
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,3,8,24,0,22,0,0.45
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,4,8,23,0,19,0,0.57
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,5,10,20,0,19,0,0.26
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,6,9,19,0,21,0,0.41
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,7,8,18,1,18,0,0.36
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,8,8,24,0,20,0,0.56
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,9,10,25,0,28,0,0.55
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,10,8,27,1,16,0,0.24
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,11,9,25,1,16,0,0.36
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,12,10,32,0,17,0,0.58
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,13,8,22,0,19,0,0.38
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,14,10,16,0,18,0,0.41
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,15,9,17,0,20,0,0.4
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,16,8,17,0,34,0,0.64
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,17,9,20,0,25,0,0.43
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,18,9,22,0,18,0,0.32
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,19,7,22,0,24,0,0.51
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,20,9,32,0,22,0,0.31
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,21,7,26,0,28,0,0.34
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,22,7,21,0,32,0,0.51
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,23,8,19,0,16,1,0.6
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,24,10,14,0,29,0,0.51
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,25,8,16,0,18,0,0.3
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,26,8,17,0,15,0,0.39
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,27,8,16,0,20,0,0.41
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,28,8,35,0,27,0,0.6
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,29,9,23,0,21,0,0.61
+EMP-015,Liam O'Brien,LO,IT,Network Administrator,30,8,15,0,15,0,0.44
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,1,8,26,0,20,0,0.38
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,2,9,27,0,10,0,0.56
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,3,7,14,0,16,0,0.6
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,4,10,24,0,18,0,0.47
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,5,9,29,0,22,0,0.48
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,6,10,23,0,27,0,0.57
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,7,9,20,0,21,0,0.72
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,8,9,22,0,14,0,0.53
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,9,7,26,0,14,0,0.41
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,10,7,21,0,15,0,0.7
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,11,9,24,0,14,0,0.5
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,12,9,15,0,22,0,0.33
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,13,7,24,0,22,0,0.37
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,14,9,22,0,14,0,0.18
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,15,8,23,0,20,0,0.57
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,16,8,19,0,21,0,0.52
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,17,8,22,0,15,0,0.32
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,18,8,21,0,21,0,0.68
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,19,7,24,0,23,0,0.53
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,20,9,31,0,21,0,0.63
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,21,10,19,0,17,0,0.53
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,22,7,24,0,17,0,0.49
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,23,10,27,0,19,0,0.76
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,24,8,26,0,16,0,0.4
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,25,7,23,0,29,0,0.42
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,26,9,29,0,22,1,0.54
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,27,7,36,0,18,0,0.53
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,28,8,30,0,17,0,0.45
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,29,8,20,0,21,0,0.3
+EMP-016,Sofia Rossi,SR,Legal,Corporate Counsel,30,9,24,0,24,1,0.38
+EMP-017,David Park,DP,Marketing,Brand Strategist,1,9,22,0,19,0,0.38
+EMP-017,David Park,DP,Marketing,Brand Strategist,2,8,20,0,19,0,0.23
+EMP-017,David Park,DP,Marketing,Brand Strategist,3,7,19,0,25,0,0.39
+EMP-017,David Park,DP,Marketing,Brand Strategist,4,8,18,0,17,0,0.49
+EMP-017,David Park,DP,Marketing,Brand Strategist,5,8,23,0,18,0,0.46
+EMP-017,David Park,DP,Marketing,Brand Strategist,6,7,24,0,18,0,0.51
+EMP-017,David Park,DP,Marketing,Brand Strategist,7,7,22,0,23,0,0.45
+EMP-017,David Park,DP,Marketing,Brand Strategist,8,7,26,0,19,0,0.36
+EMP-017,David Park,DP,Marketing,Brand Strategist,9,9,30,0,23,0,0.52
+EMP-017,David Park,DP,Marketing,Brand Strategist,10,7,20,0,19,0,0.25
+EMP-017,David Park,DP,Marketing,Brand Strategist,11,7,14,0,25,0,0.2
+EMP-017,David Park,DP,Marketing,Brand Strategist,12,7,29,0,18,1,0.42
+EMP-017,David Park,DP,Marketing,Brand Strategist,13,9,15,0,33,0,0.5
+EMP-017,David Park,DP,Marketing,Brand Strategist,14,7,29,0,21,0,0.3
+EMP-017,David Park,DP,Marketing,Brand Strategist,15,7,18,0,17,0,0.29
+EMP-017,David Park,DP,Marketing,Brand Strategist,16,9,28,0,16,0,0.43
+EMP-017,David Park,DP,Marketing,Brand Strategist,17,9,24,0,15,0,0.52
+EMP-017,David Park,DP,Marketing,Brand Strategist,18,8,17,0,22,0,0.64
+EMP-017,David Park,DP,Marketing,Brand Strategist,19,8,16,0,18,0,0.32
+EMP-017,David Park,DP,Marketing,Brand Strategist,20,8,23,0,8,0,0.14
+EMP-017,David Park,DP,Marketing,Brand Strategist,21,8,15,1,12,1,0.38
+EMP-017,David Park,DP,Marketing,Brand Strategist,22,10,20,0,20,0,0.14
+EMP-017,David Park,DP,Marketing,Brand Strategist,23,8,26,0,20,0,0.15
+EMP-017,David Park,DP,Marketing,Brand Strategist,24,10,20,0,19,0,0.4
+EMP-017,David Park,DP,Marketing,Brand Strategist,25,9,17,0,17,0,0.39
+EMP-017,David Park,DP,Marketing,Brand Strategist,26,10,19,0,16,0,0.57
+EMP-017,David Park,DP,Marketing,Brand Strategist,27,9,22,0,19,0,0.47
+EMP-017,David Park,DP,Marketing,Brand Strategist,28,10,18,0,19,1,0.45
+EMP-017,David Park,DP,Marketing,Brand Strategist,29,9,22,0,12,0,0.59
+EMP-017,David Park,DP,Marketing,Brand Strategist,30,8,17,0,24,1,0.68
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,1,7,15,0,16,0,0.62
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,2,8,24,0,21,0,0.3
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,3,8,23,0,20,0,0.65
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,4,9,23,0,15,0,0.73
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,5,8,24,0,24,0,0.39
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,6,7,27,0,21,0,0.38
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,7,8,12,0,11,0,0.61
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,8,8,27,0,22,0,0.5
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,9,10,25,0,24,0,0.45
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,10,8,15,1,27,0,0.56
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,11,9,31,0,22,0,0.18
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,12,7,19,1,22,0,0.27
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,13,7,26,0,22,0,0.28
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,14,7,18,0,12,0,0.1
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,15,8,14,0,22,0,0.19
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,16,8,22,0,17,0,0.48
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,17,7,19,0,20,0,0.42
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,18,9,16,0,23,0,0.49
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,19,8,18,0,25,0,0.53
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,20,10,14,0,18,0,0.35
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,21,10,27,0,16,0,0.52
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,22,8,21,0,12,0,0.52
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,23,9,20,0,27,0,0.5
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,24,10,17,1,23,0,0.55
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,25,9,27,0,25,0,0.44
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,26,9,21,0,10,0,0.49
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,27,8,21,0,16,0,0.63
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,28,9,20,0,16,1,0.6
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,29,8,19,0,25,0,0.28
+EMP-018,Elena Vasquez,EV,Engineering,QA Engineer,30,9,23,0,14,0,0.43
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,1,10,20,0,18,0,0.6
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,2,10,20,0,22,0,0.39
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,3,8,22,0,17,0,0.45
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,4,8,22,0,11,1,0.66
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,5,7,24,0,24,0,0.57
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,6,7,22,0,22,0,0.51
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,7,9,20,0,16,0,0.1
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,8,8,17,0,13,0,0.46
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,9,9,26,0,19,0,0.27
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,10,7,21,0,19,0,0.38
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,11,9,17,0,18,0,0.29
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,12,7,15,0,24,0,0.52
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,13,8,28,0,16,0,0.26
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,14,9,27,1,17,0,0.55
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,15,7,31,0,16,0,0.38
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,16,9,23,0,21,0,0.63
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,17,9,19,0,18,0,0.58
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,18,9,28,0,28,0,0.67
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,19,7,32,0,16,0,0.28
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,20,9,29,0,21,0,0.29
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,21,8,12,0,22,0,0.28
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,22,10,16,0,25,1,0.25
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,23,10,32,0,20,0,0.19
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,24,9,22,0,22,0,0.33
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,25,10,24,0,20,0,0.5
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,26,8,18,0,25,0,0.66
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,27,9,16,0,23,0,0.47
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,28,9,21,0,24,0,0.55
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,29,7,19,0,18,0,0.45
+EMP-019,Omar Shaikh,OS,Sales,Business Dev Manager,30,9,18,0,9,0,0.57
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,1,7,18,0,16,0,0.68
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,2,7,27,0,13,0,0.31
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,3,10,27,0,18,0,0.5
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,4,7,27,0,22,0,0.52
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,5,9,28,0,11,0,0.42
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,6,9,21,0,25,0,0.82
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,7,10,32,0,13,0,0.47
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,8,8,16,0,24,0,0.24
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,9,9,27,0,26,0,0.27
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,10,8,24,1,23,0,0.43
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,11,8,20,0,25,0,0.33
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,12,10,20,0,23,0,0.45
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,13,9,16,0,21,0,0.48
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,14,7,23,0,14,0,0.22
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,15,8,26,0,14,0,0.39
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,16,9,23,0,19,0,0.29
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,17,7,28,0,18,0,0.55
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,18,8,32,0,21,0,0.62
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,19,9,28,0,16,0,0.23
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,20,8,21,0,29,0,0.26
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,21,10,23,0,15,0,0.54
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,22,9,22,0,22,0,0.1
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,23,9,23,0,19,1,0.37
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,24,8,31,0,17,0,0.45
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,25,8,25,0,12,0,0.53
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,26,9,12,0,21,0,0.68
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,27,10,24,0,28,1,0.81
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,28,9,24,0,13,0,0.51
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,29,10,24,0,20,0,0.45
+EMP-020,Hannah Mueller,HM,IT,Cloud Infrastructure Eng,30,8,19,0,17,0,0.28
