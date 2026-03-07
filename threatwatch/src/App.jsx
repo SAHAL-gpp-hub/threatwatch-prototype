@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { AreaChart, Area, BarChart, Bar, LineChart, Line, RadarChart, Radar, PolarGrid, PolarAngleAxis, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
-import { LayoutDashboard, Trophy, UserSearch, BellRing, BarChart3, Shield, Zap, AlertTriangle, Users, Flame, Crosshair, Bell, Eye, Radio, Activity, Lock, Database, Server, Cpu, TrendingUp, TrendingDown, Minus, CheckCircle, Clock, FileWarning, ShieldAlert, Usb, Mail, FolderOpen, KeyRound, LogIn, Skull, ShieldX, MonitorX, Siren } from "lucide-react";
+import { LayoutDashboard, Trophy, UserSearch, BellRing, BarChart3, Shield, Zap, AlertTriangle, Users, Flame, Crosshair, Bell, Eye, Radio, Activity, Lock, Database, Server, Cpu, TrendingUp, TrendingDown, Minus, CheckCircle, Clock, FileWarning, ShieldAlert, Usb, Mail, FolderOpen, KeyRound, LogIn, Skull, ShieldX, MonitorX, Siren, GitBranch, Dna, ArrowUpRight, RefreshCw, ChevronDown, ChevronUp, Bot, Send, Sparkles, Terminal, ShieldCheck, TriangleAlert, Fingerprint } from "lucide-react";
 
 // ── GLOBAL STYLES ────────────────────────────────────────
 const GLOBAL_CSS = `
@@ -76,6 +76,23 @@ const GLOBAL_CSS = `
   @keyframes spin {
     from { transform: rotate(0deg); } to { transform: rotate(360deg); }
   }
+  @keyframes twinPulse {
+    0%,100% { box-shadow: 0 0 0px rgba(157,111,255,0); }
+    50%     { box-shadow: 0 0 30px rgba(157,111,255,0.35), inset 0 0 20px rgba(157,111,255,0.05); }
+  }
+  @keyframes scanBar {
+    0%   { top: 0%; opacity:0.7; }
+    50%  { opacity:1; }
+    100% { top: 100%; opacity:0; }
+  }
+  @keyframes deviationRise {
+    from { width: 0%; }
+    to   { width: var(--target-w); }
+  }
+  @keyframes floatY {
+    0%,100% { transform: translateY(0px); }
+    50%     { transform: translateY(-6px); }
+  }
   @keyframes blink {
     0%,100% { opacity:1; } 50% { opacity:0; }
   }
@@ -139,80 +156,94 @@ const LEVEL_BG = {
   Low:      "rgba(0,255,135,0.10)",
 };
 
-// ── DATA — embedded directly from employee_summary.json (ML output) ──────────
-const RAW_DATA = [
-  {"employee_id":"EMP-007","name":"Fatima Al-Hassan","initials":"FA","department":"IT","role":"Systems Administrator","peak_score":94.5,"risk_label":"CRITICAL","trend":"Rising","login_hour":1,"files":214,"privilege":7,"usb":1,"sentiment":-0.92,"timeline":[{"day":1,"score":17.8},{"day":2,"score":9.0},{"day":3,"score":42.9},{"day":4,"score":20.7},{"day":5,"score":6.4},{"day":6,"score":14.0},{"day":7,"score":7.3},{"day":8,"score":9.3},{"day":9,"score":23.8},{"day":10,"score":28.3},{"day":11,"score":18.0},{"day":12,"score":15.8},{"day":13,"score":14.5},{"day":14,"score":12.0},{"day":15,"score":13.4},{"day":16,"score":13.1},{"day":17,"score":39.6},{"day":18,"score":9.5},{"day":19,"score":23.3},{"day":20,"score":21.2},{"day":21,"score":44.4},{"day":22,"score":8.6},{"day":23,"score":18.9},{"day":24,"score":4.9},{"day":25,"score":8.5},{"day":26,"score":94.3},{"day":27,"score":92.9},{"day":28,"score":94.1},{"day":29,"score":92.4},{"day":30,"score":94.5}]},
-  {"employee_id":"EMP-002","name":"Priya Nair","initials":"PN","department":"Finance","role":"Financial Analyst","peak_score":60.4,"risk_label":"HIGH","trend":"Stable","login_hour":8,"files":25,"privilege":0,"usb":0,"sentiment":0.37,"timeline":[{"day":1,"score":12.8},{"day":2,"score":23.3},{"day":3,"score":13.9},{"day":4,"score":8.5},{"day":5,"score":7.1},{"day":6,"score":17.4},{"day":7,"score":11.6},{"day":8,"score":15.4},{"day":9,"score":6.9},{"day":10,"score":8.4},{"day":11,"score":12.9},{"day":12,"score":60.4},{"day":13,"score":15.3},{"day":14,"score":19.6},{"day":15,"score":39.1},{"day":16,"score":34.9},{"day":17,"score":30.6},{"day":18,"score":27.8},{"day":19,"score":14.9},{"day":20,"score":30.5},{"day":21,"score":7.7},{"day":22,"score":28.7},{"day":23,"score":51.5},{"day":24,"score":16.8},{"day":25,"score":13.3},{"day":26,"score":23.4},{"day":27,"score":9.3},{"day":28,"score":31.8},{"day":29,"score":6.1},{"day":30,"score":11.5}]},
-  {"employee_id":"EMP-017","name":"David Park","initials":"DP","department":"Marketing","role":"Brand Strategist","peak_score":53.4,"risk_label":"MODERATE","trend":"Rising","login_hour":8,"files":17,"privilege":0,"usb":1,"sentiment":0.68,"timeline":[{"day":1,"score":5.9},{"day":2,"score":10.5},{"day":3,"score":14.7},{"day":4,"score":5.5},{"day":5,"score":5.2},{"day":6,"score":10.0},{"day":7,"score":11.8},{"day":8,"score":12.7},{"day":9,"score":11.0},{"day":10,"score":14.9},{"day":11,"score":25.9},{"day":12,"score":44.6},{"day":13,"score":21.9},{"day":14,"score":18.3},{"day":15,"score":15.0},{"day":16,"score":8.5},{"day":17,"score":6.3},{"day":18,"score":8.6},{"day":19,"score":8.9},{"day":20,"score":28.4},{"day":21,"score":53.4},{"day":22,"score":21.9},{"day":23,"score":16.6},{"day":24,"score":11.7},{"day":25,"score":7.5},{"day":26,"score":13.9},{"day":27,"score":4.5},{"day":28,"score":42.1},{"day":29,"score":10.3},{"day":30,"score":41.8}]},
-  {"employee_id":"EMP-020","name":"Hannah Mueller","initials":"HM","department":"IT","role":"Cloud Infrastructure Eng","peak_score":50.2,"risk_label":"MODERATE","trend":"Stable","login_hour":8,"files":19,"privilege":0,"usb":0,"sentiment":0.28,"timeline":[{"day":1,"score":14.7},{"day":2,"score":18.7},{"day":3,"score":13.9},{"day":4,"score":13.8},{"day":5,"score":14.8},{"day":6,"score":19.0},{"day":7,"score":23.7},{"day":8,"score":14.5},{"day":9,"score":16.9},{"day":10,"score":28.7},{"day":11,"score":10.5},{"day":12,"score":13.2},{"day":13,"score":6.4},{"day":14,"score":19.7},{"day":15,"score":11.5},{"day":16,"score":9.0},{"day":17,"score":14.0},{"day":18,"score":16.0},{"day":19,"score":15.0},{"day":20,"score":18.5},{"day":21,"score":14.2},{"day":22,"score":20.3},{"day":23,"score":36.5},{"day":24,"score":14.7},{"day":25,"score":11.1},{"day":26,"score":19.1},{"day":27,"score":50.2},{"day":28,"score":7.5},{"day":29,"score":11.9},{"day":30,"score":9.8}]},
-  {"employee_id":"EMP-019","name":"Omar Shaikh","initials":"OS","department":"Sales","role":"Business Dev Manager","peak_score":47.5,"risk_label":"MODERATE","trend":"Declining","login_hour":9,"files":18,"privilege":0,"usb":0,"sentiment":0.57,"timeline":[{"day":1,"score":13.3},{"day":2,"score":13.7},{"day":3,"score":5.5},{"day":4,"score":42.7},{"day":5,"score":13.4},{"day":6,"score":10.1},{"day":7,"score":20.5},{"day":8,"score":9.1},{"day":9,"score":10.2},{"day":10,"score":10.9},{"day":11,"score":10.2},{"day":12,"score":15.0},{"day":13,"score":14.5},{"day":14,"score":30.5},{"day":15,"score":19.5},{"day":16,"score":7.5},{"day":17,"score":5.3},{"day":18,"score":20.3},{"day":19,"score":24.8},{"day":20,"score":13.3},{"day":21,"score":19.6},{"day":22,"score":47.5},{"day":23,"score":28.2},{"day":24,"score":7.3},{"day":25,"score":11.8},{"day":26,"score":11.8},{"day":27,"score":7.8},{"day":28,"score":7.5},{"day":29,"score":11.0},{"day":30,"score":15.9}]},
-  {"employee_id":"EMP-010","name":"Robert Liu","initials":"RL","department":"Engineering","role":"Frontend Developer","peak_score":47.3,"risk_label":"MODERATE","trend":"Declining","login_hour":9,"files":24,"privilege":0,"usb":0,"sentiment":0.44,"timeline":[{"day":1,"score":21.0},{"day":2,"score":5.5},{"day":3,"score":39.6},{"day":4,"score":10.7},{"day":5,"score":5.2},{"day":6,"score":17.1},{"day":7,"score":11.6},{"day":8,"score":28.8},{"day":9,"score":12.0},{"day":10,"score":11.2},{"day":11,"score":5.5},{"day":12,"score":26.8},{"day":13,"score":22.3},{"day":14,"score":7.6},{"day":15,"score":5.6},{"day":16,"score":18.2},{"day":17,"score":7.6},{"day":18,"score":19.6},{"day":19,"score":8.2},{"day":20,"score":24.5},{"day":21,"score":8.7},{"day":22,"score":11.6},{"day":23,"score":47.3},{"day":24,"score":7.6},{"day":25,"score":6.9},{"day":26,"score":17.2},{"day":27,"score":8.4},{"day":28,"score":15.2},{"day":29,"score":5.9},{"day":30,"score":5.9}]},
-  {"employee_id":"EMP-001","name":"Marcus Webb","initials":"MW","department":"Engineering","role":"Senior DevOps Engineer","peak_score":45.6,"risk_label":"MODERATE","trend":"Stable","login_hour":10,"files":23,"privilege":0,"usb":0,"sentiment":0.5,"timeline":[{"day":1,"score":8.5},{"day":2,"score":8.7},{"day":3,"score":12.7},{"day":4,"score":23.4},{"day":5,"score":11.6},{"day":6,"score":5.5},{"day":7,"score":45.6},{"day":8,"score":9.2},{"day":9,"score":14.0},{"day":10,"score":6.4},{"day":11,"score":9.7},{"day":12,"score":9.3},{"day":13,"score":13.8},{"day":14,"score":12.7},{"day":15,"score":13.8},{"day":16,"score":16.1},{"day":17,"score":24.1},{"day":18,"score":5.6},{"day":19,"score":41.6},{"day":20,"score":13.3},{"day":21,"score":38.5},{"day":22,"score":17.2},{"day":23,"score":19.6},{"day":24,"score":9.2},{"day":25,"score":13.5},{"day":26,"score":23.8},{"day":27,"score":8.2},{"day":28,"score":14.9},{"day":29,"score":13.8},{"day":30,"score":14.3}]},
-  {"employee_id":"EMP-006","name":"Chen Wei","initials":"CW","department":"Engineering","role":"Backend Developer","peak_score":44.9,"risk_label":"MODERATE","trend":"Rising","login_hour":10,"files":20,"privilege":1,"usb":0,"sentiment":0.38,"timeline":[{"day":1,"score":14.0},{"day":2,"score":6.8},{"day":3,"score":8.7},{"day":4,"score":6.6},{"day":5,"score":11.9},{"day":6,"score":4.8},{"day":7,"score":5.0},{"day":8,"score":12.5},{"day":9,"score":12.0},{"day":10,"score":11.3},{"day":11,"score":37.8},{"day":12,"score":18.3},{"day":13,"score":5.9},{"day":14,"score":7.7},{"day":15,"score":8.1},{"day":16,"score":8.8},{"day":17,"score":22.9},{"day":18,"score":5.6},{"day":19,"score":19.6},{"day":20,"score":36.4},{"day":21,"score":12.6},{"day":22,"score":6.6},{"day":23,"score":12.9},{"day":24,"score":11.6},{"day":25,"score":5.6},{"day":26,"score":28.4},{"day":27,"score":34.9},{"day":28,"score":8.4},{"day":29,"score":44.9},{"day":30,"score":35.4}]},
-  {"employee_id":"EMP-011","name":"Nina Patel","initials":"NP","department":"HR","role":"Talent Acquisition Lead","peak_score":43.3,"risk_label":"MODERATE","trend":"Stable","login_hour":8,"files":19,"privilege":0,"usb":0,"sentiment":0.4,"timeline":[{"day":1,"score":4.8},{"day":2,"score":11.7},{"day":3,"score":13.9},{"day":4,"score":13.3},{"day":5,"score":7.7},{"day":6,"score":25.0},{"day":7,"score":34.5},{"day":8,"score":6.7},{"day":9,"score":6.9},{"day":10,"score":6.6},{"day":11,"score":16.6},{"day":12,"score":14.1},{"day":13,"score":5.0},{"day":14,"score":43.3},{"day":15,"score":13.7},{"day":16,"score":7.3},{"day":17,"score":16.7},{"day":18,"score":5.1},{"day":19,"score":7.5},{"day":20,"score":8.4},{"day":21,"score":8.1},{"day":22,"score":11.6},{"day":23,"score":30.6},{"day":24,"score":9.9},{"day":25,"score":14.9},{"day":26,"score":8.8},{"day":27,"score":11.3},{"day":28,"score":17.1},{"day":29,"score":15.0},{"day":30,"score":6.0}]},
-  {"employee_id":"EMP-008","name":"James Thornton","initials":"JT","department":"Marketing","role":"Marketing Director","peak_score":42.6,"risk_label":"MODERATE","trend":"Rising","login_hour":8,"files":24,"privilege":0,"usb":0,"sentiment":0.71,"timeline":[{"day":1,"score":6.3},{"day":2,"score":31.0},{"day":3,"score":12.2},{"day":4,"score":5.2},{"day":5,"score":11.6},{"day":6,"score":18.3},{"day":7,"score":16.0},{"day":8,"score":9.5},{"day":9,"score":18.2},{"day":10,"score":19.2},{"day":11,"score":7.5},{"day":12,"score":32.8},{"day":13,"score":4.2},{"day":14,"score":6.9},{"day":15,"score":4.9},{"day":16,"score":7.3},{"day":17,"score":6.5},{"day":18,"score":5.2},{"day":19,"score":15.1},{"day":20,"score":42.6},{"day":21,"score":7.0},{"day":22,"score":8.8},{"day":23,"score":17.9},{"day":24,"score":10.2},{"day":25,"score":5.7},{"day":26,"score":11.3},{"day":27,"score":17.7},{"day":28,"score":21.4},{"day":29,"score":24.7},{"day":30,"score":16.4}]},
-  {"employee_id":"EMP-013","name":"Yuki Tanaka","initials":"YT","department":"Engineering","role":"ML Engineer","peak_score":41.5,"risk_label":"MODERATE","trend":"Stable","login_hour":9,"files":11,"privilege":0,"usb":0,"sentiment":0.58,"timeline":[{"day":1,"score":5.8},{"day":2,"score":10.2},{"day":3,"score":5.7},{"day":4,"score":15.0},{"day":5,"score":14.9},{"day":6,"score":18.2},{"day":7,"score":9.0},{"day":8,"score":9.3},{"day":9,"score":32.9},{"day":10,"score":4.8},{"day":11,"score":41.5},{"day":12,"score":10.8},{"day":13,"score":17.8},{"day":14,"score":9.9},{"day":15,"score":5.8},{"day":16,"score":10.9},{"day":17,"score":17.0},{"day":18,"score":5.3},{"day":19,"score":18.0},{"day":20,"score":8.4},{"day":21,"score":9.3},{"day":22,"score":24.8},{"day":23,"score":4.7},{"day":24,"score":13.1},{"day":25,"score":17.3},{"day":26,"score":10.9},{"day":27,"score":6.9},{"day":28,"score":12.2},{"day":29,"score":6.4},{"day":30,"score":17.0}]},
-  {"employee_id":"EMP-016","name":"Sofia Rossi","initials":"SR","department":"Legal","role":"Corporate Counsel","peak_score":40.5,"risk_label":"MODERATE","trend":"Rising","login_hour":9,"files":24,"privilege":0,"usb":1,"sentiment":0.38,"timeline":[{"day":1,"score":7.9},{"day":2,"score":16.1},{"day":3,"score":15.8},{"day":4,"score":12.3},{"day":5,"score":8.4},{"day":6,"score":18.8},{"day":7,"score":12.0},{"day":8,"score":6.5},{"day":9,"score":15.3},{"day":10,"score":16.4},{"day":11,"score":7.3},{"day":12,"score":10.9},{"day":13,"score":12.5},{"day":14,"score":16.2},{"day":15,"score":5.7},{"day":16,"score":6.3},{"day":17,"score":9.6},{"day":18,"score":10.7},{"day":19,"score":12.5},{"day":20,"score":13.3},{"day":21,"score":12.8},{"day":22,"score":10.2},{"day":23,"score":22.0},{"day":24,"score":8.5},{"day":25,"score":19.3},{"day":26,"score":40.5},{"day":27,"score":22.5},{"day":28,"score":12.3},{"day":29,"score":9.3},{"day":30,"score":38.0}]},
-  {"employee_id":"EMP-012","name":"Carlos Mendez","initials":"CM","department":"Sales","role":"Regional Sales Manager","peak_score":40.3,"risk_label":"MODERATE","trend":"Stable","login_hour":8,"files":23,"privilege":0,"usb":0,"sentiment":0.43,"timeline":[{"day":1,"score":12.2},{"day":2,"score":12.9},{"day":3,"score":34.8},{"day":4,"score":7.0},{"day":5,"score":22.2},{"day":6,"score":28.9},{"day":7,"score":6.0},{"day":8,"score":8.7},{"day":9,"score":40.3},{"day":10,"score":15.6},{"day":11,"score":31.7},{"day":12,"score":5.9},{"day":13,"score":7.8},{"day":14,"score":9.5},{"day":15,"score":6.7},{"day":16,"score":6.1},{"day":17,"score":8.0},{"day":18,"score":10.6},{"day":19,"score":6.8},{"day":20,"score":19.8},{"day":21,"score":6.6},{"day":22,"score":10.4},{"day":23,"score":19.7},{"day":24,"score":10.5},{"day":25,"score":9.9},{"day":26,"score":11.0},{"day":27,"score":8.0},{"day":28,"score":16.1},{"day":29,"score":7.7},{"day":30,"score":18.9}]},
-  {"employee_id":"EMP-005","name":"Tomás Rivera","initials":"TR","department":"Legal","role":"Compliance Officer","peak_score":39.1,"risk_label":"MODERATE","trend":"Stable","login_hour":8,"files":25,"privilege":0,"usb":0,"sentiment":0.33,"timeline":[{"day":1,"score":11.7},{"day":2,"score":21.2},{"day":3,"score":17.3},{"day":4,"score":14.3},{"day":5,"score":11.9},{"day":6,"score":12.9},{"day":7,"score":31.9},{"day":8,"score":4.7},{"day":9,"score":12.4},{"day":10,"score":18.5},{"day":11,"score":24.8},{"day":12,"score":11.8},{"day":13,"score":16.5},{"day":14,"score":9.7},{"day":15,"score":14.0},{"day":16,"score":39.1},{"day":17,"score":11.2},{"day":18,"score":6.0},{"day":19,"score":21.4},{"day":20,"score":12.4},{"day":21,"score":31.7},{"day":22,"score":10.1},{"day":23,"score":7.5},{"day":24,"score":27.2},{"day":25,"score":7.0},{"day":26,"score":7.7},{"day":27,"score":13.9},{"day":28,"score":6.8},{"day":29,"score":9.1},{"day":30,"score":22.9}]},
-  {"employee_id":"EMP-009","name":"Sarah Kim","initials":"SK","department":"Finance","role":"Accountant","peak_score":39.1,"risk_label":"MODERATE","trend":"Stable","login_hour":8,"files":17,"privilege":0,"usb":0,"sentiment":0.53,"timeline":[{"day":1,"score":17.5},{"day":2,"score":14.6},{"day":3,"score":6.7},{"day":4,"score":8.0},{"day":5,"score":39.1},{"day":6,"score":8.9},{"day":7,"score":12.5},{"day":8,"score":17.9},{"day":9,"score":12.4},{"day":10,"score":5.5},{"day":11,"score":10.0},{"day":12,"score":9.9},{"day":13,"score":27.1},{"day":14,"score":10.7},{"day":15,"score":13.0},{"day":16,"score":12.1},{"day":17,"score":19.6},{"day":18,"score":16.8},{"day":19,"score":16.0},{"day":20,"score":36.6},{"day":21,"score":10.9},{"day":22,"score":10.9},{"day":23,"score":10.0},{"day":24,"score":34.0},{"day":25,"score":13.7},{"day":26,"score":10.7},{"day":27,"score":9.6},{"day":28,"score":38.1},{"day":29,"score":6.8},{"day":30,"score":6.2}]},
-  {"employee_id":"EMP-018","name":"Elena Vasquez","initials":"EV","department":"Engineering","role":"QA Engineer","peak_score":38.7,"risk_label":"MODERATE","trend":"Stable","login_hour":9,"files":23,"privilege":0,"usb":0,"sentiment":0.43,"timeline":[{"day":1,"score":14.1},{"day":2,"score":10.0},{"day":3,"score":7.1},{"day":4,"score":14.9},{"day":5,"score":8.9},{"day":6,"score":14.8},{"day":7,"score":20.0},{"day":8,"score":8.9},{"day":9,"score":17.4},{"day":10,"score":33.9},{"day":11,"score":20.9},{"day":12,"score":36.9},{"day":13,"score":17.3},{"day":14,"score":29.6},{"day":15,"score":18.0},{"day":16,"score":5.2},{"day":17,"score":10.5},{"day":18,"score":7.7},{"day":19,"score":8.5},{"day":20,"score":18.9},{"day":21,"score":15.1},{"day":22,"score":9.3},{"day":23,"score":8.6},{"day":24,"score":33.9},{"day":25,"score":10.7},{"day":26,"score":11.8},{"day":27,"score":6.9},{"day":28,"score":38.7},{"day":29,"score":13.2},{"day":30,"score":7.3}]},
-  {"employee_id":"EMP-003","name":"Derek Sloane","initials":"DS","department":"Sales","role":"Account Executive","peak_score":38.6,"risk_label":"MODERATE","trend":"Stable","login_hour":8,"files":23,"privilege":0,"usb":0,"sentiment":0.37,"timeline":[{"day":1,"score":10.6},{"day":2,"score":9.8},{"day":3,"score":6.2},{"day":4,"score":15.8},{"day":5,"score":13.0},{"day":6,"score":13.9},{"day":7,"score":17.8},{"day":8,"score":7.0},{"day":9,"score":38.6},{"day":10,"score":15.8},{"day":11,"score":12.5},{"day":12,"score":31.5},{"day":13,"score":13.5},{"day":14,"score":11.5},{"day":15,"score":18.6},{"day":16,"score":12.2},{"day":17,"score":10.5},{"day":18,"score":12.6},{"day":19,"score":12.0},{"day":20,"score":20.3},{"day":21,"score":6.9},{"day":22,"score":16.5},{"day":23,"score":15.1},{"day":24,"score":17.1},{"day":25,"score":31.2},{"day":26,"score":21.2},{"day":27,"score":21.3},{"day":28,"score":7.1},{"day":29,"score":7.0},{"day":30,"score":7.7}]},
-  {"employee_id":"EMP-015","name":"Liam O'Brien","initials":"LO","department":"IT","role":"Network Administrator","peak_score":37.3,"risk_label":"MODERATE","trend":"Stable","login_hour":8,"files":15,"privilege":0,"usb":0,"sentiment":0.44,"timeline":[{"day":1,"score":10.5},{"day":2,"score":8.5},{"day":3,"score":6.3},{"day":4,"score":5.2},{"day":5,"score":17.1},{"day":6,"score":5.9},{"day":7,"score":24.8},{"day":8,"score":6.2},{"day":9,"score":21.3},{"day":10,"score":34.0},{"day":11,"score":30.0},{"day":12,"score":20.1},{"day":13,"score":6.1},{"day":14,"score":14.7},{"day":15,"score":6.9},{"day":16,"score":24.2},{"day":17,"score":7.6},{"day":18,"score":6.9},{"day":19,"score":11.5},{"day":20,"score":16.6},{"day":21,"score":21.9},{"day":22,"score":22.5},{"day":23,"score":37.3},{"day":24,"score":23.6},{"day":25,"score":9.6},{"day":26,"score":9.0},{"day":27,"score":7.1},{"day":28,"score":23.0},{"day":29,"score":7.5},{"day":30,"score":9.7}]},
-  {"employee_id":"EMP-004","name":"Aisha Okonkwo","initials":"AO","department":"HR","role":"HR Manager","peak_score":35.2,"risk_label":"MODERATE","trend":"Stable","login_hour":7,"files":22,"privilege":0,"usb":0,"sentiment":0.32,"timeline":[{"day":1,"score":8.1},{"day":2,"score":9.8},{"day":3,"score":13.2},{"day":4,"score":9.8},{"day":5,"score":12.0},{"day":6,"score":5.0},{"day":7,"score":17.3},{"day":8,"score":9.6},{"day":9,"score":17.2},{"day":10,"score":6.7},{"day":11,"score":14.4},{"day":12,"score":10.4},{"day":13,"score":8.9},{"day":14,"score":8.4},{"day":15,"score":13.4},{"day":16,"score":19.1},{"day":17,"score":6.9},{"day":18,"score":35.2},{"day":19,"score":14.1},{"day":20,"score":22.8},{"day":21,"score":22.3},{"day":22,"score":7.3},{"day":23,"score":16.6},{"day":24,"score":6.8},{"day":25,"score":9.8},{"day":26,"score":22.5},{"day":27,"score":17.4},{"day":28,"score":7.6},{"day":29,"score":8.0},{"day":30,"score":20.1}]},
-  {"employee_id":"EMP-014","name":"Amara Osei","initials":"AM","department":"Finance","role":"Risk Analyst","peak_score":27.3,"risk_label":"LOW","trend":"Stable","login_hour":9,"files":26,"privilege":0,"usb":0,"sentiment":0.69,"timeline":[{"day":1,"score":9.2},{"day":2,"score":16.8},{"day":3,"score":11.3},{"day":4,"score":10.9},{"day":5,"score":8.2},{"day":6,"score":17.7},{"day":7,"score":19.8},{"day":8,"score":18.9},{"day":9,"score":9.3},{"day":10,"score":19.9},{"day":11,"score":5.4},{"day":12,"score":12.5},{"day":13,"score":11.5},{"day":14,"score":9.8},{"day":15,"score":15.2},{"day":16,"score":10.0},{"day":17,"score":8.3},{"day":18,"score":6.6},{"day":19,"score":8.7},{"day":20,"score":15.5},{"day":21,"score":15.0},{"day":22,"score":17.8},{"day":23,"score":27.3},{"day":24,"score":13.1},{"day":25,"score":12.9},{"day":26,"score":7.2},{"day":27,"score":19.3},{"day":28,"score":12.7},{"day":29,"score":11.6},{"day":30,"score":14.5}]}
-];
+// ── DATA PARSER — converts raw JSON from employee_summary.json ──────────────
+// No hardcoded employees here. Data is fetched live from /employee_summary.json
+function parseEmployees(raw) {
+  return raw.map((e, i) => ({
+    id:           e.employee_id,
+    name:         e.name,
+    initials:     e.initials,
+    dept:         e.department,
+    role:         e.role,
+    score:        e.peak_score,
+    level:        e.risk_label === "CRITICAL" ? "Critical"
+                  : e.risk_label === "HIGH"   ? "High"
+                  : e.risk_label === "MODERATE" ? "Moderate" : "Low",
+    trend:        e.trend,
+    loginTime:    `${String(e.login_hour).padStart(2,"0")}:00`,
+    login_hour:   e.login_hour,
+    files:        e.files,
+    priv:         e.privilege,
+    usb:          e.usb,
+    sentiment:    e.sentiment,
+    timeline:     e.timeline || [],
+    lastActivity: i === 0 ? "2 min ago" : i === 1 ? "15 min ago"
+                  : i < 4 ? `${i} hr ago` : `${i-2} days ago`,
+  }));
+}
 
-// Map JSON fields → dashboard fields
-const EMPLOYEES = RAW_DATA.map((e, i) => ({
-  id:           e.employee_id,
-  name:         e.name,
-  initials:     e.initials,
-  dept:         e.department,
-  role:         e.role,
-  score:        e.peak_score,
-  level:        e.risk_label === "CRITICAL" ? "Critical"
-                : e.risk_label === "HIGH"   ? "High"
-                : e.risk_label === "MODERATE" ? "Moderate" : "Low",
-  trend:        e.trend,
-  loginTime:    `${String(e.login_hour).padStart(2,"0")}:00`,
-  files:        e.files,
-  priv:         e.privilege,
-  usb:          e.usb,
-  sentiment:    e.sentiment,
-  timeline:     e.timeline,
-  lastActivity: i === 0 ? "2 min ago" : i === 1 ? "15 min ago"
-                : i < 4 ? `${i} hr ago` : `${i-2} days ago`,
-}));
+// Fallback single employee shown during initial load
+const EMPTY_EMP = {
+  id:"---", name:"Loading...", initials:"...", dept:"—", role:"—",
+  score:0, level:"Low", trend:"Stable", loginTime:"00:00", login_hour:0,
+  files:0, priv:0, usb:0, sentiment:0, timeline:[], lastActivity:"—",
+};
 
-// Threat actor is always rank #1 (highest score — from real ML output)
-const THREAT = EMPLOYEES[0];
+// ── EMBEDDED FALLBACK DATA (keeps preview & offline working) ─────────────────
+const EMBEDDED_DATA = [{"employee_id":"EMP-007","name":"Fatima Al-Hassan","initials":"FA","department":"IT","role":"Systems Administrator","peak_score":94.5,"risk_label":"CRITICAL","trend":"Rising","login_hour":1,"files":214,"privilege":7,"usb":1,"sentiment":-0.92,"timeline":[{"day":1,"score":17.8},{"day":2,"score":9.0},{"day":3,"score":42.9},{"day":4,"score":20.7},{"day":5,"score":6.4},{"day":6,"score":14.0},{"day":7,"score":7.3},{"day":8,"score":9.3},{"day":9,"score":23.8},{"day":10,"score":28.3},{"day":11,"score":18.0},{"day":12,"score":15.8},{"day":13,"score":14.5},{"day":14,"score":12.0},{"day":15,"score":13.4},{"day":16,"score":13.1},{"day":17,"score":39.6},{"day":18,"score":9.5},{"day":19,"score":23.3},{"day":20,"score":21.2},{"day":21,"score":44.4},{"day":22,"score":8.6},{"day":23,"score":18.9},{"day":24,"score":4.9},{"day":25,"score":8.5},{"day":26,"score":94.3},{"day":27,"score":92.9},{"day":28,"score":94.1},{"day":29,"score":92.4},{"day":30,"score":94.5}]},{"employee_id":"EMP-002","name":"Priya Nair","initials":"PN","department":"Finance","role":"Financial Analyst","peak_score":60.4,"risk_label":"HIGH","trend":"Stable","login_hour":8,"files":25,"privilege":0,"usb":0,"sentiment":0.37,"timeline":[{"day":1,"score":12.8},{"day":2,"score":23.3},{"day":3,"score":13.9},{"day":4,"score":8.5},{"day":5,"score":7.1},{"day":6,"score":17.4},{"day":7,"score":11.6},{"day":8,"score":15.4},{"day":9,"score":6.9},{"day":10,"score":8.4},{"day":11,"score":12.9},{"day":12,"score":60.4},{"day":13,"score":15.3},{"day":14,"score":19.6},{"day":15,"score":39.1},{"day":16,"score":34.9},{"day":17,"score":30.6},{"day":18,"score":27.8},{"day":19,"score":14.9},{"day":20,"score":30.5},{"day":21,"score":7.7},{"day":22,"score":28.7},{"day":23,"score":51.5},{"day":24,"score":16.8},{"day":25,"score":13.3},{"day":26,"score":23.4},{"day":27,"score":9.3},{"day":28,"score":31.8},{"day":29,"score":6.1},{"day":30,"score":11.5}]},{"employee_id":"EMP-017","name":"David Park","initials":"DP","department":"Marketing","role":"Brand Strategist","peak_score":53.4,"risk_label":"MODERATE","trend":"Rising","login_hour":8,"files":17,"privilege":0,"usb":1,"sentiment":0.68,"timeline":[{"day":1,"score":5.9},{"day":2,"score":10.5},{"day":3,"score":14.7},{"day":4,"score":5.5},{"day":5,"score":5.2},{"day":6,"score":10.0},{"day":7,"score":11.8},{"day":8,"score":12.7},{"day":9,"score":11.0},{"day":10,"score":14.9},{"day":11,"score":25.9},{"day":12,"score":44.6},{"day":13,"score":21.9},{"day":14,"score":18.3},{"day":15,"score":15.0},{"day":16,"score":8.5},{"day":17,"score":6.3},{"day":18,"score":8.6},{"day":19,"score":8.9},{"day":20,"score":28.4},{"day":21,"score":53.4},{"day":22,"score":21.9},{"day":23,"score":16.6},{"day":24,"score":11.7},{"day":25,"score":7.5},{"day":26,"score":13.9},{"day":27,"score":4.5},{"day":28,"score":42.1},{"day":29,"score":10.3},{"day":30,"score":41.8}]},{"employee_id":"EMP-020","name":"Hannah Mueller","initials":"HM","department":"IT","role":"Cloud Infrastructure Eng","peak_score":50.2,"risk_label":"MODERATE","trend":"Stable","login_hour":8,"files":19,"privilege":0,"usb":0,"sentiment":0.28,"timeline":[{"day":1,"score":14.7},{"day":2,"score":18.7},{"day":3,"score":13.9},{"day":4,"score":13.8},{"day":5,"score":14.8},{"day":6,"score":19.0},{"day":7,"score":23.7},{"day":8,"score":14.5},{"day":9,"score":16.9},{"day":10,"score":28.7},{"day":11,"score":10.5},{"day":12,"score":13.2},{"day":13,"score":6.4},{"day":14,"score":19.7},{"day":15,"score":11.5},{"day":16,"score":9.0},{"day":17,"score":14.0},{"day":18,"score":16.0},{"day":19,"score":15.0},{"day":20,"score":18.5},{"day":21,"score":14.2},{"day":22,"score":20.3},{"day":23,"score":36.5},{"day":24,"score":14.7},{"day":25,"score":11.1},{"day":26,"score":19.1},{"day":27,"score":50.2},{"day":28,"score":7.5},{"day":29,"score":11.9},{"day":30,"score":9.8}]},{"employee_id":"EMP-019","name":"Omar Shaikh","initials":"OS","department":"Sales","role":"Business Dev Manager","peak_score":47.5,"risk_label":"MODERATE","trend":"Declining","login_hour":9,"files":18,"privilege":0,"usb":0,"sentiment":0.57,"timeline":[{"day":1,"score":13.3},{"day":2,"score":13.7},{"day":3,"score":5.5},{"day":4,"score":42.7},{"day":5,"score":13.4},{"day":6,"score":10.1},{"day":7,"score":20.5},{"day":8,"score":9.1},{"day":9,"score":10.2},{"day":10,"score":10.9},{"day":11,"score":10.2},{"day":12,"score":15.0},{"day":13,"score":14.5},{"day":14,"score":30.5},{"day":15,"score":19.5},{"day":16,"score":7.5},{"day":17,"score":5.3},{"day":18,"score":20.3},{"day":19,"score":24.8},{"day":20,"score":13.3},{"day":21,"score":19.6},{"day":22,"score":47.5},{"day":23,"score":28.2},{"day":24,"score":7.3},{"day":25,"score":11.8},{"day":26,"score":11.8},{"day":27,"score":7.8},{"day":28,"score":7.5},{"day":29,"score":11.0},{"day":30,"score":15.9}]},{"employee_id":"EMP-010","name":"Robert Liu","initials":"RL","department":"Engineering","role":"Frontend Developer","peak_score":47.3,"risk_label":"MODERATE","trend":"Declining","login_hour":9,"files":24,"privilege":0,"usb":0,"sentiment":0.44,"timeline":[{"day":1,"score":21.0},{"day":2,"score":5.5},{"day":3,"score":39.6},{"day":4,"score":10.7},{"day":5,"score":5.2},{"day":6,"score":17.1},{"day":7,"score":11.6},{"day":8,"score":28.8},{"day":9,"score":12.0},{"day":10,"score":11.2},{"day":11,"score":5.5},{"day":12,"score":26.8},{"day":13,"score":22.3},{"day":14,"score":7.6},{"day":15,"score":5.6},{"day":16,"score":18.2},{"day":17,"score":7.6},{"day":18,"score":19.6},{"day":19,"score":8.2},{"day":20,"score":24.5},{"day":21,"score":8.7},{"day":22,"score":11.6},{"day":23,"score":47.3},{"day":24,"score":7.6},{"day":25,"score":6.9},{"day":26,"score":17.2},{"day":27,"score":8.4},{"day":28,"score":15.2},{"day":29,"score":5.9},{"day":30,"score":5.9}]},{"employee_id":"EMP-001","name":"Marcus Webb","initials":"MW","department":"Engineering","role":"Senior DevOps Engineer","peak_score":45.6,"risk_label":"MODERATE","trend":"Stable","login_hour":10,"files":23,"privilege":0,"usb":0,"sentiment":0.5,"timeline":[{"day":1,"score":8.5},{"day":2,"score":8.7},{"day":3,"score":12.7},{"day":4,"score":23.4},{"day":5,"score":11.6},{"day":6,"score":5.5},{"day":7,"score":45.6},{"day":8,"score":9.2},{"day":9,"score":14.0},{"day":10,"score":6.4},{"day":11,"score":9.7},{"day":12,"score":9.3},{"day":13,"score":13.8},{"day":14,"score":12.7},{"day":15,"score":13.8},{"day":16,"score":16.1},{"day":17,"score":24.1},{"day":18,"score":5.6},{"day":19,"score":41.6},{"day":20,"score":13.3},{"day":21,"score":38.5},{"day":22,"score":17.2},{"day":23,"score":19.6},{"day":24,"score":9.2},{"day":25,"score":13.5},{"day":26,"score":23.8},{"day":27,"score":8.2},{"day":28,"score":14.9},{"day":29,"score":13.8},{"day":30,"score":14.3}]},{"employee_id":"EMP-006","name":"Chen Wei","initials":"CW","department":"Engineering","role":"Backend Developer","peak_score":44.9,"risk_label":"MODERATE","trend":"Rising","login_hour":10,"files":20,"privilege":1,"usb":0,"sentiment":0.38,"timeline":[{"day":1,"score":14.0},{"day":2,"score":6.8},{"day":3,"score":8.7},{"day":4,"score":6.6},{"day":5,"score":11.9},{"day":6,"score":4.8},{"day":7,"score":5.0},{"day":8,"score":12.5},{"day":9,"score":12.0},{"day":10,"score":11.3},{"day":11,"score":37.8},{"day":12,"score":18.3},{"day":13,"score":5.9},{"day":14,"score":7.7},{"day":15,"score":8.1},{"day":16,"score":8.8},{"day":17,"score":22.9},{"day":18,"score":5.6},{"day":19,"score":19.6},{"day":20,"score":36.4},{"day":21,"score":12.6},{"day":22,"score":6.6},{"day":23,"score":12.9},{"day":24,"score":11.6},{"day":25,"score":5.6},{"day":26,"score":28.4},{"day":27,"score":34.9},{"day":28,"score":8.4},{"day":29,"score":44.9},{"day":30,"score":35.4}]},{"employee_id":"EMP-011","name":"Nina Patel","initials":"NP","department":"HR","role":"Talent Acquisition Lead","peak_score":43.3,"risk_label":"MODERATE","trend":"Stable","login_hour":8,"files":19,"privilege":0,"usb":0,"sentiment":0.4,"timeline":[{"day":1,"score":4.8},{"day":2,"score":11.7},{"day":3,"score":13.9},{"day":4,"score":13.3},{"day":5,"score":7.7},{"day":6,"score":25.0},{"day":7,"score":34.5},{"day":8,"score":6.7},{"day":9,"score":6.9},{"day":10,"score":6.6},{"day":11,"score":16.6},{"day":12,"score":14.1},{"day":13,"score":5.0},{"day":14,"score":43.3},{"day":15,"score":13.7},{"day":16,"score":7.3},{"day":17,"score":16.7},{"day":18,"score":5.1},{"day":19,"score":7.5},{"day":20,"score":8.4},{"day":21,"score":8.1},{"day":22,"score":11.6},{"day":23,"score":30.6},{"day":24,"score":9.9},{"day":25,"score":14.9},{"day":26,"score":8.8},{"day":27,"score":11.3},{"day":28,"score":17.1},{"day":29,"score":15.0},{"day":30,"score":6.0}]},{"employee_id":"EMP-008","name":"James Thornton","initials":"JT","department":"Marketing","role":"Marketing Director","peak_score":42.6,"risk_label":"MODERATE","trend":"Rising","login_hour":8,"files":24,"privilege":0,"usb":0,"sentiment":0.71,"timeline":[{"day":1,"score":6.3},{"day":2,"score":31.0},{"day":3,"score":12.2},{"day":4,"score":5.2},{"day":5,"score":11.6},{"day":6,"score":18.3},{"day":7,"score":16.0},{"day":8,"score":9.5},{"day":9,"score":18.2},{"day":10,"score":19.2},{"day":11,"score":7.5},{"day":12,"score":32.8},{"day":13,"score":4.2},{"day":14,"score":6.9},{"day":15,"score":4.9},{"day":16,"score":7.3},{"day":17,"score":6.5},{"day":18,"score":5.2},{"day":19,"score":15.1},{"day":20,"score":42.6},{"day":21,"score":7.0},{"day":22,"score":8.8},{"day":23,"score":17.9},{"day":24,"score":10.2},{"day":25,"score":5.7},{"day":26,"score":11.3},{"day":27,"score":17.7},{"day":28,"score":21.4},{"day":29,"score":24.7},{"day":30,"score":16.4}]},{"employee_id":"EMP-013","name":"Yuki Tanaka","initials":"YT","department":"Engineering","role":"ML Engineer","peak_score":41.5,"risk_label":"MODERATE","trend":"Stable","login_hour":9,"files":11,"privilege":0,"usb":0,"sentiment":0.58,"timeline":[{"day":1,"score":5.8},{"day":2,"score":10.2},{"day":3,"score":5.7},{"day":4,"score":15.0},{"day":5,"score":14.9},{"day":6,"score":18.2},{"day":7,"score":9.0},{"day":8,"score":9.3},{"day":9,"score":32.9},{"day":10,"score":4.8},{"day":11,"score":41.5},{"day":12,"score":10.8},{"day":13,"score":17.8},{"day":14,"score":9.9},{"day":15,"score":5.8},{"day":16,"score":10.9},{"day":17,"score":17.0},{"day":18,"score":5.3},{"day":19,"score":18.0},{"day":20,"score":8.4},{"day":21,"score":9.3},{"day":22,"score":24.8},{"day":23,"score":4.7},{"day":24,"score":13.1},{"day":25,"score":17.3},{"day":26,"score":10.9},{"day":27,"score":6.9},{"day":28,"score":12.2},{"day":29,"score":6.4},{"day":30,"score":17.0}]},{"employee_id":"EMP-016","name":"Sofia Rossi","initials":"SR","department":"Legal","role":"Corporate Counsel","peak_score":40.5,"risk_label":"MODERATE","trend":"Rising","login_hour":9,"files":24,"privilege":0,"usb":1,"sentiment":0.38,"timeline":[{"day":1,"score":7.9},{"day":2,"score":16.1},{"day":3,"score":15.8},{"day":4,"score":12.3},{"day":5,"score":8.4},{"day":6,"score":18.8},{"day":7,"score":12.0},{"day":8,"score":6.5},{"day":9,"score":15.3},{"day":10,"score":16.4},{"day":11,"score":7.3},{"day":12,"score":10.9},{"day":13,"score":12.5},{"day":14,"score":16.2},{"day":15,"score":5.7},{"day":16,"score":6.3},{"day":17,"score":9.6},{"day":18,"score":10.7},{"day":19,"score":12.5},{"day":20,"score":13.3},{"day":21,"score":12.8},{"day":22,"score":10.2},{"day":23,"score":22.0},{"day":24,"score":8.5},{"day":25,"score":19.3},{"day":26,"score":40.5},{"day":27,"score":22.5},{"day":28,"score":12.3},{"day":29,"score":9.3},{"day":30,"score":38.0}]},{"employee_id":"EMP-012","name":"Carlos Mendez","initials":"CM","department":"Sales","role":"Regional Sales Manager","peak_score":40.3,"risk_label":"MODERATE","trend":"Stable","login_hour":8,"files":23,"privilege":0,"usb":0,"sentiment":0.43,"timeline":[{"day":1,"score":12.2},{"day":2,"score":12.9},{"day":3,"score":34.8},{"day":4,"score":7.0},{"day":5,"score":22.2},{"day":6,"score":28.9},{"day":7,"score":6.0},{"day":8,"score":8.7},{"day":9,"score":40.3},{"day":10,"score":15.6},{"day":11,"score":31.7},{"day":12,"score":5.9},{"day":13,"score":7.8},{"day":14,"score":9.5},{"day":15,"score":6.7},{"day":16,"score":6.1},{"day":17,"score":8.0},{"day":18,"score":10.6},{"day":19,"score":6.8},{"day":20,"score":19.8},{"day":21,"score":6.6},{"day":22,"score":10.4},{"day":23,"score":19.7},{"day":24,"score":10.5},{"day":25,"score":9.9},{"day":26,"score":11.0},{"day":27,"score":8.0},{"day":28,"score":16.1},{"day":29,"score":7.7},{"day":30,"score":18.9}]},{"employee_id":"EMP-005","name":"Tom\u00e1s Rivera","initials":"TR","department":"Legal","role":"Compliance Officer","peak_score":39.1,"risk_label":"MODERATE","trend":"Stable","login_hour":8,"files":25,"privilege":0,"usb":0,"sentiment":0.33,"timeline":[{"day":1,"score":11.7},{"day":2,"score":21.2},{"day":3,"score":17.3},{"day":4,"score":14.3},{"day":5,"score":11.9},{"day":6,"score":12.9},{"day":7,"score":31.9},{"day":8,"score":4.7},{"day":9,"score":12.4},{"day":10,"score":18.5},{"day":11,"score":24.8},{"day":12,"score":11.8},{"day":13,"score":16.5},{"day":14,"score":9.7},{"day":15,"score":14.0},{"day":16,"score":39.1},{"day":17,"score":11.2},{"day":18,"score":6.0},{"day":19,"score":21.4},{"day":20,"score":12.4},{"day":21,"score":31.7},{"day":22,"score":10.1},{"day":23,"score":7.5},{"day":24,"score":27.2},{"day":25,"score":7.0},{"day":26,"score":7.7},{"day":27,"score":13.9},{"day":28,"score":6.8},{"day":29,"score":9.1},{"day":30,"score":22.9}]},{"employee_id":"EMP-009","name":"Sarah Kim","initials":"SK","department":"Finance","role":"Accountant","peak_score":39.1,"risk_label":"MODERATE","trend":"Stable","login_hour":8,"files":17,"privilege":0,"usb":0,"sentiment":0.53,"timeline":[{"day":1,"score":17.5},{"day":2,"score":14.6},{"day":3,"score":6.7},{"day":4,"score":8.0},{"day":5,"score":39.1},{"day":6,"score":8.9},{"day":7,"score":12.5},{"day":8,"score":17.9},{"day":9,"score":12.4},{"day":10,"score":5.5},{"day":11,"score":10.0},{"day":12,"score":9.9},{"day":13,"score":27.1},{"day":14,"score":10.7},{"day":15,"score":13.0},{"day":16,"score":12.1},{"day":17,"score":19.6},{"day":18,"score":16.8},{"day":19,"score":16.0},{"day":20,"score":36.6},{"day":21,"score":10.9},{"day":22,"score":10.9},{"day":23,"score":10.0},{"day":24,"score":34.0},{"day":25,"score":13.7},{"day":26,"score":10.7},{"day":27,"score":9.6},{"day":28,"score":38.1},{"day":29,"score":6.8},{"day":30,"score":6.2}]},{"employee_id":"EMP-018","name":"Elena Vasquez","initials":"EV","department":"Engineering","role":"QA Engineer","peak_score":38.7,"risk_label":"MODERATE","trend":"Stable","login_hour":9,"files":23,"privilege":0,"usb":0,"sentiment":0.43,"timeline":[{"day":1,"score":14.1},{"day":2,"score":10.0},{"day":3,"score":7.1},{"day":4,"score":14.9},{"day":5,"score":8.9},{"day":6,"score":14.8},{"day":7,"score":20.0},{"day":8,"score":8.9},{"day":9,"score":17.4},{"day":10,"score":33.9},{"day":11,"score":20.9},{"day":12,"score":36.9},{"day":13,"score":17.3},{"day":14,"score":29.6},{"day":15,"score":18.0},{"day":16,"score":5.2},{"day":17,"score":10.5},{"day":18,"score":7.7},{"day":19,"score":8.5},{"day":20,"score":18.9},{"day":21,"score":15.1},{"day":22,"score":9.3},{"day":23,"score":8.6},{"day":24,"score":33.9},{"day":25,"score":10.7},{"day":26,"score":11.8},{"day":27,"score":6.9},{"day":28,"score":38.7},{"day":29,"score":13.2},{"day":30,"score":7.3}]},{"employee_id":"EMP-003","name":"Derek Sloane","initials":"DS","department":"Sales","role":"Account Executive","peak_score":38.6,"risk_label":"MODERATE","trend":"Stable","login_hour":8,"files":23,"privilege":0,"usb":0,"sentiment":0.37,"timeline":[{"day":1,"score":10.6},{"day":2,"score":9.8},{"day":3,"score":6.2},{"day":4,"score":15.8},{"day":5,"score":13.0},{"day":6,"score":13.9},{"day":7,"score":17.8},{"day":8,"score":7.0},{"day":9,"score":38.6},{"day":10,"score":15.8},{"day":11,"score":12.5},{"day":12,"score":31.5},{"day":13,"score":13.5},{"day":14,"score":11.5},{"day":15,"score":18.6},{"day":16,"score":12.2},{"day":17,"score":10.5},{"day":18,"score":12.6},{"day":19,"score":12.0},{"day":20,"score":20.3},{"day":21,"score":6.9},{"day":22,"score":16.5},{"day":23,"score":15.1},{"day":24,"score":17.1},{"day":25,"score":31.2},{"day":26,"score":21.2},{"day":27,"score":21.3},{"day":28,"score":7.1},{"day":29,"score":7.0},{"day":30,"score":7.7}]},{"employee_id":"EMP-015","name":"Liam O'Brien","initials":"LO","department":"IT","role":"Network Administrator","peak_score":37.3,"risk_label":"MODERATE","trend":"Stable","login_hour":8,"files":15,"privilege":0,"usb":0,"sentiment":0.44,"timeline":[{"day":1,"score":10.5},{"day":2,"score":8.5},{"day":3,"score":6.3},{"day":4,"score":5.2},{"day":5,"score":17.1},{"day":6,"score":5.9},{"day":7,"score":24.8},{"day":8,"score":6.2},{"day":9,"score":21.3},{"day":10,"score":34.0},{"day":11,"score":30.0},{"day":12,"score":20.1},{"day":13,"score":6.1},{"day":14,"score":14.7},{"day":15,"score":6.9},{"day":16,"score":24.2},{"day":17,"score":7.6},{"day":18,"score":6.9},{"day":19,"score":11.5},{"day":20,"score":16.6},{"day":21,"score":21.9},{"day":22,"score":22.5},{"day":23,"score":37.3},{"day":24,"score":23.6},{"day":25,"score":9.6},{"day":26,"score":9.0},{"day":27,"score":7.1},{"day":28,"score":23.0},{"day":29,"score":7.5},{"day":30,"score":9.7}]},{"employee_id":"EMP-004","name":"Aisha Okonkwo","initials":"AO","department":"HR","role":"HR Manager","peak_score":35.2,"risk_label":"MODERATE","trend":"Stable","login_hour":7,"files":22,"privilege":0,"usb":0,"sentiment":0.32,"timeline":[{"day":1,"score":8.1},{"day":2,"score":9.8},{"day":3,"score":13.2},{"day":4,"score":9.8},{"day":5,"score":12.0},{"day":6,"score":5.0},{"day":7,"score":17.3},{"day":8,"score":9.6},{"day":9,"score":17.2},{"day":10,"score":6.7},{"day":11,"score":14.4},{"day":12,"score":10.4},{"day":13,"score":8.9},{"day":14,"score":8.4},{"day":15,"score":13.4},{"day":16,"score":19.1},{"day":17,"score":6.9},{"day":18,"score":35.2},{"day":19,"score":14.1},{"day":20,"score":22.8},{"day":21,"score":22.3},{"day":22,"score":7.3},{"day":23,"score":16.6},{"day":24,"score":6.8},{"day":25,"score":9.8},{"day":26,"score":22.5},{"day":27,"score":17.4},{"day":28,"score":7.6},{"day":29,"score":8.0},{"day":30,"score":20.1}]},{"employee_id":"EMP-014","name":"Amara Osei","initials":"AM","department":"Finance","role":"Risk Analyst","peak_score":27.3,"risk_label":"LOW","trend":"Stable","login_hour":9,"files":26,"privilege":0,"usb":0,"sentiment":0.69,"timeline":[{"day":1,"score":9.2},{"day":2,"score":16.8},{"day":3,"score":11.3},{"day":4,"score":10.9},{"day":5,"score":8.2},{"day":6,"score":17.7},{"day":7,"score":19.8},{"day":8,"score":18.9},{"day":9,"score":9.3},{"day":10,"score":19.9},{"day":11,"score":5.4},{"day":12,"score":12.5},{"day":13,"score":11.5},{"day":14,"score":9.8},{"day":15,"score":15.2},{"day":16,"score":10.0},{"day":17,"score":8.3},{"day":18,"score":6.6},{"day":19,"score":8.7},{"day":20,"score":15.5},{"day":21,"score":15.0},{"day":22,"score":17.8},{"day":23,"score":27.3},{"day":24,"score":13.1},{"day":25,"score":12.9},{"day":26,"score":7.2},{"day":27,"score":19.3},{"day":28,"score":12.7},{"day":29,"score":11.6},{"day":30,"score":14.5}]}];
 
-// Timeline for deep-dive — real 30-day scores from Isolation Forest
-const TIMELINE = THREAT.timeline.map(t => ({
-  day:       t.day,
-  score:     t.score,
-  baseline:  28,
-  threshold: 70,
-}));
+// ── useData hook — starts with embedded data, upgrades to live fetch in Vite ─
+function useData() {
+  // Initialize immediately with embedded data — no blank page ever
+  const [employees, setEmployees] = useState(() => parseEmployees(EMBEDDED_DATA));
+  const [loading, setLoading]     = useState(false);
+  const [lastUpdate, setLastUpdate] = useState(null);
+  const [error, setError]         = useState(null);
 
-// Dept threat counts — computed from real ML-scored employee data
-const _dmap = {};
-EMPLOYEES.forEach(e => {
-  if (!_dmap[e.dept]) _dmap[e.dept] = {d:e.dept, h:0, c:0};
-  if (e.level === "Critical") _dmap[e.dept].c++;
-  else if (e.level === "High") _dmap[e.dept].h++;
-});
-const DEPT = Object.values(_dmap).filter(d=>d.h+d.c>0).sort((a,b)=>(b.h+b.c)-(a.h+a.c));
+  useEffect(() => {
+    let cancelled = false;
 
-// Radar — real normalized values for top threat
-const RADAR_REAL = [
-  {s:"Files",    v: Math.min(100, Math.round(THREAT.files/3))},
-  {s:"Privilege",v: Math.min(100, THREAT.priv*10)},
-  {s:"USB",      v: THREAT.usb*100},
-  {s:"Email",    v: Math.round((1-THREAT.sentiment)/2*100)},
-  {s:"Score",    v: Math.round(THREAT.score)},
-];
+    async function load() {
+      try {
+        const res = await fetch(`/employee_summary.json?t=${Date.now()}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const raw = await res.json();
+        if (cancelled) return;
+        const parsed = parseEmployees(raw);
+        parsed.sort((a, b) => b.score - a.score);
+        setEmployees(parsed);
+        setLastUpdate(new Date());
+        setError(null);
+        setLoading(false);
+      } catch (err) {
+        if (cancelled) return;
+        // Fetch failed (preview mode or public/ not set up) — embedded data already showing
+        setError("Using embedded data · Copy employee_summary.json to public/ for live updates");
+        setLoading(false);
+      }
+    }
+
+    load();
+    const interval = setInterval(load, 15000);
+    return () => { cancelled = true; clearInterval(interval); };
+  }, []);
+
+  return { employees, loading, lastUpdate, error };
+}
+
+
+// Static chart data (not from ML — unchanged)
+
+// Radar — computed dynamically from whichever employee is being shown
+function buildRadar(emp) {
+  return [
+    {s:"Files",    v: Math.min(100, Math.round((emp.files||0)/3))},
+    {s:"Privilege",v: Math.min(100, (emp.priv||0)*10)},
+    {s:"USB",      v: (emp.usb||0)*100},
+    {s:"Email",    v: Math.round((1-(emp.sentiment||0))/2*100)},
+    {s:"Score",    v: Math.round(emp.score||0)},
+  ];
+}
 
 const ALERT_ACTIVITY = [
   {day:"Mon",v:7},{day:"Tue",v:9},{day:"Wed",v:8},{day:"Thu",v:12},
@@ -232,7 +263,7 @@ const EVENTS = Array.from({length:24},(_,i)=>({
 
 // Dept threat counts — computed from real ML-scored employee data
 const DEPT_MAP = {};
-// will be populated after EMPLOYEES is defined — see below after imports
+
 
 const RADAR_DATA = [
   {s:"Files",    v:94},{s:"Privilege",v:88},{s:"USB",v:80},{s:"Email",v:82},{s:"Score",v:94},
@@ -389,7 +420,7 @@ const TT = ({ active, payload, label }) => {
 };
 
 // ── EMPLOYEE TABLE ────────────────────────────────────────
-function RiskTable({ employees, delay=0 }) {
+function RiskTable({ employees, delay=0, onAnalyze }) {
   return (
     <table style={{width:"100%",borderCollapse:"collapse"}}>
       <thead>
@@ -433,7 +464,7 @@ function RiskTable({ employees, delay=0 }) {
             </td>
             <td style={{padding:"13px 14px",fontSize:11,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>{e.lastActivity}</td>
             <td style={{padding:"13px 14px"}}>
-              <button className="cyber-btn" style={{
+              <button className="cyber-btn" onClick={()=>onAnalyze&&onAnalyze(e)} style={{
                 background:"transparent",border:`1px solid ${C.cyan}40`,
                 color:C.cyan,borderRadius:3,padding:"5px 14px",
                 fontSize:11,cursor:"pointer",fontFamily:"'Share Tech Mono',monospace",
@@ -448,12 +479,14 @@ function RiskTable({ employees, delay=0 }) {
 }
 
 // ── PAGE: DASHBOARD OVERVIEW ─────────────────────────────
-function DashboardOverview({ attackDone }) {
+function DashboardOverview({ attackDone, employees=[], onAnalyze }) {
+  const critCount = employees.filter(e=>e.level==="Critical").length;
+  const highCount = employees.filter(e=>e.level==="High"||e.level==="Critical").length;
   const riskDist = [
-    {name:"Low",     value:620, color:C.green},
-    {name:"Moderate",value:487, color:C.yellow},
-    {name:"High",    value:115, color:C.orange},
-    {name:"Critical",value:attackDone?34:26, color:C.red},
+    {name:"Low",     value:employees.filter(e=>e.level==="Low").length * 31,     color:C.green},
+    {name:"Moderate",value:employees.filter(e=>e.level==="Moderate").length * 24, color:C.yellow},
+    {name:"High",    value:employees.filter(e=>e.level==="High").length * 14,     color:C.orange},
+    {name:"Critical",value:attackDone ? critCount*4+8 : critCount*4,              color:C.red},
   ];
   return (
     <div style={{padding:"28px 32px",overflowY:"auto",height:"100%"}}>
@@ -466,8 +499,8 @@ function DashboardOverview({ attackDone }) {
       <div style={{display:"flex",gap:14,marginBottom:18}}>
         <StatCard label="Total Employees"    value="1,248" sub="+3 onboarded today" icon={<Users size={18} color={C.cyan}/>} delay={0}/>
         <StatCard label="Active Alerts"      value={attackDone?"31":"24"} sub={attackDone?"+14 today":"+7 today"} subColor={C.orange} icon={<Zap size={18} color={C.orange}/>} delay={60}/>
-        <StatCard label="High Risk"          value={attackDone?"48":"41"} sub="+5 this week" subColor={C.orange} icon={<Flame size={18} color={C.orange}/>} delay={120}/>
-        <StatCard label="Critical Threats"   value={attackDone?"8":"6"} sub="+2 urgent" subColor={C.red} icon={<Crosshair size={18} color={C.red}/>} delay={180} critical={attackDone}/>
+        <StatCard label="High Risk"          value={attackDone?highCount+7:highCount} sub="+5 this week" subColor={C.orange} icon={<Flame size={18} color={C.orange}/>} delay={120}/>
+        <StatCard label="Critical Threats"   value={attackDone?critCount+2:critCount} sub="+2 urgent" subColor={C.red} icon={<Crosshair size={18} color={C.red}/>} delay={180} critical={attackDone}/>
       </div>
 
       <div style={{display:"grid",gridTemplateColumns:"1fr 280px",gap:14,marginBottom:14}}>
@@ -512,15 +545,15 @@ function DashboardOverview({ attackDone }) {
 
       <Panel style={{padding:"22px"}} animate={false}>
         <SectionLabel>Employee Risk Ranking — Top Threats</SectionLabel>
-        <RiskTable employees={EMPLOYEES.slice(0,5)} delay={200}/>
+        <RiskTable employees={employees.slice(0,5)} delay={200} onAnalyze={onAnalyze}/>
       </Panel>
     </div>
   );
 }
 
 // ── PAGE: LEADERBOARD ─────────────────────────────────────
-function RiskLeaderboard() {
-  const top3 = EMPLOYEES.slice(0,3);
+function RiskLeaderboard({ employees=[], onAnalyze }) {
+  const top3 = employees.slice(0,3);
   return (
     <div style={{padding:"28px 32px",overflowY:"auto",height:"100%"}}>
       <div style={{marginBottom:26}}>
@@ -533,7 +566,8 @@ function RiskLeaderboard() {
         {top3.map((e,i)=>{
           const c = LEVEL_C[e.level];
           return (
-            <Panel key={e.id} style={{padding:"22px",animationDelay:`${i*100}ms`}} critical={e.level==="Critical"}>
+            <Panel key={e.id} style={{padding:"22px",animationDelay:`${i*100}ms`,cursor:"pointer"}} critical={e.level==="Critical"}
+              onClick={()=>onAnalyze&&onAnalyze(e)}>
               <div style={{position:"absolute",top:16,right:16}}>
                 {i===0 ? <Trophy size={22} color="#ffd700" strokeWidth={1.5}/> : i===1 ? <Trophy size={20} color="#94a3b8" strokeWidth={1.5}/> : <Trophy size={18} color="#cd7f32" strokeWidth={1.5}/>}
               </div>
@@ -562,8 +596,17 @@ function RiskLeaderboard() {
                 textShadow:`0 0 20px ${c}80`,lineHeight:1,marginBottom:12}}>{e.score}</div>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                 <CyberBadge level={e.level}/>
-                <span style={{fontSize:11,color:C.red,fontFamily:"'Share Tech Mono',monospace"}}>↑ RISING</span>
+                <span style={{fontSize:11,color:e.trend==="Rising"?C.red:e.trend==="Declining"?C.green:C.textMid,fontFamily:"'Share Tech Mono',monospace"}}>
+                  {e.trend==="Rising"?"↑":e.trend==="Declining"?"↓":"—"} {e.trend}
+                </span>
               </div>
+              <button className="cyber-btn" onClick={e2=>{e2.stopPropagation();onAnalyze&&onAnalyze(e)}} style={{
+                marginTop:12,width:"100%",background:"transparent",
+                border:`1px solid ${C.cyan}40`,color:C.cyan,borderRadius:3,
+                padding:"7px",fontSize:10,cursor:"pointer",
+                fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,
+                display:"flex",alignItems:"center",justifyContent:"center",gap:5,
+              }}><Eye size={11} strokeWidth={2}/>DEEP DIVE</button>
             </Panel>
           );
         })}
@@ -573,12 +616,12 @@ function RiskLeaderboard() {
         <Panel style={{padding:"22px"}} animate={false}>
           <SectionLabel>Risk Score Comparison — All Employees</SectionLabel>
           <ResponsiveContainer width="100%" height={190}>
-            <BarChart data={EMPLOYEES.map(e=>({n:e.name.split(" ")[0],s:e.score,l:e.level}))}>
+            <BarChart data={employees.map(e=>({n:e.name.split(" ")[0],s:e.score,l:e.level}))}>
               <XAxis dataKey="n" tick={{fill:C.textLow,fontSize:10,fontFamily:"'Share Tech Mono',monospace"}} axisLine={false} tickLine={false}/>
               <YAxis domain={[0,100]} tick={{fill:C.textLow,fontSize:10}} axisLine={false} tickLine={false}/>
               <Tooltip content={<TT/>}/>
               <Bar dataKey="s" name="Score" radius={[3,3,0,0]}>
-                {EMPLOYEES.map((e,i)=>(
+                {employees.map((e,i)=>(
                   <Cell key={i} fill={LEVEL_C[e.level]} style={{filter:`drop-shadow(0 0 4px ${LEVEL_C[e.level]})`}}/>
                 ))}
               </Bar>
@@ -588,15 +631,15 @@ function RiskLeaderboard() {
 
         <Panel style={{padding:"22px"}} animate={false}>
           <SectionLabel>Threat Profile</SectionLabel>
-          <div style={{fontSize:11,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginBottom:8}}>{THREAT.name} — #1</div>
+          <div style={{fontSize:11,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginBottom:8}}>{(top3[0]||EMPTY_EMP).name} — #1</div>
           <ResponsiveContainer width="100%" height={150}>
-            <RadarChart data={RADAR_REAL}>
+            <RadarChart data={buildRadar(top3[0] || EMPTY_EMP)}>
               <PolarGrid stroke={C.border}/>
               <PolarAngleAxis dataKey="s" tick={{fill:C.textLow,fontSize:9,fontFamily:"'Share Tech Mono',monospace"}}/>
               <Radar dataKey="v" stroke={C.red} fill={C.red} fillOpacity={0.2} strokeWidth={2}/>
             </RadarChart>
           </ResponsiveContainer>
-          {[["Files",`${THREAT.files}`],["Priv.",`${THREAT.priv}`],["USB",`${THREAT.usb}`]].map(([k,v])=>(
+          {[["Files",`${(top3[0]||EMPTY_EMP).files}`],["Priv.",`${(top3[0]||EMPTY_EMP).priv}`],["USB",`${(top3[0]||EMPTY_EMP).usb}`]].map(([k,v])=>(
             <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",fontSize:11,fontFamily:"'Share Tech Mono',monospace",borderTop:`1px solid ${C.border}`}}>
               <span style={{color:C.textLow}}>{k}</span>
               <span style={{color:C.red,fontWeight:700}}>{v}</span>
@@ -607,90 +650,195 @@ function RiskLeaderboard() {
 
       <Panel style={{padding:"22px"}} animate={false}>
         <SectionLabel>Full Rankings</SectionLabel>
-        <RiskTable employees={EMPLOYEES} delay={100}/>
+        <RiskTable employees={employees} delay={100} onAnalyze={onAnalyze}/>
       </Panel>
     </div>
   );
 }
 
 // ── PAGE: EMPLOYEE DEEP DIVE ──────────────────────────────
-function EmployeeDeepDive() {
-  const emp = THREAT;
-  const loginStr = `${String(emp.loginTime).padStart(5,"0")}`;
+function EmployeeDeepDive({ emp = EMPTY_EMP, employees = [], onAnalyze }) {
+  const loginStr    = emp.loginTime || "00:00";
+  const loginHour   = emp.login_hour ?? parseInt(loginStr);
+  const scoreColor  = LEVEL_C[emp.level] || C.cyan;
+  const isCritical  = emp.level === "Critical";
+  const isHigh      = emp.level === "High";
+
+  // ── Dynamic anomaly flags based on ACTUAL values ──────
+  const loginBad  = loginHour < 6 || loginHour > 20;
+  const baseFiles = 28;
+  const filesDev  = Math.round((emp.files - baseFiles) / baseFiles * 100);
+  const filesBad  = emp.files > baseFiles * 2;
+  const privBad   = emp.priv > 0;
+  const usbBad    = emp.usb > 0;
+  const sentBad   = emp.sentiment < 0;
+  const anomCount = [loginBad,filesBad,privBad,usbBad,sentBad].filter(Boolean).length;
+
+  // ── Timeline from real ML data ────────────────────────
+  const empTimeline = (emp.timeline || []).map(t => ({
+    day: t.day, score: t.score, baseline: 28, threshold: 70,
+  }));
+
+  // ── Trend: compare last 5 days vs first 5 days ────────
+  const tl = emp.timeline || [];
+  const recentAvg = tl.slice(-5).reduce((s,t)=>s+t.score,0) / Math.max(1, Math.min(5, tl.length));
+  const earlyAvg  = tl.slice(0,5).reduce((s,t)=>s+t.score,0)  / Math.max(1, Math.min(5, tl.length));
+  const trendUp   = recentAvg > earlyAvg + 5;
+  const trendDown = recentAvg < earlyAvg - 5;
+  const trendLabel = trendUp ? "⚠ ESCALATING PATTERN" : trendDown ? "↓ DECLINING RISK" : "→ STABLE PATTERN";
+  const trendColor = trendUp ? C.red : trendDown ? C.green : C.yellow;
+
+  // ── Dynamic signals table ─────────────────────────────
   const signals = [
-    {s:"After-Hours Login",     base:"08:30–18:00",        obs:loginStr,               dev:"Outside normal window",     sev:"Critical"},
-    {s:"File Access Volume",    base:"~25 files/day",      obs:`${emp.files} files`,   dev:`+${Math.round(emp.files/25*100-100)}% over baseline`, sev:"Critical"},
-    {s:"Privilege Escalation",  base:"0/week",             obs:`${emp.priv} attempts`, dev:`${emp.priv} unauthorized attempts`, sev:"Critical"},
-    {s:"USB / Removable Media", base:"0 connections",      obs:`${emp.usb} device(s)`, dev:"Policy violation",          sev:"Critical"},
-    {s:"Email Sentiment Score", base:"Neutral (0–+0.5)",   obs:`${emp.sentiment}`,     dev:"Strongly negative",         sev:"High"},
+    {
+      s:"Login Time",
+      base:"08:00 – 18:00",
+      obs: loginStr,
+      dev: loginBad ? `${Math.abs(loginHour - 9)}h outside normal window` : "Within normal hours",
+      sev: loginBad ? (loginHour < 4 || loginHour > 23 ? "Critical" : "High") : "Low",
+      bad: loginBad,
+    },
+    {
+      s:"File Access Volume",
+      base:`~${baseFiles} files/day`,
+      obs:`${emp.files} files`,
+      dev: filesBad ? `+${filesDev}% over baseline` : filesDev >= 0 ? `+${filesDev}% (normal range)` : `${filesDev}% below avg`,
+      sev: emp.files > baseFiles*6 ? "Critical" : emp.files > baseFiles*3 ? "High" : emp.files > baseFiles*1.5 ? "Moderate" : "Low",
+      bad: filesBad,
+    },
+    {
+      s:"Privilege Escalation",
+      base:"0 / week",
+      obs:`${emp.priv} attempt${emp.priv!==1?"s":""}`,
+      dev: privBad ? `${emp.priv} unauthorized escalation${emp.priv>1?"s":""} detected` : "No escalation attempts",
+      sev: emp.priv >= 5 ? "Critical" : emp.priv >= 2 ? "High" : emp.priv === 1 ? "Moderate" : "Low",
+      bad: privBad,
+    },
+    {
+      s:"USB / Removable Media",
+      base:"0 connections",
+      obs: usbBad ? `${emp.usb} device connected` : "None",
+      dev: usbBad ? "Policy violation — removable media detected" : "No USB activity",
+      sev: usbBad ? "High" : "Low",
+      bad: usbBad,
+    },
+    {
+      s:"Email Sentiment",
+      base:"Neutral (0.0 – +0.5)",
+      obs:`${emp.sentiment}`,
+      dev: sentBad ? `Negative tone — ${Math.abs(emp.sentiment).toFixed(2)} below neutral` : emp.sentiment > 0.6 ? "Positive tone (normal)" : "Neutral (normal)",
+      sev: emp.sentiment < -0.6 ? "Critical" : emp.sentiment < -0.2 ? "High" : emp.sentiment < 0 ? "Moderate" : "Low",
+      bad: sentBad,
+    },
   ];
+
   return (
     <div style={{padding:"28px 32px",overflowY:"auto",height:"100%"}}>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:26}}>
+
+      {/* ── Header with employee selector ── */}
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:22}}>
         <div>
           <div style={{fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:4,marginBottom:6}}>// BEHAVIORAL ANALYSIS</div>
           <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace",letterSpacing:2}}>EMPLOYEE DEEP DIVE</h2>
         </div>
-        <div style={{display:"flex",alignItems:"center",gap:10,background:C.panelAlt,border:`1px solid ${C.redDim}`,borderRadius:4,padding:"10px 16px"}}>
-          <Avatar initials={emp.initials} size={28} level={emp.level}/>
-          <span style={{fontSize:13,fontWeight:700,color:C.text,fontFamily:"'Rajdhani',sans-serif"}}>{emp.name}</span>
-          <CyberBadge level={emp.level}/>
-        </div>
+        {/* Employee quick-switch */}
+        {employees.length > 0 && (
+          <div style={{display:"flex",alignItems:"center",gap:10}}>
+            <div style={{
+              background:C.panelAlt,border:`1px solid ${scoreColor}40`,
+              borderRadius:4,padding:"8px 14px",display:"flex",alignItems:"center",gap:8,
+            }}>
+              <UserSearch size={13} color={scoreColor} strokeWidth={1.8}/>
+              <select
+                value={emp.id}
+                onChange={e=>{
+                  const found = employees.find(x=>x.id===e.target.value);
+                  if(found && onAnalyze) onAnalyze(found);
+                }}
+                style={{
+                  background:"transparent",border:"none",outline:"none",
+                  color:C.text,fontSize:12,fontFamily:"'Share Tech Mono',monospace",cursor:"pointer",
+                }}>
+                {employees.map(e=>(
+                  <option key={e.id} value={e.id} style={{background:C.panel,color:C.text}}>
+                    {e.name} — {e.level} ({e.score})
+                  </option>
+                ))}
+              </select>
+            </div>
+            <CyberBadge level={emp.level}/>
+          </div>
+        )}
       </div>
 
-      {/* profile */}
-      <Panel style={{padding:"22px",marginBottom:14,display:"flex",justifyContent:"space-between",alignItems:"center"}} critical>
+      {/* ── Profile card ── */}
+      <Panel style={{padding:"22px",marginBottom:14,display:"flex",justifyContent:"space-between",alignItems:"center"}} critical={isCritical}>
         <div style={{display:"flex",alignItems:"center",gap:18}}>
           <div style={{position:"relative"}}>
             <Avatar initials={emp.initials} size={58} level={emp.level}/>
-            <div style={{position:"absolute",inset:-4,borderRadius:"50%",border:`2px solid ${C.red}`,animation:"pulseGlow 2s ease-in-out infinite",color:C.red}}/>
+            <div style={{
+              position:"absolute",inset:-4,borderRadius:"50%",
+              border:`2px solid ${scoreColor}`,
+              animation: isCritical ? "pulseGlow 2s ease-in-out infinite" : "none",
+              color:scoreColor,
+            }}/>
           </div>
           <div>
             <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
               <span style={{fontSize:22,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace"}}>{emp.name}</span>
               <CyberBadge level={emp.level}/>
             </div>
-            <div style={{fontSize:12,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>{emp.role} — {emp.dept}</div>
-            <div style={{fontSize:11,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:4}}>LAST ACTIVITY: 2 MIN AGO</div>
+            <div style={{fontSize:12,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>{emp.role} — {emp.dept} — {emp.id}</div>
+            <div style={{display:"flex",gap:14,marginTop:8}}>
+              <span style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>
+                LAST SEEN: {emp.lastActivity || "—"}
+              </span>
+              <span style={{fontSize:10,fontFamily:"'Share Tech Mono',monospace",
+                color: anomCount >= 3 ? C.red : anomCount >= 1 ? C.orange : C.green}}>
+                {anomCount}/5 ANOMALIES
+              </span>
+            </div>
           </div>
         </div>
         <div style={{textAlign:"right"}}>
           <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,marginBottom:4}}>RISK SCORE</div>
-          <div style={{fontSize:64,fontWeight:900,color:C.red,fontFamily:"'Orbitron',monospace",lineHeight:1,
-            textShadow:`0 0 30px ${C.red}80, 0 0 60px ${C.red}40`}}>{emp.score}</div>
-          <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>/ 100</div>
+          <div style={{
+            fontSize:64,fontWeight:900,color:scoreColor,fontFamily:"'Orbitron',monospace",lineHeight:1,
+            textShadow:`0 0 30px ${scoreColor}80, 0 0 60px ${scoreColor}40`,
+          }}>{emp.score}</div>
+          <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:4}}>/ 100 · {emp.trend}</div>
         </div>
       </Panel>
 
-      {/* timeline */}
+      {/* ── Timeline ── */}
       <Panel style={{padding:"22px",marginBottom:14}} animate={false}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
           <SectionLabel>30-Day Risk Score Timeline</SectionLabel>
           <span style={{
-            background:"rgba(255,30,80,0.15)",border:`1px solid ${C.redDim}`,
-            color:C.red,padding:"4px 12px",borderRadius:2,fontSize:10,
+            background:`${trendColor}18`,border:`1px solid ${trendColor}50`,
+            color:trendColor,padding:"4px 12px",borderRadius:2,fontSize:10,
             fontFamily:"'Share Tech Mono',monospace",fontWeight:700,letterSpacing:1,
-          }}>⚠ ESCALATING PATTERN</span>
+          }}>{trendLabel}</span>
         </div>
         <ResponsiveContainer width="100%" height={180}>
-          <LineChart data={TIMELINE}>
+          <LineChart data={empTimeline}>
             <defs>
-              <linearGradient id="tg" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%"   stopColor={C.cyan} stopOpacity={0.8}/>
-                <stop offset="83%"  stopColor={C.cyan} stopOpacity={0.8}/>
-                <stop offset="100%" stopColor={C.red}  stopOpacity={1}/>
+              <linearGradient id="tg2" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%"   stopColor={C.cyan}      stopOpacity={0.8}/>
+                <stop offset="70%"  stopColor={C.cyan}      stopOpacity={0.8}/>
+                <stop offset="100%" stopColor={scoreColor}  stopOpacity={1}/>
               </linearGradient>
             </defs>
             <XAxis dataKey="day" tick={{fill:C.textLow,fontSize:9}} axisLine={false} tickLine={false} tickFormatter={d=>d%5===0?`D${d}`:""}/>
             <YAxis domain={[0,100]} tick={{fill:C.textLow,fontSize:9}} axisLine={false} tickLine={false}/>
             <Tooltip content={<TT/>} labelFormatter={d=>`Day ${d}`}/>
-            <Line type="monotone" dataKey="score"     stroke="url(#tg)" strokeWidth={2.5} dot={false} name="Score"/>
-            <Line type="monotone" dataKey="baseline"  stroke={C.border} strokeWidth={1} strokeDasharray="4 4" dot={false} name="Baseline"/>
-            <Line type="monotone" dataKey="threshold" stroke={`${C.red}60`} strokeWidth={1} strokeDasharray="4 4" dot={false} name="Threshold"/>
+            <Line type="monotone" dataKey="score"     stroke="url(#tg2)" strokeWidth={2.5} dot={false} name="Score"/>
+            <Line type="monotone" dataKey="baseline"  stroke={C.border}         strokeWidth={1} strokeDasharray="4 4" dot={false} name="Baseline"/>
+            <Line type="monotone" dataKey="threshold" stroke={`${C.red}60`}     strokeWidth={1} strokeDasharray="4 4" dot={false} name="Threshold"/>
           </LineChart>
         </ResponsiveContainer>
         <div style={{display:"flex",gap:20,marginTop:10}}>
-          {[["Risk Score","url(#tg)","solid"],["Org. Baseline",C.border,"dashed"],["High Risk Threshold",C.red,"dashed"]].map(([l,c,s])=>(
+          {[["Risk Score","url(#tg2)","solid"],["Org. Baseline",C.border,"dashed"],["High Risk Threshold",C.red,"dashed"]].map(([l,c,s])=>(
             <div key={l} style={{display:"flex",alignItems:"center",gap:8,fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>
               <div style={{width:20,height:2,background:c,opacity:s==="dashed"?0.5:1}}/>
               {l}
@@ -699,34 +847,40 @@ function EmployeeDeepDive() {
         </div>
       </Panel>
 
-      {/* behavior indicators */}
+      {/* ── Behavior Indicators ── */}
       <div style={{marginBottom:14}}>
         <div style={{fontSize:13,fontWeight:700,color:C.text,fontFamily:"'Rajdhani',sans-serif",letterSpacing:1,marginBottom:12}}>BEHAVIOR INDICATORS</div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:10}}>
           {[
-            {Icon:LogIn,    label:"Login Time",      value:loginStr,              sub:"Last recorded",      bad:false},
-            {Icon:FolderOpen,label:"Files Accessed", value:`${emp.files}`,        sub:"Files past 24h",      bad:true},
-            {Icon:KeyRound, label:"Priv. Attempts",  value:`${emp.priv}`,         sub:"Unauthorized",        bad:true},
-            {Icon:Usb,      label:"USB Activity",    value:`${emp.usb} device(s)`,sub:"External connected",  bad:true},
-            {Icon:Mail,     label:"Email Sentiment", value:`${emp.sentiment}`,    sub:"Negative tone",       bad:true},
-          ].map((b,i)=>(
-            <Panel key={b.label} style={{padding:"16px",animationDelay:`${i*80}ms`}} critical={b.bad}>
-              <div style={{
-                width:34,height:34,borderRadius:6,marginBottom:12,
-                background:`linear-gradient(135deg,${b.bad?C.red:C.cyan}20,${b.bad?C.red:C.cyan}08)`,
-                border:`1px solid ${b.bad?C.red:C.cyan}30`,
-                display:"flex",alignItems:"center",justifyContent:"center",
-              }}><b.Icon size={16} color={b.bad?C.red:C.cyan} strokeWidth={1.8}/></div>
-              <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginBottom:4}}>{b.label}</div>
-              <div style={{fontSize:16,fontWeight:800,color:b.bad?C.red:C.text,fontFamily:"'Orbitron',monospace",marginBottom:4}}>{b.value}</div>
-              <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>{b.sub}</div>
-              {b.bad && <div style={{fontSize:9,color:C.red,marginTop:8,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>⚠ ANOMALOUS</div>}
-            </Panel>
-          ))}
+            {Icon:LogIn,     label:"Login Time",      value:loginStr,               sub:"Last recorded",      bad:loginBad},
+            {Icon:FolderOpen,label:"Files Accessed",  value:`${emp.files}`,         sub:"Files past 24h",     bad:filesBad},
+            {Icon:KeyRound,  label:"Priv. Attempts",  value:`${emp.priv}`,          sub:"Unauthorized",       bad:privBad},
+            {Icon:Usb,       label:"USB Activity",    value:`${emp.usb} device(s)`, sub:"External connected", bad:usbBad},
+            {Icon:Mail,      label:"Email Sentiment", value:`${emp.sentiment}`,     sub:sentBad?"Negative tone":"Neutral tone", bad:sentBad},
+          ].map((b,i)=>{
+            const col = b.bad ? scoreColor : C.cyan;
+            return (
+              <Panel key={b.label} style={{padding:"16px",animationDelay:`${i*80}ms`}} critical={b.bad && isCritical}>
+                <div style={{
+                  width:34,height:34,borderRadius:6,marginBottom:12,
+                  background:`linear-gradient(135deg,${col}20,${col}08)`,
+                  border:`1px solid ${col}30`,
+                  display:"flex",alignItems:"center",justifyContent:"center",
+                }}><b.Icon size={16} color={col} strokeWidth={1.8}/></div>
+                <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginBottom:4}}>{b.label}</div>
+                <div style={{fontSize:16,fontWeight:800,color:b.bad?col:C.text,fontFamily:"'Orbitron',monospace",marginBottom:4}}>{b.value}</div>
+                <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>{b.sub}</div>
+                {b.bad
+                  ? <div style={{fontSize:9,color:col,marginTop:8,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>⚠ ANOMALOUS</div>
+                  : <div style={{fontSize:9,color:C.green,marginTop:8,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>✓ NORMAL</div>
+                }
+              </Panel>
+            );
+          })}
         </div>
       </div>
 
-      {/* signal breakdown */}
+      {/* ── Signal Breakdown Table ── */}
       <Panel style={{padding:"22px"}} animate={false}>
         <SectionLabel>Anomaly Signal Breakdown</SectionLabel>
         <table style={{width:"100%",borderCollapse:"collapse"}}>
@@ -742,8 +896,8 @@ function EmployeeDeepDive() {
               <tr key={r.s} className="row-hover" style={{borderBottom:`1px solid ${C.border}40`,animation:`slideInUp 0.4s ease-out both`,animationDelay:`${i*80}ms`}}>
                 <td style={{padding:"12px 14px",fontSize:13,fontWeight:700,color:C.text,fontFamily:"'Rajdhani',sans-serif"}}>{r.s}</td>
                 <td style={{padding:"12px 14px",fontSize:11,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>{r.base}</td>
-                <td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:C.red,fontFamily:"'Share Tech Mono',monospace"}}>{r.obs}</td>
-                <td style={{padding:"12px 14px",fontSize:11,color:C.textMid}}>{r.dev}</td>
+                <td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:r.bad?LEVEL_C[r.sev]:C.green,fontFamily:"'Share Tech Mono',monospace"}}>{r.obs}</td>
+                <td style={{padding:"12px 14px",fontSize:11,color:r.bad?C.textMid:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>{r.dev}</td>
                 <td style={{padding:"12px 14px"}}><CyberBadge level={r.sev}/></td>
               </tr>
             ))}
@@ -755,19 +909,19 @@ function EmployeeDeepDive() {
 }
 
 // ── PAGE: ALERT CENTER ────────────────────────────────────
-const ALERTS = [
-  { id:1, type:"Data Exfiltration Attempt", level:"Critical", status:"Investigating",
-    name: RAW_DATA[0].name, dept: RAW_DATA[0].department, time:"Today, 02:14 AM",
-    desc:`Unusual after-hours access detected. Employee accessed ${RAW_DATA[0].files} sensitive files across 8 restricted directories. USB device connected and 2.4GB of data transferred to external drive.`,
-    actions:["Immediately suspend user account access","Isolate user's workstation from network","Preserve forensic evidence on USB device","Notify CISO and legal department","Initiate HR escalation protocol"],
-  },
-  { id:2, type:"Privilege Escalation",        level:"Critical", status:"Open",          name: RAW_DATA[1].name, dept:RAW_DATA[1].department, time:"Today, 11:48 PM", desc:"", actions:[] },
-  { id:3, type:"Unusual Data Access Pattern", level:"High",     status:"Open",          name: RAW_DATA[2].name, dept:RAW_DATA[2].department, time:"Today, 07:22 PM", desc:"", actions:[] },
-  { id:4, type:"Sensitive Document Access",   level:"High",     status:"Investigating", name: RAW_DATA[3].name, dept:RAW_DATA[3].department, time:"Today, 06:55 PM", desc:"", actions:[] },
-];
-
-function AlertCenter() {
+function AlertCenter({ employees=[], onAnalyze }) {
   const [expanded, setExpanded] = useState(1);
+  // Build alerts dynamically from top 4 employees
+  const alerts = [
+    { id:1, type:"Data Exfiltration Attempt",   level:"Critical", status:"Investigating",
+      emp: employees[0],
+      desc: employees[0] ? `Unusual after-hours access detected. Employee accessed ${employees[0].files} sensitive files. USB device connected and 2.4GB transferred to external drive.` : "",
+      actions:["Immediately suspend user account access","Isolate workstation from network","Preserve forensic evidence on USB device","Notify CISO and legal department","Initiate HR escalation protocol"],
+    },
+    { id:2, type:"Privilege Escalation",          level:"Critical", status:"Open",          emp: employees[1], desc:"", actions:[] },
+    { id:3, type:"Unusual Data Access Pattern",   level:"High",     status:"Open",          emp: employees[2], desc:"", actions:[] },
+    { id:4, type:"Sensitive Document Access",      level:"High",     status:"Investigating", emp: employees[3], desc:"", actions:[] },
+  ].filter(a => a.emp);
   return (
     <div style={{padding:"28px 32px",overflowY:"auto",height:"100%"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:26}}>
@@ -822,7 +976,7 @@ function AlertCenter() {
       </div>
 
       <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:22}}>
-        {ALERTS.map((a,i)=>(
+        {alerts.map((a,i)=>(
           <div key={a.id} style={{
             background:C.panel,
             border:`1px solid ${LEVEL_C[a.level]}40`,
@@ -850,11 +1004,11 @@ function AlertCenter() {
                     }}>● {a.status.toUpperCase()}</span>
                   </div>
                   <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:4}}>
-                    {a.name} · {a.dept} · {a.time}
+                    {a.emp?.name} · {a.emp?.dept} · {a.time || "Today"}
                   </div>
                 </div>
               </div>
-              <button className="cyber-btn" style={{
+              <button className="cyber-btn" onClick={e2=>{e2.stopPropagation();onAnalyze&&onAnalyze(a.emp)}} style={{
                 background:"transparent",border:`1px solid ${C.cyan}40`,color:C.cyan,
                 borderRadius:3,padding:"6px 16px",fontSize:10,cursor:"pointer",
                 fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,flexShrink:0,
@@ -930,7 +1084,14 @@ function AlertCenter() {
 }
 
 // ── PAGE: SYSTEM ANALYTICS ────────────────────────────────
-function SystemAnalytics() {
+function SystemAnalytics({ employees=[] }) {
+  const dmap = {};
+  employees.forEach(e => {
+    if (!dmap[e.dept]) dmap[e.dept] = {d:e.dept, h:0, c:0};
+    if (e.level === "Critical") dmap[e.dept].c++;
+    else if (e.level === "High") dmap[e.dept].h++;
+  });
+  const liveDept = Object.values(dmap).sort((a,b)=>(b.h+b.c)-(a.h+a.c));
   const modelDist = [
     {name:"Behavioral ML",v:38,c:C.cyan},{name:"NLP Sentiment",v:22,c:C.purple},
     {name:"Network Graph",v:18,c:C.green},{name:"Time Series",v:14,c:C.yellow},{name:"Anomaly Detect.",v:8,c:C.red},
@@ -1006,7 +1167,7 @@ function SystemAnalytics() {
         <Panel style={{padding:"22px"}} animate={false}>
           <SectionLabel>Threats by Department</SectionLabel>
           <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={DEPT} layout="vertical">
+            <BarChart data={liveDept.length > 0 ? liveDept : DEPT} layout="vertical">
               <XAxis type="number" tick={{fill:C.textLow,fontSize:10}} axisLine={false} tickLine={false}/>
               <YAxis dataKey="d" type="category" tick={{fill:C.textLow,fontSize:10,fontFamily:"'Share Tech Mono',monospace"}} axisLine={false} tickLine={false} width={76}/>
               <Tooltip content={<TT/>}/>
@@ -1075,23 +1236,941 @@ function SystemAnalytics() {
   );
 }
 
+
+// ── PAGE: BEHAVIORAL DIGITAL TWIN ────────────────────────
+function BehavioralTwin({ employees=[], onAnalyze }) {
+  const [selectedId, setSelectedId] = useState(null);
+  const [scanActive, setScanActive] = useState(false);
+  const [scanned, setScanned]       = useState(false);
+
+  const emp = selectedId ? employees.find(e=>e.id===selectedId) : employees[0];
+
+  // Run a "scan" animation when employee changes
+  useEffect(() => {
+    if (!emp) return;
+    setScanActive(true);
+    setScanned(false);
+    const t = setTimeout(() => { setScanActive(false); setScanned(true); }, 1800);
+    return () => clearTimeout(t);
+  }, [emp?.id]);
+
+  if (!emp || emp.id === "---") return (
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100%",color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>
+      LOADING TWIN DATA...
+    </div>
+  );
+
+  // ── Build behavioral twin metrics ─────────────────────
+  // Baseline = what the model learned as "normal" for this employee
+  // Twin prediction = what the model expects today
+  // Observed = what actually happened (from ML data)
+  const loginHr    = emp.login_hour ?? parseInt(emp.loginTime);
+  const baseLogin  = "08:30 – 09:15 AM";
+  const obsLogin   = emp.loginTime || "—";
+  const loginAnom  = loginHr < 6 || loginHr > 22;
+
+  const baseFiles  = Math.round(emp.files * 0.15 + 18); // simulated baseline
+  const obsFiles   = emp.files;
+  const filesAnom  = obsFiles > baseFiles * 2;
+  const filesDev   = baseFiles > 0 ? Math.round((obsFiles - baseFiles) / baseFiles * 100) : 0;
+
+  const basePriv   = 0;
+  const obsPriv    = emp.priv;
+  const privAnom   = obsPriv > 0;
+
+  const baseUsb    = "None";
+  const obsUsb     = emp.usb > 0 ? `${emp.usb} device connected` : "None";
+  const usbAnom    = emp.usb > 0;
+
+  const baseSent   = "+0.45 (Neutral–Positive)";
+  const obsSent    = `${emp.sentiment}`;
+  const sentAnom   = emp.sentiment < 0;
+
+  // Overall deviation score
+  const anomCount  = [loginAnom, filesAnom, privAnom, usbAnom, sentAnom].filter(Boolean).length;
+  const devScore   = Math.round(
+    (loginAnom ? 180 : 0) +
+    (filesAnom ? filesDev : 0) +
+    (privAnom  ? 120 : 0) +
+    (usbAnom   ? 90  : 0) +
+    (sentAnom  ? 95  : 0)
+  );
+
+  const metrics = [
+    { label:"Login Time",       baseline: baseLogin,     twin: "08:45 AM (predicted)",           observed: obsLogin,              anomaly: loginAnom,  icon: LogIn   },
+    { label:"Files Accessed",   baseline: `${baseFiles}/day`,  twin: `${baseFiles+2}/day (forecast)`,  observed: `${obsFiles} files`,   anomaly: filesAnom, icon: FolderOpen, devPct: filesDev },
+    { label:"Privilege Usage",  baseline: "0 attempts",  twin: "0 attempts",                     observed: `${obsPriv} attempt${obsPriv!==1?"s":""}`, anomaly: privAnom,  icon: KeyRound },
+    { label:"USB / Removable",  baseline: baseUsb,       twin: "None expected",                  observed: obsUsb,                anomaly: usbAnom,   icon: Usb     },
+    { label:"Email Sentiment",  baseline: baseSent,      twin: "+0.40 (Neutral)",                observed: obsSent,               anomaly: sentAnom,  icon: Mail    },
+  ];
+
+  // 30-day overlay: real score vs twin "predicted normal" band
+  const twinTimeline = (emp.timeline || []).map((t,i) => ({
+    day:      t.day,
+    real:     t.score,
+    twin:     Math.min(45, 15 + Math.sin(i * 0.4) * 8 + Math.random() * 6),
+    upper:    55,
+    lower:    8,
+  }));
+
+  return (
+    <div style={{padding:"28px 32px",overflowY:"auto",height:"100%"}}>
+
+      {/* ── Header ── */}
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:24}}>
+        <div>
+          <div style={{fontSize:9,color:C.purple,fontFamily:"'Share Tech Mono',monospace",letterSpacing:4,marginBottom:6,animation:"neonText 3s ease-in-out infinite",
+            filter:"hue-rotate(200deg)"}}>// BEHAVIORAL INTELLIGENCE</div>
+          <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace",letterSpacing:2}}>
+            DIGITAL TWIN
+          </h2>
+          <p style={{color:C.textLow,fontSize:11,marginTop:5,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+            VIRTUAL BEHAVIORAL MODEL · REAL vs PREDICTED
+          </p>
+        </div>
+        <div style={{display:"flex",alignItems:"center",gap:10}}>
+          {/* Employee selector */}
+          <div style={{
+            background:C.panelAlt,border:`1px solid ${C.purple}40`,
+            borderRadius:4,padding:"8px 14px",display:"flex",alignItems:"center",gap:8,
+          }}>
+            <GitBranch size={13} color={C.purple} strokeWidth={1.8}/>
+            <select
+              value={selectedId || (employees[0]?.id||"")}
+              onChange={e=>setSelectedId(e.target.value)}
+              style={{
+                background:"transparent",border:"none",outline:"none",
+                color:C.text,fontSize:12,fontFamily:"'Share Tech Mono',monospace",
+                cursor:"pointer",
+              }}>
+              {employees.map(e=>(
+                <option key={e.id} value={e.id} style={{background:C.panel,color:C.text}}>
+                  {e.name} ({e.id})
+                </option>
+              ))}
+            </select>
+          </div>
+          <button
+            onClick={()=>onAnalyze&&onAnalyze(emp)}
+            className="cyber-btn"
+            style={{
+              background:`${C.purple}15`,border:`1px solid ${C.purple}50`,
+              color:C.purple,borderRadius:4,padding:"8px 16px",
+              fontSize:11,cursor:"pointer",fontFamily:"'Share Tech Mono',monospace",
+              letterSpacing:1,display:"flex",alignItems:"center",gap:6,
+            }}>
+            <Eye size={12} strokeWidth={2}/>FULL PROFILE
+          </button>
+        </div>
+      </div>
+
+      {/* ── Twin Identity Card ── */}
+      <div style={{
+        background:`linear-gradient(135deg, ${C.panel}, ${C.panelAlt})`,
+        border:`1px solid ${C.purple}40`,
+        borderRadius:6,padding:"20px 24px",marginBottom:16,
+        display:"flex",alignItems:"center",justifyContent:"space-between",
+        position:"relative",overflow:"hidden",
+        animation: emp.level==="Critical" ? "twinPulse 3s ease-in-out infinite" : "none",
+      }}>
+        {/* scan line effect */}
+        {scanActive && (
+          <div style={{
+            position:"absolute",left:0,right:0,height:2,
+            background:`linear-gradient(90deg, transparent, ${C.purple}, transparent)`,
+            animation:"scanBar 1.8s ease-in-out",
+            zIndex:10,pointerEvents:"none",
+          }}/>
+        )}
+        <div style={{display:"flex",alignItems:"center",gap:20}}>
+          {/* Real avatar */}
+          <div style={{textAlign:"center"}}>
+            <div style={{
+              width:56,height:56,borderRadius:"50%",
+              background:`linear-gradient(135deg,${C.panelAlt},${C.panel})`,
+              border:`2px solid ${LEVEL_C[emp.level]}60`,
+              display:"flex",alignItems:"center",justifyContent:"center",
+              fontSize:18,fontWeight:900,color:LEVEL_C[emp.level],
+              fontFamily:"'Orbitron',monospace",marginBottom:6,
+            }}>{emp.initials}</div>
+            <div style={{fontSize:8,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2}}>REAL</div>
+          </div>
+
+          {/* Connector line */}
+          <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:4}}>
+            <div style={{width:60,height:1,background:`linear-gradient(90deg,${LEVEL_C[emp.level]}60,${C.purple}60)`}}/>
+            <div style={{fontSize:8,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2}}>VS</div>
+            <div style={{width:60,height:1,background:`linear-gradient(90deg,${C.purple}60,${C.purple}20)`}}/>
+          </div>
+
+          {/* Twin avatar */}
+          <div style={{textAlign:"center"}}>
+            <div style={{
+              width:56,height:56,borderRadius:"50%",
+              background:`linear-gradient(135deg,${C.purple}20,${C.purple}08)`,
+              border:`2px solid ${C.purple}60`,
+              display:"flex",alignItems:"center",justifyContent:"center",
+              fontSize:18,fontWeight:900,color:C.purple,
+              fontFamily:"'Orbitron',monospace",marginBottom:6,
+              animation:"floatY 4s ease-in-out infinite",
+              boxShadow:`0 0 20px ${C.purple}30`,
+            }}>
+              {emp.initials}
+            </div>
+            <div style={{fontSize:8,color:C.purple,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2}}>TWIN</div>
+          </div>
+
+          <div style={{marginLeft:16}}>
+            <div style={{fontSize:18,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace",letterSpacing:1}}>{emp.name}</div>
+            <div style={{fontSize:11,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:4}}>
+              {emp.role} · {emp.dept} · {emp.id}
+            </div>
+            <div style={{display:"flex",alignItems:"center",gap:10,marginTop:10}}>
+              <CyberBadge level={emp.level}/>
+              <span style={{fontSize:10,color:C.purple,fontFamily:"'Share Tech Mono',monospace",
+                background:`${C.purple}15`,border:`1px solid ${C.purple}30`,
+                padding:"2px 8px",borderRadius:2}}>
+                TWIN ACTIVE
+              </span>
+              {scanned && (
+                <span style={{fontSize:10,color:C.green,fontFamily:"'Share Tech Mono',monospace",animation:"fadeIn 0.5s ease-out"}}>
+                  ✓ SYNC COMPLETE
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Deviation score */}
+        <div style={{textAlign:"right"}}>
+          <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,marginBottom:6}}>DEVIATION SCORE</div>
+          <div style={{
+            fontSize:52,fontWeight:900,
+            color: devScore > 400 ? C.red : devScore > 200 ? C.orange : C.green,
+            fontFamily:"'Orbitron',monospace",lineHeight:1,
+            textShadow: devScore > 400 ? `0 0 30px ${C.red}80` : devScore > 200 ? `0 0 20px ${C.orange}60` : `0 0 15px ${C.green}60`,
+          }}>+{devScore}%</div>
+          <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:4}}>
+            {anomCount} of 5 signals anomalous
+          </div>
+        </div>
+      </div>
+
+      {/* ── Metric Comparison Table ── */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:16}}>
+        <Panel style={{padding:"20px"}} critical={emp.level==="Critical"} animate={false}>
+          <SectionLabel>Behavioral Comparison Matrix</SectionLabel>
+          <div style={{
+            display:"grid",
+            gridTemplateColumns:"1fr 1fr 1fr 80px",
+            gap:0,marginTop:4,
+          }}>
+            {/* Header */}
+            {["METRIC","TWIN BASELINE","OBSERVED","STATUS"].map(h=>(
+              <div key={h} style={{
+                padding:"8px 10px",fontSize:8,color:C.textLow,
+                fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,
+                borderBottom:`1px solid ${C.border}`,
+              }}>{h}</div>
+            ))}
+            {/* Rows */}
+            {metrics.map((m,i)=>(
+              <>
+                <div key={`a${i}`} style={{
+                  padding:"12px 10px",
+                  borderBottom:`1px solid ${C.border}40`,
+                  display:"flex",alignItems:"center",gap:8,
+                  animation:`slideInUp 0.3s ease-out ${i*60}ms both`,
+                }}>
+                  <m.icon size={13} color={m.anomaly?LEVEL_C[emp.level]:C.textLow} strokeWidth={1.8}/>
+                  <span style={{fontSize:11,color:C.textMid,fontFamily:"'Share Tech Mono',monospace"}}>{m.label}</span>
+                </div>
+                <div key={`b${i}`} style={{
+                  padding:"12px 10px",fontSize:11,color:C.textLow,
+                  fontFamily:"'Share Tech Mono',monospace",
+                  borderBottom:`1px solid ${C.border}40`,
+                  animation:`slideInUp 0.3s ease-out ${i*60+20}ms both`,
+                  display:"flex",alignItems:"center",
+                }}>{m.baseline}</div>
+                <div key={`c${i}`} style={{
+                  padding:"12px 10px",fontSize:11,
+                  color: m.anomaly ? LEVEL_C[emp.level] : C.green,
+                  fontFamily:"'Share Tech Mono',monospace",fontWeight: m.anomaly ? 700 : 400,
+                  borderBottom:`1px solid ${C.border}40`,
+                  animation:`slideInUp 0.3s ease-out ${i*60+40}ms both`,
+                  display:"flex",alignItems:"center",gap:6,
+                }}>
+                  {m.anomaly && <ArrowUpRight size={11} strokeWidth={2.5}/>}
+                  {m.observed}
+                  {m.devPct > 0 && m.anomaly && (
+                    <span style={{fontSize:9,color:C.red,background:`${C.red}15`,padding:"1px 5px",borderRadius:2}}>+{m.devPct}%</span>
+                  )}
+                </div>
+                <div key={`d${i}`} style={{
+                  padding:"12px 10px",
+                  borderBottom:`1px solid ${C.border}40`,
+                  animation:`slideInUp 0.3s ease-out ${i*60+60}ms both`,
+                  display:"flex",alignItems:"center",
+                }}>
+                  {m.anomaly
+                    ? <span style={{fontSize:9,color:C.red,fontFamily:"'Share Tech Mono',monospace",
+                        background:`${C.red}15`,border:`1px solid ${C.red}30`,
+                        padding:"2px 6px",borderRadius:2,letterSpacing:1}}>⚠ ANOMALY</span>
+                    : <span style={{fontSize:9,color:C.green,fontFamily:"'Share Tech Mono',monospace",
+                        background:`${C.green}10`,border:`1px solid ${C.green}20`,
+                        padding:"2px 6px",borderRadius:2,letterSpacing:1}}>✓ NORMAL</span>
+                  }
+                </div>
+              </>
+            ))}
+          </div>
+
+          {/* Deviation bar summary */}
+          <div style={{
+            marginTop:16,padding:"14px",
+            background: devScore>400 ? `${C.red}08` : devScore>200 ? `${C.orange}08` : `${C.green}08`,
+            border:`1px solid ${devScore>400?C.red:devScore>200?C.orange:C.green}25`,
+            borderRadius:4,
+          }}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+              <span style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2}}>TWIN DIVERGENCE INDEX</span>
+              <span style={{
+                fontSize:16,fontWeight:900,fontFamily:"'Orbitron',monospace",
+                color:devScore>400?C.red:devScore>200?C.orange:C.green,
+              }}>+{devScore}%</span>
+            </div>
+            <div style={{width:"100%",height:6,background:C.muted,borderRadius:3,overflow:"hidden"}}>
+              <div style={{
+                width:`${Math.min(100,devScore/8)}%`,height:"100%",
+                background: devScore>400?`linear-gradient(90deg,${C.orange},${C.red})`
+                           :devScore>200?`linear-gradient(90deg,${C.yellow},${C.orange})`
+                           :`linear-gradient(90deg,${C.cyan},${C.green})`,
+                borderRadius:3,transition:"width 1.2s ease-out",
+                boxShadow:`0 0 8px ${devScore>400?C.red:devScore>200?C.orange:C.green}`,
+              }}/>
+            </div>
+            <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:6,letterSpacing:1}}>
+              {devScore > 400
+                ? `CRITICAL DIVERGENCE · Twin model and observed behavior are severely misaligned`
+                : devScore > 200
+                ? `MODERATE DIVERGENCE · ${anomCount} behavioral signals outside predicted range`
+                : `LOW DIVERGENCE · Employee behavior matches twin model closely`}
+            </div>
+          </div>
+        </Panel>
+
+        {/* ── Right column: twin timeline + signal bars ── */}
+        <div style={{display:"flex",flexDirection:"column",gap:14}}>
+          {/* Timeline overlay */}
+          <Panel style={{padding:"20px"}} animate={false}>
+            <SectionLabel>30-Day Twin Overlay — Real vs Predicted Normal</SectionLabel>
+            <ResponsiveContainer width="100%" height={175}>
+              <AreaChart data={twinTimeline}>
+                <defs>
+                  <linearGradient id="realGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%"  stopColor={LEVEL_C[emp.level]} stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor={LEVEL_C[emp.level]} stopOpacity={0}/>
+                  </linearGradient>
+                  <linearGradient id="twinGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%"  stopColor={C.purple} stopOpacity={0.25}/>
+                    <stop offset="95%" stopColor={C.purple} stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="day" tick={{fill:C.textLow,fontSize:9}} axisLine={false} tickLine={false} tickFormatter={d=>d%5===0?`D${d}`:""}/>
+                <YAxis domain={[0,100]} tick={{fill:C.textLow,fontSize:9}} axisLine={false} tickLine={false}/>
+                <Tooltip content={<TT/>} labelFormatter={d=>`Day ${d}`}/>
+                <Area type="monotone" dataKey="upper" stroke="none" fill={`${C.purple}10`} name="Normal Band Upper"/>
+                <Area type="monotone" dataKey="twin"  stroke={C.purple} strokeWidth={1.5} fill="url(#twinGrad)" strokeDasharray="5 3" name="Twin Prediction"/>
+                <Area type="monotone" dataKey="real"  stroke={LEVEL_C[emp.level]} strokeWidth={2} fill="url(#realGrad)" name="Real Behavior"/>
+              </AreaChart>
+            </ResponsiveContainer>
+            <div style={{display:"flex",gap:16,marginTop:8}}>
+              {[["Real Behavior",LEVEL_C[emp.level],"solid"],["Twin Prediction",C.purple,"dashed"],["Normal Band",C.purple,"area"]].map(([l,c,s])=>(
+                <div key={l} style={{display:"flex",alignItems:"center",gap:6,fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>
+                  <div style={{width:18,height:2,background:c,opacity:s==="area"?0.3:1,borderStyle:s==="dashed"?"dashed":"solid"}}/>
+                  {l}
+                </div>
+              ))}
+            </div>
+          </Panel>
+
+          {/* Signal deviation bars */}
+          <Panel style={{padding:"20px"}} animate={false}>
+            <SectionLabel>Behavioral Signal Strength</SectionLabel>
+            {[
+              {label:"Login Deviation",  val: loginAnom?85:5,  color: loginAnom?C.red:C.green},
+              {label:"File Access Spike",val: Math.min(100,Math.abs(filesDev)), color: filesAnom?C.red:C.green},
+              {label:"Privilege Misuse", val: privAnom?90:0,   color: privAnom?C.red:C.green},
+              {label:"USB Risk",         val: usbAnom?80:0,    color: usbAnom?C.orange:C.green},
+              {label:"Sentiment Shift",  val: sentAnom?Math.round(Math.abs(emp.sentiment)*80):10, color:sentAnom?C.orange:C.green},
+            ].map((s,i)=>(
+              <div key={s.label} style={{marginBottom:10,animation:`slideInUp 0.3s ease-out ${i*80}ms both`}}>
+                <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
+                  <span style={{fontSize:10,color:C.textMid,fontFamily:"'Share Tech Mono',monospace"}}>{s.label}</span>
+                  <span style={{fontSize:10,color:s.color,fontFamily:"'Share Tech Mono',monospace",fontWeight:700}}>{s.val}%</span>
+                </div>
+                <div style={{width:"100%",height:5,background:C.muted,borderRadius:3,overflow:"hidden"}}>
+                  <div style={{
+                    width:`${s.val}%`,height:"100%",
+                    background:s.color,borderRadius:3,
+                    boxShadow:`0 0 8px ${s.color}80`,
+                    transition:"width 1s ease-out",
+                  }}/>
+                </div>
+              </div>
+            ))}
+          </Panel>
+        </div>
+      </div>
+
+      {/* ── Twin Intelligence Summary ── */}
+      <Panel style={{padding:"20px"}} critical={devScore>400} animate={false}>
+        <SectionLabel>Twin Intelligence Report</SectionLabel>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:16,marginTop:8}}>
+          {[
+            {
+              title:"Behavioral Consistency",
+              val: devScore>400?"CRITICAL":devScore>200?"MODERATE":"NORMAL",
+              color:devScore>400?C.red:devScore>200?C.orange:C.green,
+              desc:`The digital twin predicts stable behavior within ±${Math.round(baseFiles*0.2)} files/day and login between 08:00–10:00. Current deviation ${devScore > 200 ? "significantly exceeds" : "is within"} the predicted normal range.`,
+            },
+            {
+              title:"Anomaly Pattern Match",
+              val:`${anomCount}/5 SIGNALS`,
+              color:anomCount>=3?C.red:anomCount>=1?C.orange:C.green,
+              desc:`${anomCount} out of 5 behavioral signals deviate from twin baseline. ${anomCount >= 3 ? "Pattern consistent with insider threat or account compromise." : anomCount >= 1 ? "Isolated anomalies detected, monitoring recommended." : "No significant deviations detected."}`,
+            },
+            {
+              title:"Twin Confidence",
+              val:`${Math.max(72, 95 - devScore/20).toFixed(0)}%`,
+              color:C.purple,
+              desc:`Model trained on ${Math.min(30,emp.timeline?.length||25)} days of behavioral data. Confidence reflects alignment between observed patterns and learned baseline. Re-trains every 24 hours.`,
+            },
+          ].map((card,i)=>(
+            <div key={i} style={{
+              background:C.panelAlt,borderRadius:4,padding:"16px",
+              border:`1px solid ${card.color}20`,
+              animation:`slideInUp 0.4s ease-out ${i*100}ms both`,
+            }}>
+              <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,marginBottom:8}}>{card.title}</div>
+              <div style={{fontSize:20,fontWeight:900,color:card.color,fontFamily:"'Orbitron',monospace",marginBottom:8,lineHeight:1}}>{card.val}</div>
+              <p style={{fontSize:11,color:C.textLow,lineHeight:1.7,fontFamily:"'Share Tech Mono',monospace"}}>{card.desc}</p>
+            </div>
+          ))}
+        </div>
+      </Panel>
+
+    </div>
+  );
+}
+
+
+// ── PAGE: AI SOC ANALYST ──────────────────────────────────
+const SUGGESTED_PROMPTS = [
+  { label:"Why was the top threat flagged?",    icon:"🎯", q:"Why was the highest risk employee flagged? Explain all anomalies." },
+  { label:"What should SOC do next?",           icon:"🛡️", q:"What should the SOC team do right now as immediate response actions?" },
+  { label:"Who are the top 3 risks?",           icon:"📊", q:"Who are the top 3 highest risk employees and why?" },
+  { label:"Summarize all active alerts",        icon:"🚨", q:"Summarize all active alerts and their severity." },
+  { label:"Explain the ML detection method",   icon:"🤖", q:"How does the Isolation Forest ML model detect insider threats? Explain simply." },
+  { label:"Which departments are at risk?",     icon:"🏢", q:"Which departments have the most risk and what patterns do you see?" },
+];
+
+function AISOCAnalyst({ employees = [], onAnalyze }) {
+  const [messages, setMessages]   = useState([]);
+  const [input, setInput]         = useState("");
+  const [loading, setLoading]     = useState(false);
+  const [sessionId]               = useState(() => Date.now().toString());
+  const bottomRef                 = useRef(null);
+  const inputRef                  = useRef(null);
+
+  // Auto-scroll on new messages
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
+
+  // Build rich system prompt from live employee data
+  function buildSystemPrompt() {
+    const top5 = employees.slice(0, 5);
+    const criticalEmps = employees.filter(e => e.level === "Critical");
+    const highEmps     = employees.filter(e => e.level === "High");
+    const deptMap = {};
+    employees.forEach(e => {
+      if (!deptMap[e.dept]) deptMap[e.dept] = [];
+      deptMap[e.dept].push(e.score);
+    });
+
+    const empDetails = top5.map((e, i) =>
+      `${i+1}. ${e.name} (${e.id}) — ${e.role}, ${e.dept}
+         Risk Score: ${e.score}/100 | Level: ${e.level} | Trend: ${e.trend}
+         Login Hour: ${e.loginTime} | Files: ${e.files}/day | Privilege Attempts: ${e.priv}
+         USB Events: ${e.usb} | Email Sentiment: ${e.sentiment}`
+    ).join("\n\n");
+
+    const deptSummary = Object.entries(deptMap)
+      .map(([d, scores]) => `${d}: avg score ${(scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1)}, max ${Math.max(...scores)}`)
+      .join(" | ");
+
+    return `You are ThreatWatch AI — an expert AI Security Operations Center (SOC) analyst embedded inside the ThreatWatch Insider Threat Intelligence Platform.
+
+SYSTEM CONTEXT — LIVE DATA (as of now):
+- Total monitored employees: ${employees.length}
+- Critical threats: ${criticalEmps.length} employees
+- High risk: ${highEmps.length} employees
+- Detection engine: Isolation Forest ML model (v4.2.1)
+- Model accuracy: 97.6% | Detection latency: 1.4s | Events/day: 4.8M
+
+TOP 5 EMPLOYEES BY RISK SCORE:
+${empDetails}
+
+DEPARTMENT RISK SUMMARY:
+${deptSummary}
+
+PRIMARY THREAT ACTOR:
+${employees[0] ? `${employees[0].name} (${employees[0].id}) — ${employees[0].role} in ${employees[0].dept}
+Risk Score: ${employees[0].score}/100 (CRITICAL)
+Key anomalies: Login at ${employees[0].loginTime} (after-hours), ${employees[0].files} files accessed (+${Math.round(employees[0].files/28*100-100)}% over baseline), ${employees[0].priv} privilege escalation attempts, USB device connected, email sentiment ${employees[0].sentiment} (strongly negative)` : "No data yet"}
+
+YOUR ROLE:
+- Analyze insider threat data and explain findings clearly
+- Provide actionable SOC recommendations
+- Explain ML model decisions in plain language
+- Help security teams prioritize responses
+- Be concise, professional, and security-focused
+- Use bullet points and structure for readability
+- Reference specific employee names and real data when relevant
+- Format responses in markdown with **bold** for important terms
+
+Keep responses focused and under 300 words unless detail is specifically requested.`;
+  }
+
+  async function sendMessage(text) {
+    if (!text.trim() || loading) return;
+    const userMsg = { role: "user", content: text.trim(), id: Date.now() };
+    const history = [...messages, userMsg];
+    setMessages(history);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const apiMessages = history.map(m => ({ role: m.role, content: m.content }));
+      // Use /api proxy (defined in vite.config.js) to avoid CORS
+      const res = await fetch("/api/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "anthropic-version": "2023-06-01",
+          "x-api-key": "sk-ant-api03-Zat...pAAA",
+        },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          system: buildSystemPrompt(),
+          messages: apiMessages,
+        }),
+      });
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`API error ${res.status}: ${errText}`);
+      }
+      const data = await res.json();
+      const reply = data.content?.map(b => b.text || "").join("") || "No response received.";
+      setMessages(prev => [...prev, { role: "assistant", content: reply, id: Date.now() + 1 }]);
+    } catch (err) {
+      const msg = err.message || "";
+      const isKey = msg.includes("401") || msg.includes("403") || msg.includes("authentication");
+      setMessages(prev => [...prev, {
+        role: "assistant",
+        content: isKey
+          ? "**API key error.** Open `src/App.jsx`, find `__ANTHROPIC_API_KEY__` and replace it with your actual Anthropic API key. Get one at console.anthropic.com."
+          : `**Connection error.** ${msg || "Unable to reach AI analyst."}
+
+Make sure:
+- vite.config.js proxy is set up (see setup instructions)
+- Your API key is pasted in place of __ANTHROPIC_API_KEY__`,
+        id: Date.now() + 1,
+        error: true,
+      }]);
+    }
+    setLoading(false);
+    setTimeout(() => inputRef.current?.focus(), 100);
+  }
+
+  function handleKey(e) {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(input); }
+  }
+
+  // Render markdown-ish text (bold, bullets, line breaks)
+  function renderContent(text) {
+    const lines = text.split("\n");
+    return lines.map((line, i) => {
+      // Bold: **text**
+      const parts = line.split(/(\*\*[^*]+\*\*)/g).map((p, j) => {
+        if (p.startsWith("**") && p.endsWith("**"))
+          return <strong key={j} style={{color: C.cyan, fontWeight: 700}}>{p.slice(2,-2)}</strong>;
+        return p;
+      });
+      // Bullet points
+      if (line.trim().startsWith("- ") || line.trim().startsWith("• ")) {
+        return (
+          <div key={i} style={{display:"flex",gap:8,marginBottom:4,paddingLeft:4}}>
+            <span style={{color:C.cyan,flexShrink:0,marginTop:1}}>›</span>
+            <span>{line.trim().slice(2)}</span>
+          </div>
+        );
+      }
+      // Numbered list
+      if (/^\d+\./.test(line.trim())) {
+        const num = line.trim().match(/^(\d+)\./)[1];
+        return (
+          <div key={i} style={{display:"flex",gap:8,marginBottom:4,paddingLeft:4}}>
+            <span style={{
+              color:C.bg,background:C.cyan,borderRadius:2,
+              width:16,height:16,display:"flex",alignItems:"center",justifyContent:"center",
+              fontSize:9,fontWeight:700,flexShrink:0,marginTop:2,
+            }}>{num}</span>
+            <span>{line.trim().replace(/^\d+\.\s*/,"")}</span>
+          </div>
+        );
+      }
+      // Heading lines (###)
+      if (line.startsWith("###")) {
+        return <div key={i} style={{fontSize:12,fontWeight:700,color:C.cyan,marginTop:8,marginBottom:4,letterSpacing:1}}>{line.replace(/^#+\s*/,"").toUpperCase()}</div>;
+      }
+      if (line === "") return <div key={i} style={{height:8}}/>;
+      return <div key={i} style={{marginBottom:2}}>{parts}</div>;
+    });
+  }
+
+  const isEmpty = messages.length === 0;
+
+  return (
+    <div style={{display:"flex",flexDirection:"column",height:"100%",overflow:"hidden"}}>
+
+      {/* ── Header ── */}
+      <div style={{
+        padding:"20px 32px 16px",flexShrink:0,
+        borderBottom:`1px solid ${C.border}`,
+        background:`linear-gradient(180deg,${C.panelAlt},transparent)`,
+      }}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <div>
+            <div style={{fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:4,marginBottom:5}}>// SECURITY INTELLIGENCE</div>
+            <div style={{display:"flex",alignItems:"center",gap:12}}>
+              <h2 style={{fontSize:24,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace",letterSpacing:2}}>AI SOC ANALYST</h2>
+              <div style={{
+                display:"flex",alignItems:"center",gap:6,
+                background:`${C.cyan}12`,border:`1px solid ${C.cyan}30`,
+                borderRadius:3,padding:"4px 10px",
+              }}>
+                <GlowDot color={C.cyan} pulse size={5}/>
+                <span style={{fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>ONLINE · claude-sonnet-4</span>
+              </div>
+            </div>
+            <p style={{color:C.textLow,fontSize:11,marginTop:4,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+              ASK ANYTHING ABOUT YOUR THREAT LANDSCAPE · POWERED BY ANTHROPIC
+            </p>
+          </div>
+          {/* Live stats */}
+          <div style={{display:"flex",gap:12}}>
+            {[
+              {label:"THREATS",  val:employees.filter(e=>e.level==="Critical"||e.level==="High").length, color:C.red},
+              {label:"MONITORED",val:employees.length,   color:C.cyan},
+              {label:"ACCURACY", val:"97.6%",            color:C.green},
+            ].map(s=>(
+              <div key={s.label} style={{
+                textAlign:"center",background:C.panelAlt,
+                border:`1px solid ${s.color}25`,borderRadius:4,padding:"10px 16px",
+              }}>
+                <div style={{fontSize:20,fontWeight:900,color:s.color,fontFamily:"'Orbitron',monospace"}}>{s.val}</div>
+                <div style={{fontSize:8,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,marginTop:3}}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Chat area ── */}
+      <div style={{flex:1,overflowY:"auto",padding:"20px 32px",display:"flex",flexDirection:"column",gap:14}}>
+
+        {/* Welcome state */}
+        {isEmpty && (
+          <div style={{animation:"fadeIn 0.5s ease-out"}}>
+            {/* AI intro card */}
+            <div style={{
+              background:`linear-gradient(135deg,${C.panel},${C.panelAlt})`,
+              border:`1px solid ${C.cyan}30`,borderRadius:6,
+              padding:"24px 28px",marginBottom:20,
+              position:"relative",overflow:"hidden",
+            }}>
+              <div style={{
+                position:"absolute",top:-20,right:-20,width:120,height:120,
+                borderRadius:"50%",background:`${C.cyan}06`,
+                border:`1px solid ${C.cyan}15`,
+              }}/>
+              <div style={{display:"flex",alignItems:"flex-start",gap:16}}>
+                <div style={{
+                  width:48,height:48,borderRadius:8,flexShrink:0,
+                  background:`linear-gradient(135deg,${C.cyan}20,${C.cyan}08)`,
+                  border:`1px solid ${C.cyan}40`,
+                  display:"flex",alignItems:"center",justifyContent:"center",
+                  boxShadow:`0 0 20px ${C.cyan}20`,
+                }}>
+                  <Bot size={22} color={C.cyan} strokeWidth={1.5}/>
+                </div>
+                <div>
+                  <div style={{fontSize:15,fontWeight:700,color:C.text,fontFamily:"'Rajdhani',sans-serif",letterSpacing:1,marginBottom:6}}>
+                    ThreatWatch AI Analyst · Ready
+                  </div>
+                  <p style={{fontSize:12,color:C.textMid,lineHeight:1.8,fontFamily:"'Share Tech Mono',monospace"}}>
+                    I have full visibility into your threat landscape — {employees.length} employees monitored,
+                    {" "}{employees.filter(e=>e.level==="Critical").length} critical threats active.
+                    Ask me to explain anomalies, recommend actions, or analyze patterns across your organization.
+                  </p>
+                  {employees[0] && employees[0].id !== "---" && (
+                    <div style={{
+                      marginTop:12,padding:"10px 14px",
+                      background:`${C.red}10`,border:`1px solid ${C.red}30`,
+                      borderRadius:4,fontSize:11,color:C.textMid,
+                      fontFamily:"'Share Tech Mono',monospace",
+                    }}>
+                      <span style={{color:C.red,fontWeight:700}}>⚠ TOP THREAT: </span>
+                      {employees[0].name} · Score {employees[0].score}/100 · {employees[0].dept}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Suggested prompts */}
+            <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:3,marginBottom:12}}>SUGGESTED QUERIES</div>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+              {SUGGESTED_PROMPTS.map((p,i)=>(
+                <button
+                  key={i}
+                  className="cyber-btn card-hover"
+                  onClick={()=>sendMessage(p.q)}
+                  style={{
+                    background:C.panel,border:`1px solid ${C.border}`,
+                    borderRadius:4,padding:"12px 16px",cursor:"pointer",
+                    textAlign:"left",display:"flex",alignItems:"center",gap:10,
+                    animation:`slideInUp 0.3s ease-out ${i*60}ms both`,
+                  }}>
+                  <span style={{fontSize:18,flexShrink:0}}>{p.icon}</span>
+                  <span style={{fontSize:12,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",lineHeight:1.4}}>{p.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Message bubbles */}
+        {messages.map((msg) => (
+          <div key={msg.id} style={{
+            display:"flex",
+            flexDirection: msg.role==="user" ? "row-reverse" : "row",
+            gap:12,alignItems:"flex-start",
+            animation:"slideInUp 0.25s ease-out",
+          }}>
+            {/* Avatar */}
+            <div style={{
+              width:34,height:34,borderRadius:6,flexShrink:0,
+              background: msg.role==="user"
+                ? `linear-gradient(135deg,${C.purple}30,${C.purple}10)`
+                : `linear-gradient(135deg,${C.cyan}20,${C.cyan}08)`,
+              border:`1px solid ${msg.role==="user"?C.purple:C.cyan}40`,
+              display:"flex",alignItems:"center",justifyContent:"center",
+            }}>
+              {msg.role==="user"
+                ? <Fingerprint size={16} color={C.purple} strokeWidth={1.8}/>
+                : <Bot size={16} color={C.cyan} strokeWidth={1.8}/>
+              }
+            </div>
+
+            {/* Bubble */}
+            <div style={{
+              maxWidth:"72%",
+              background: msg.role==="user"
+                ? `linear-gradient(135deg,${C.purple}18,${C.purple}08)`
+                : C.panel,
+              border:`1px solid ${msg.role==="user"?C.purple:msg.error?C.red:C.border}40`,
+              borderRadius: msg.role==="user" ? "6px 2px 6px 6px" : "2px 6px 6px 6px",
+              padding:"14px 18px",
+            }}>
+              {msg.role==="user" ? (
+                <div style={{fontSize:13,color:C.text,fontFamily:"'Rajdhani',sans-serif",lineHeight:1.6}}>{msg.content}</div>
+              ) : (
+                <div style={{fontSize:12,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",lineHeight:1.8}}>
+                  {renderContent(msg.content)}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+
+        {/* Typing indicator */}
+        {loading && (
+          <div style={{display:"flex",gap:12,alignItems:"flex-start",animation:"fadeIn 0.3s ease-out"}}>
+            <div style={{
+              width:34,height:34,borderRadius:6,flexShrink:0,
+              background:`linear-gradient(135deg,${C.cyan}20,${C.cyan}08)`,
+              border:`1px solid ${C.cyan}40`,
+              display:"flex",alignItems:"center",justifyContent:"center",
+            }}>
+              <Bot size={16} color={C.cyan} strokeWidth={1.8}/>
+            </div>
+            <div style={{
+              background:C.panel,border:`1px solid ${C.border}40`,
+              borderRadius:"2px 6px 6px 6px",padding:"14px 20px",
+              display:"flex",alignItems:"center",gap:6,
+            }}>
+              {[0,1,2].map(i=>(
+                <div key={i} style={{
+                  width:7,height:7,borderRadius:"50%",background:C.cyan,
+                  animation:`pulseGlow 1.2s ease-in-out ${i*0.2}s infinite`,
+                }}/>
+              ))}
+              <span style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginLeft:6}}>
+                ANALYZING THREAT DATA...
+              </span>
+            </div>
+          </div>
+        )}
+
+        <div ref={bottomRef}/>
+      </div>
+
+      {/* ── Input bar ── */}
+      <div style={{
+        flexShrink:0,padding:"14px 32px 20px",
+        borderTop:`1px solid ${C.border}`,
+        background:`${C.panelAlt}cc`,backdropFilter:"blur(10px)",
+      }}>
+        {/* Quick action chips — shown after first message */}
+        {messages.length > 0 && (
+          <div style={{display:"flex",gap:6,marginBottom:10,flexWrap:"wrap"}}>
+            {[
+              {label:"Investigate top threat", q:`Investigate ${employees[0]?.name || "the top employee"} in detail`},
+              {label:"Recommended actions",    q:"What immediate actions should the SOC team take right now?"},
+              {label:"Risk summary",           q:"Give me a concise executive summary of the current risk posture"},
+              {label:"Clear chat",             q:null},
+            ].map((chip,i)=>(
+              <button
+                key={i}
+                className="cyber-btn"
+                onClick={()=>{
+                  if (!chip.q) { setMessages([]); return; }
+                  sendMessage(chip.q);
+                }}
+                style={{
+                  background:chip.q?`${C.cyan}10`:`${C.red}10`,
+                  border:`1px solid ${chip.q?C.cyan:C.red}30`,
+                  color:chip.q?C.cyan:C.red,borderRadius:3,
+                  padding:"5px 12px",fontSize:10,cursor:"pointer",
+                  fontFamily:"'Share Tech Mono',monospace",letterSpacing:0.5,
+                }}>
+                {chip.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div style={{display:"flex",gap:10,alignItems:"flex-end"}}>
+          <div style={{
+            flex:1,background:C.panel,
+            border:`1px solid ${C.border}`,borderRadius:4,
+            display:"flex",alignItems:"center",gap:8,padding:"10px 14px",
+            transition:"border-color 0.2s",
+          }}
+            onFocus={e=>e.currentTarget.style.borderColor=`${C.cyan}50`}
+            onBlur={e=>e.currentTarget.style.borderColor=C.border}
+          >
+            <Terminal size={14} color={C.textLow} strokeWidth={1.8}/>
+            <textarea
+              ref={inputRef}
+              value={input}
+              onChange={e=>setInput(e.target.value)}
+              onKeyDown={handleKey}
+              placeholder="Ask about threats, anomalies, recommendations... (Enter to send)"
+              rows={1}
+              style={{
+                flex:1,background:"transparent",border:"none",outline:"none",
+                color:C.text,fontSize:12,fontFamily:"'Share Tech Mono',monospace",
+                resize:"none",lineHeight:1.5,
+                caretColor:C.cyan,
+              }}
+            />
+          </div>
+          <button
+            className="cyber-btn"
+            onClick={()=>sendMessage(input)}
+            disabled={!input.trim() || loading}
+            style={{
+              background: input.trim() && !loading ? `${C.cyan}18` : C.panelAlt,
+              border:`1px solid ${input.trim() && !loading ? C.cyan : C.border}`,
+              color: input.trim() && !loading ? C.cyan : C.textLow,
+              borderRadius:4,padding:"12px 18px",cursor:"pointer",
+              display:"flex",alignItems:"center",gap:6,
+              fontSize:11,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,
+              transition:"all 0.2s",flexShrink:0,
+            }}>
+            <Send size={14} strokeWidth={2}/>
+            SEND
+          </button>
+        </div>
+        <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:8,textAlign:"center",letterSpacing:1}}>
+          ThreatWatch AI · Powered by Claude · Shift+Enter for new line · All responses use live threat data
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
 // ── NAV ITEMS ─────────────────────────────────────────────
 const NAV = [
-  {id:"overview",    label:"Dashboard Overview", Icon: LayoutDashboard},
-  {id:"leaderboard", label:"Risk Leaderboard",   Icon: Trophy},
-  {id:"deepdive",    label:"Employee Deep Dive", Icon: UserSearch},
-  {id:"alerts",      label:"Alert Center",       Icon: BellRing},
-  {id:"analytics",   label:"System Analytics",   Icon: BarChart3},
+  {id:"overview",    label:"Dashboard Overview",  Icon: LayoutDashboard},
+  {id:"leaderboard", label:"Risk Leaderboard",    Icon: Trophy},
+  {id:"deepdive",    label:"Employee Deep Dive",  Icon: UserSearch},
+  {id:"twin",        label:"Behavioral Twin",     Icon: GitBranch, badge:"NEW"},
+  {id:"alerts",      label:"Alert Center",        Icon: BellRing},
+  {id:"analytics",   label:"System Analytics",    Icon: BarChart3},
+  {id:"soc",         label:"AI SOC Analyst",       Icon: Bot, badge:"AI"},
 ];
 
 // ── APP ───────────────────────────────────────────────────
 export default function App() {
   const [page, setPage]           = useState("overview");
   const [attack, setAttack]       = useState(false);
-  const [attackStage, setStage]   = useState(0); // 0=idle 1=flash 2=log 3=spike 4=done
-  const [liveScore, setLiveScore] = useState(THREAT.score);
+  const [attackStage, setStage]   = useState(0);
   const [logLines, setLogLines]   = useState([]);
   const [tick, setTick]           = useState(0);
+
+  // ── Live data from employee_summary.json ─────────────────
+  const { employees, loading, lastUpdate, error } = useData();
+  const topThreat = employees[0] || EMPTY_EMP;
+
+  // selectedEmp: which employee the Deep Dive page shows
+  const [selectedEmp, setSelectedEmp] = useState(null);
+  // When data first loads, set selectedEmp to the top threat
+  useEffect(() => {
+    if (!selectedEmp && employees.length > 0 && employees[0].id !== "---") {
+      setSelectedEmp(employees[0]);
+    }
+    // If selectedEmp's data updated, sync it
+    if (selectedEmp && employees.length > 0) {
+      const updated = employees.find(e => e.id === selectedEmp.id);
+      if (updated && updated.score !== selectedEmp.score) setSelectedEmp(updated);
+    }
+  }, [employees]);
+
+  const [liveScore, setLiveScore] = useState(0);
+  useEffect(() => { setLiveScore(topThreat.score); }, [topThreat.score]);
+
+  // ── Navigate to Deep Dive for a specific employee ─────────
+  function analyzeEmployee(emp) {
+    setSelectedEmp(emp);
+    setPage("deepdive");
+  }
 
   // live clock tick
   useEffect(()=>{ const t=setInterval(()=>setTick(x=>x+1),1000); return()=>clearInterval(t); },[]);
@@ -1104,18 +2183,18 @@ export default function App() {
   // ─────────────────────────────────────────────────────────
   const ATTACK_LOGS = [
     { t:0,    text:`[SYSTEM] Behavioral anomaly engine triggered`,                                          color: C.yellow },
-    { t:300,  text:`[TARGET] Flagging employee: ${THREAT.name} · ${THREAT.id} · ${THREAT.dept}`,           color: C.orange },
-    { t:600,  text:`[DETECT] Login hour: ${THREAT.loginTime} — deviation from 09:00 baseline`,             color: C.orange },
-    { t:900,  text:`[DETECT] Files accessed: ${THREAT.files} in 6h window (+${Math.round(THREAT.files/25*100-100)}% over avg)`, color: C.red },
-    { t:1200, text:`[DETECT] Privilege escalation attempts: ${THREAT.priv} (baseline: 0/week)`,            color: C.red },
+    { t:300,  text:`[TARGET] Flagging employee: ${topThreat.name} · ${topThreat.id} · ${topThreat.dept}`,           color: C.orange },
+    { t:600,  text:`[DETECT] Login hour: ${topThreat.loginTime} — deviation from 09:00 baseline`,             color: C.orange },
+    { t:900,  text:`[DETECT] Files accessed: ${topThreat.files} in 6h window (+${Math.round(topThreat.files/25*100-100)}% over avg)`, color: C.red },
+    { t:1200, text:`[DETECT] Privilege escalation attempts: ${topThreat.priv} (baseline: 0/week)`,            color: C.red },
     { t:1500, text:`[DETECT] USB device connected — 2.4GB outbound transfer initiated`,                    color: C.red },
-    { t:1800, text:`[DETECT] Email sentiment score: ${THREAT.sentiment} (threshold: < 0.0)`,               color: C.red },
+    { t:1800, text:`[DETECT] Email sentiment score: ${topThreat.sentiment} (threshold: < 0.0)`,               color: C.red },
     { t:2100, text:`[MODEL]  Isolation Forest decision_function → anomaly_score: -0.847`,                  color: C.cyan },
-    { t:2400, text:`[SCORE]  AccessAnomaly   = ${Math.round(THREAT.files/3)} × 0.40  =  ${(Math.round(THREAT.files/3)*0.40).toFixed(1)}`, color: C.cyan },
-    { t:2700, text:`[SCORE]  BehavioralDrift = ${Math.min(100,Math.round(Math.abs(parseInt(THREAT.loginTime)-9)*8+THREAT.usb*40))} × 0.35  =  ${(Math.min(100,Math.round(Math.abs(parseInt(THREAT.loginTime)-9)*8+THREAT.usb*40))*0.35).toFixed(1)}`, color: C.cyan },
-    { t:3000, text:`[SCORE]  SentimentShift  = ${Math.round((1-THREAT.sentiment)/2*100)} × 0.25  =  ${(Math.round((1-THREAT.sentiment)/2*100)*0.25).toFixed(1)}`, color: C.cyan },
+    { t:2400, text:`[SCORE]  AccessAnomaly   = ${Math.round(topThreat.files/3)} × 0.40  =  ${(Math.round(topThreat.files/3)*0.40).toFixed(1)}`, color: C.cyan },
+    { t:2700, text:`[SCORE]  BehavioralDrift = ${Math.min(100,Math.round(Math.abs(parseInt(topThreat.loginTime)-9)*8+topThreat.usb*40))} × 0.35  =  ${(Math.min(100,Math.round(Math.abs(parseInt(topThreat.loginTime)-9)*8+topThreat.usb*40))*0.35).toFixed(1)}`, color: C.cyan },
+    { t:3000, text:`[SCORE]  SentimentShift  = ${Math.round((1-topThreat.sentiment)/2*100)} × 0.25  =  ${(Math.round((1-topThreat.sentiment)/2*100)*0.25).toFixed(1)}`, color: C.cyan },
     { t:3200, text:`[SCORE]  ─────────────────────────────────────────────────`,                          color: C.textLow },
-    { t:3400, text:`[SCORE]  IRI = ${THREAT.score.toFixed(1)} → CLASSIFICATION: CRITICAL 🚨`,             color: C.green },
+    { t:3400, text:`[SCORE]  IRI = ${topThreat.score.toFixed(1)} → CLASSIFICATION: CRITICAL 🚨`,             color: C.green },
     { t:3700, text:`[ALERT]  Auto-alert dispatched to SOC team — Priority P0`,                             color: C.red },
     { t:4000, text:`[ACTION] Navigating to Alert Center... Stand by.`,                                     color: C.textMid },
   ];
@@ -1146,7 +2225,7 @@ export default function App() {
     setTimeout(() => {
       setStage(3);
       let current = 18;
-      const target = THREAT.score;
+      const target = topThreat.score;
       const interval = setInterval(() => {
         current = Math.min(current + 1.8, target);
         setLiveScore(parseFloat(current.toFixed(1)));
@@ -1245,11 +2324,11 @@ export default function App() {
                 display:"flex",alignItems:"center",gap:14,
                 background:"rgba(255,30,80,0.04)",
               }}>
-                <Avatar initials={THREAT.initials} size={44} level="Critical"/>
+                <Avatar initials={topThreat.initials} size={44} level="Critical"/>
                 <div style={{flex:1}}>
-                  <div style={{fontSize:16,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace"}}>{THREAT.name}</div>
+                  <div style={{fontSize:16,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace"}}>{topThreat.name}</div>
                   <div style={{fontSize:11,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:3}}>
-                    {THREAT.role} · {THREAT.dept} · {THREAT.id}
+                    {topThreat.role} · {topThreat.dept} · {topThreat.id}
                   </div>
                 </div>
                 {/* Live risk score counter */}
@@ -1381,14 +2460,23 @@ export default function App() {
                 <div key={item.id} className="nav-item" onClick={()=>setPage(item.id)} style={{
                   display:"flex",alignItems:"center",justifyContent:"space-between",
                   padding:"11px 12px",borderRadius:3,marginBottom:2,cursor:"pointer",
-                  background:active?`${C.cyan}0e`:"transparent",
-                  border:active?`1px solid ${C.cyan}25`:`1px solid transparent`,
+                  background:active?(item.id==="twin"?`${C.purple}12`:`${C.cyan}0e`):"transparent",
+                  border:active?(item.id==="twin"?`1px solid ${C.purple}30`:`1px solid ${C.cyan}25`):`1px solid transparent`,
                 }}>
                   <div style={{display:"flex",alignItems:"center",gap:10}}>
-                    <Icon size={15} color={active ? C.cyan : C.textMid} strokeWidth={1.8}/>
+                    <Icon size={15} color={active?(item.id==="twin"?C.purple:C.cyan):C.textMid} strokeWidth={1.8}/>
                     <span style={{fontSize:13,fontWeight:active?700:500,color:active?C.text:C.textMid}}>{item.label}</span>
                   </div>
-                  {active && <div style={{width:4,height:4,borderRadius:"50%",background:C.cyan,boxShadow:`0 0 6px ${C.cyan}`}}/>}
+                  <div style={{display:"flex",alignItems:"center",gap:6}}>
+                    {item.badge && !active && (
+                      <span style={{
+                        background:`${C.purple}25`,border:`1px solid ${C.purple}50`,
+                        color:C.purple,fontSize:7,fontFamily:"'Share Tech Mono',monospace",
+                        padding:"1px 5px",borderRadius:2,letterSpacing:1,
+                      }}>{item.badge}</span>
+                    )}
+                    {active && <div style={{width:4,height:4,borderRadius:"50%",background:item.id==="twin"?C.purple:C.cyan,boxShadow:`0 0 6px ${item.id==="twin"?C.purple:C.cyan}`}}/>}
+                  </div>
                 </div>
               );
             })}
@@ -1476,12 +2564,39 @@ export default function App() {
           </div>
 
           {/* page */}
-          <div style={{flex:1,overflow:"hidden"}}>
-            {page==="overview"    && <DashboardOverview attackDone={attack}/>}
-            {page==="leaderboard" && <RiskLeaderboard/>}
-            {page==="deepdive"    && <EmployeeDeepDive/>}
-            {page==="alerts"      && <AlertCenter/>}
-            {page==="analytics"   && <SystemAnalytics/>}
+          <div style={{flex:1,overflow:"hidden",position:"relative"}}>
+            {/* Live data status bar */}
+            <div style={{
+              position:"absolute",top:0,left:0,right:0,zIndex:10,
+              display:"flex",alignItems:"center",justifyContent:"flex-end",
+              padding:"6px 32px",pointerEvents:"none",
+            }}>
+              {loading && (
+                <div style={{display:"flex",alignItems:"center",gap:6,fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+                  <div style={{width:6,height:6,borderRadius:"50%",background:C.cyan,animation:"pulseGlow 1s ease-in-out infinite"}}/>
+                  LOADING DATA...
+                </div>
+              )}
+              {error && (
+                <div style={{display:"flex",alignItems:"center",gap:6,fontSize:9,color:C.orange,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+                  <div style={{width:6,height:6,borderRadius:"50%",background:C.orange}}/>
+                  OFFLINE — COPY employee_summary.json TO public/
+                </div>
+              )}
+              {!loading && !error && lastUpdate && (
+                <div style={{display:"flex",alignItems:"center",gap:6,fontSize:9,color:`${C.green}`,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+                  <div style={{width:6,height:6,borderRadius:"50%",background:C.green,animation:"pulseGlow 3s ease-in-out infinite"}}/>
+                  LIVE · UPDATED {lastUpdate.toLocaleTimeString()} · REFRESHING EVERY 15s
+                </div>
+              )}
+            </div>
+            {page==="overview"    && <DashboardOverview attackDone={attack} employees={employees} onAnalyze={analyzeEmployee}/>}
+            {page==="leaderboard" && <RiskLeaderboard employees={employees} onAnalyze={analyzeEmployee}/>}
+            {page==="deepdive"    && <EmployeeDeepDive emp={selectedEmp || topThreat} employees={employees} onAnalyze={analyzeEmployee}/>}
+            {page==="alerts"      && <AlertCenter employees={employees} onAnalyze={analyzeEmployee}/>}
+            {page==="analytics"   && <SystemAnalytics employees={employees}/>}
+            {page==="twin"        && <BehavioralTwin employees={employees} onAnalyze={analyzeEmployee}/>}
+            {page==="soc"         && <AISOCAnalyst employees={employees} onAnalyze={analyzeEmployee}/>}
           </div>
         </div>
       </div>

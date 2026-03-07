@@ -22,7 +22,7 @@ EMPLOYEES = [
     {"id":"EMP-004","name":"Aisha Okonkwo",     "initials":"AO","dept":"HR",         "role":"HR Manager",                "stress":0.3},
     {"id":"EMP-005","name":"Tomás Rivera",      "initials":"TR","dept":"Legal",      "role":"Compliance Officer",        "stress":0.4},
     {"id":"EMP-006","name":"Chen Wei",          "initials":"CW","dept":"Engineering","role":"Backend Developer",         "stress":0.3},
-    {"id":"EMP-007","name":"John Smith",  "initials":"FA","dept":"IT",         "role":"Systems Administrator",    "stress":0.7},
+    {"id":"EMP-007","name":"John Smith",  "initials":"JS","dept":"IT",         "role":"Systems Administrator",    "stress":0.7},
     {"id":"EMP-008","name":"James Thornton",    "initials":"JT","dept":"Marketing",  "role":"Marketing Director",        "stress":0.2},
     {"id":"EMP-009","name":"Sarah Kim",         "initials":"SK","dept":"Finance",    "role":"Accountant",                "stress":0.3},
     {"id":"EMP-010","name":"Robert Liu",        "initials":"RL","dept":"Engineering","role":"Frontend Developer",        "stress":0.2},

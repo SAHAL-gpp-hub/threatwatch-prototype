@@ -87,13 +87,37 @@ for emp_id, grp in df.groupby("employee_id"):
         "timeline":     timeline,
     })
 
+import pathlib
+
 # Sort by peak score descending
 summary.sort(key=lambda x: x["peak_score"], reverse=True)
 
-with open("threatwatch/src/employee_summary.json", "w") as f:
-    json.dump(summary, f, indent=2)
+# ── Smart save: writes to BOTH current dir AND Vite public/ folder ────────────
+def save_json(path):
+    with open(path, "w") as f:
+        json.dump(summary, f, indent=2)
+    print(f"✅ Saved → {path}")
 
-print(f"✅ Saved employee_summary.json")
+# 1. Always save locally
+save_json("employee_summary.json")
+
+# 2. Auto-detect Vite project's public/ folder and save there too
+#    This makes it available at http://localhost:5173/employee_summary.json
+script_dir = pathlib.Path(__file__).resolve().parent
+candidates = [
+    script_dir / "public",
+    script_dir.parent / "public",
+    script_dir / "threatwatch" / "public",
+    script_dir.parent / "threatwatch" / "public",
+]
+for pub in candidates:
+    if pub.is_dir():
+        save_json(pub / "employee_summary.json")
+        break
+else:
+    print("⚠️  Vite public/ not found. Copy employee_summary.json there manually.")
+    print("    (Usually: YourProject/threatwatch/public/employee_summary.json)")
+
 print(f"\n{'─'*55}")
 print(f"  EMPLOYEE RISK LEADERBOARD")
 print(f"{'─'*55}")
@@ -101,4 +125,4 @@ for i, e in enumerate(summary[:8], 1):
     bar = "█" * int(e["peak_score"] / 5)
     print(f"  {i:2}. {e['name']:<22} {e['department']:<14} [{bar:<20}] {e['peak_score']:5.1f}  {e['risk_label']}")
 print(f"{'─'*55}")
-print(f"\n✅ NEXT → Update App.jsx to import employee_summary.json")
+print(f"\n🔄 Dashboard auto-refreshes within 15s via fetch()")
