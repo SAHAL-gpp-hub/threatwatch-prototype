@@ -1700,11 +1700,8 @@ function AISOCAnalyst({ employees = [], onAnalyze }) {
     });
 
     const empDetails = top5.map((e, i) =>
-      `${i+1}. ${e.name} (${e.id}) — ${e.role}, ${e.dept}
-         Risk Score: ${e.score}/100 | Level: ${e.level} | Trend: ${e.trend}
-         Login Hour: ${e.loginTime} | Files: ${e.files}/day | Privilege Attempts: ${e.priv}
-         USB Events: ${e.usb} | Email Sentiment: ${e.sentiment}`
-    ).join("\n\n");
+      `${i+1}. ${e.name} (${e.id})|${e.role}|${e.dept}|Score:${e.score}|${e.level}|${e.trend}|Login:${e.loginTime}|Files:${e.files}|Priv:${e.priv}|USB:${e.usb}|Sent:${e.sentiment}`
+    ).join("\n");
 
     const deptSummary = Object.entries(deptMap)
       .map(([d, scores]) => `${d}: avg score ${(scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1)}, max ${Math.max(...scores)}`)
@@ -1743,6 +1740,11 @@ YOUR ROLE:
 Keep responses focused and under 300 words unless detail is specifically requested.`;
   }
 
+  // ── PASTE YOUR FREE GEMINI API KEY HERE ──────────────────
+  // Get it free at: https://aistudio.google.com/app/apikey
+  const GEMINI_KEY = "AIzaSyDXPGPFXJIzi62w1pbbFlPf7iqf81RktVA";
+  const GEMINI_MODEL = "gemini-2.5-flash-lite";
+
   async function sendMessage(text) {
     if (!text.trim() || loading) return;
     const userMsg = { role: "user", content: text.trim(), id: Date.now() };
@@ -1751,44 +1753,70 @@ Keep responses focused and under 300 words unless detail is specifically request
     setInput("");
     setLoading(true);
 
-    try {
-      const apiMessages = history.map(m => ({ role: m.role, content: m.content }));
-      // Use /api proxy (defined in vite.config.js) to avoid CORS
-      const res = await fetch("/api/v1/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "anthropic-version": "2023-06-01",
-          "x-api-key": "sk-ant-api03-Zat...pAAA",
-        },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          system: buildSystemPrompt(),
-          messages: apiMessages,
-        }),
-      });
-      if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(`API error ${res.status}: ${errText}`);
-      }
-      const data = await res.json();
-      const reply = data.content?.map(b => b.text || "").join("") || "No response received.";
-      setMessages(prev => [...prev, { role: "assistant", content: reply, id: Date.now() + 1 }]);
-    } catch (err) {
-      const msg = err.message || "";
-      const isKey = msg.includes("401") || msg.includes("403") || msg.includes("authentication");
+    if (!GEMINI_KEY || GEMINI_KEY === "PASTE_YOUR_GEMINI_KEY_HERE") {
       setMessages(prev => [...prev, {
         role: "assistant",
-        content: isKey
-          ? "**API key error.** Open `src/App.jsx`, find `__ANTHROPIC_API_KEY__` and replace it with your actual Anthropic API key. Get one at console.anthropic.com."
-          : `**Connection error.** ${msg || "Unable to reach AI analyst."}
+        content: "**API key missing.**\n\nGet your **free** Gemini key at:\nhttps://aistudio.google.com/app/apikey\n\nThen open src/App.jsx, find PASTE_YOUR_GEMINI_KEY_HERE and replace it with your key.",
+        id: Date.now() + 1, error: true,
+      }]);
+      setLoading(false);
+      return;
+    }
 
-Make sure:
-- vite.config.js proxy is set up (see setup instructions)
-- Your API key is pasted in place of __ANTHROPIC_API_KEY__`,
-        id: Date.now() + 1,
-        error: true,
+    try {
+      // Build Gemini conversation format
+      // System prompt goes as first user turn (Gemini doesn't have a system field in this endpoint)
+      const systemPrompt = buildSystemPrompt();
+      // Only send last 4 messages to avoid token bloat on long chats
+      const recentHistory = history.slice(-4);
+      const geminiContents = [
+        { role: "user",  parts: [{ text: systemPrompt }] },
+        { role: "model", parts: [{ text: "Ready. I have the threat data." }] },
+        ...recentHistory.map(m => ({
+          role: m.role === "user" ? "user" : "model",
+          parts: [{ text: m.content }],
+        })),
+      ];
+
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: geminiContents,
+            generationConfig: { maxOutputTokens: 400, temperature: 0.7 },
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        const errMsg = errData?.error?.message || res.statusText;
+        throw new Error(`${res.status}: ${errMsg}`);
+      }
+
+      const data = await res.json();
+      const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response received.";
+      setMessages(prev => [...prev, { role: "assistant", content: reply, id: Date.now() + 1 }]);
+
+    } catch (err) {
+      const msg = err.message || "";
+      const isKey = msg.includes("400") || msg.includes("API_KEY") || msg.includes("403");
+      const isModel   = msg.includes("404") || msg.includes("not found");
+      const isQuota   = msg.includes("429") || msg.includes("quota") || msg.includes("exceeded");
+      const retryMatch = msg.match(/retry in ([\d.]+)s/i);
+      const retrySec  = retryMatch ? Math.ceil(parseFloat(retryMatch[1])) : null;
+      setMessages(prev => [...prev, {
+        role: "assistant",
+        content: isQuota
+          ? `**API key quota exhausted.** Your key has hit its free tier limit (limit: 0).\n\n**Fix: Create a new free key:**\n1. Go to aistudio.google.com/app/apikey\n2. Click Create API Key\n3. Paste it in App.jsx replacing PASTE_YOUR_GEMINI_KEY_HERE\n\n${retrySec ? `Or wait ${retrySec} seconds and retry.` : ""}`
+          : isModel
+          ? `**Model not available.** Change GEMINI_MODEL in App.jsx to:\n- gemini-2.0-flash-lite\n- gemini-1.5-flash-latest\n- gemini-pro`
+          : isKey
+          ? "**Invalid API key.** Get a free key at aistudio.google.com/app/apikey"
+          : `**Error:** ${msg || "Unable to reach Gemini API."}`,
+        id: Date.now() + 1, error: true,
       }]);
     }
     setLoading(false);
@@ -1863,11 +1891,11 @@ Make sure:
                 borderRadius:3,padding:"4px 10px",
               }}>
                 <GlowDot color={C.cyan} pulse size={5}/>
-                <span style={{fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>ONLINE · claude-sonnet-4</span>
+                <span style={{fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>ONLINE · gemini-1.5-flash</span>
               </div>
             </div>
             <p style={{color:C.textLow,fontSize:11,marginTop:4,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
-              ASK ANYTHING ABOUT YOUR THREAT LANDSCAPE · POWERED BY ANTHROPIC
+              ASK ANYTHING ABOUT YOUR THREAT LANDSCAPE · POWERED BY GEMINI
             </p>
           </div>
           {/* Live stats */}
@@ -2118,7 +2146,7 @@ Make sure:
           </button>
         </div>
         <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:8,textAlign:"center",letterSpacing:1}}>
-          ThreatWatch AI · Powered by Claude · Shift+Enter for new line · All responses use live threat data
+          ThreatWatch AI · Powered by Gemini (Free) · Shift+Enter for new line · All responses use live threat data
         </div>
       </div>
 
