@@ -1998,7 +1998,7 @@ Keep responses focused and under 300 words unless detail is specifically request
 
   // ── PASTE YOUR FREE GEMINI API KEY HERE ──────────────────
   // Get it free at: https://aistudio.google.com/app/apikey
-const GEMINI_KEY = "AIzaSyDXPGPFXJIzi62w1pbbFlPf7iqf81RktVA";
+const GEMINI_KEY = "AIzaSyD7jePJbk_zfdcIZyL1WvdczkACb2BfIzk";
 const GEMINI_MODEL = "gemini-2.5-flash-lite";
 
 
