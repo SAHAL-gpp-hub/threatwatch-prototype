@@ -5,13 +5,19 @@ import { LayoutDashboard, Trophy, UserSearch, BellRing, BarChart3, Shield, Zap, 
 
 // ── GLOBAL STYLES ────────────────────────────────────────
 const GLOBAL_CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root {
+    --mono-font: 'JetBrains Mono', monospace;
+    --sans-font: 'Inter', sans-serif;
+  }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: #00000040; }
-  ::-webkit-scrollbar-thumb { background: #00ffe140; border-radius: 2px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,209,255,0.15); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,209,255,0.4); }
 
   @keyframes scanline {
     0% { transform: translateY(-100%); }
@@ -23,6 +29,19 @@ const GLOBAL_CSS = `
   @keyframes pulseGlow {
     0%,100% { box-shadow: 0 0 8px currentColor, 0 0 20px currentColor; opacity:1; }
     50% { box-shadow: 0 0 15px currentColor, 0 0 40px currentColor, 0 0 60px currentColor; opacity:0.85; }
+  }
+  @keyframes pulse-animation {
+    0% { transform: scale(0.95); opacity:0.5; }
+    50% { transform: scale(1.05); opacity:1; }
+    100% { transform: scale(0.95); opacity:0.5; }
+  }
+  @keyframes scaleIn {
+    from { opacity:0; transform: scale(0.9) translateY(10px); }
+    to   { opacity:1; transform: scale(1) translateY(0); }
+  }
+  @keyframes scaleInModal {
+    from { opacity:0; transform: scale(0.85); }
+    to   { opacity:1; transform: scale(1); }
   }
   @keyframes borderPulse {
     0%,100% { border-color: rgba(0,255,225,0.3); }
@@ -105,26 +124,54 @@ const GLOBAL_CSS = `
     position: relative;
     overflow: hidden;
     transition: all 0.2s;
+    font-family: 'JetBrains Mono', monospace;
   }
   .cyber-btn::before {
     content:'';
     position:absolute;
     top:0;left:-100%;
     width:100%;height:100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(0,209,255,0.12), transparent);
     transition: left 0.4s;
   }
   .cyber-btn:hover::before { left:100%; }
   .cyber-btn:hover { transform: translateY(-1px); }
 
+  /* ── GLASS PANEL ── */
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 209, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  .glass-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,209,255,0.35), transparent);
+    pointer-events: none;
+  }
+  .cyber-glow {
+    box-shadow: 0 0 20px rgba(0, 209, 255, 0.18);
+  }
+  .cyber-glow-red {
+    box-shadow: 0 0 20px rgba(255, 49, 49, 0.25);
+  }
+  .live-pulse {
+    animation: pulse-animation 2s infinite;
+  }
+
   .nav-item { transition: all 0.2s; }
-  .nav-item:hover { background: rgba(0,255,225,0.06) !important; padding-left: 18px !important; }
+  .nav-item:hover { background: rgba(0,209,255,0.06) !important; }
 
   .row-hover { transition: background 0.15s; }
-  .row-hover:hover { background: rgba(0,255,225,0.04) !important; }
+  .row-hover:hover { background: rgba(0,209,255,0.04) !important; }
 
   .card-hover { transition: all 0.25s; }
-  .card-hover:hover { transform: translateY(-2px); border-color: rgba(0,255,225,0.4) !important; box-shadow: 0 8px 30px rgba(0,255,225,0.08) !important; }
+  .card-hover:hover { transform: translateY(-2px); border-color: rgba(0,209,255,0.3) !important; box-shadow: 0 8px 30px rgba(0,209,255,0.08) !important; }
 
   @media print {
     #no-print { display: none !important; }
@@ -140,11 +187,13 @@ const GLOBAL_CSS = `
     100% { background-position:  600px 0; }
   }
   .skeleton {
-    background: linear-gradient(90deg, #0d1f38 25%, #162e4a 50%, #0d1f38 75%);
+    background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(0,209,255,0.06) 50%, rgba(255,255,255,0.03) 75%);
     background-size: 600px 100%;
     animation: shimmer 1.6s ease-in-out infinite;
     border-radius: 4px;
   }
+
+  body { font-family: 'Inter', sans-serif; }
 `;
 
 
@@ -164,7 +213,7 @@ function SkeletonPage() {
       {/* Stat cards */}
       <div style={{display:"flex",gap:14,marginBottom:18}}>
         {[1,2,3,4].map(i=>(
-          <div key={i} style={{flex:1,background:"#080f1e",border:"1px solid #112540",borderRadius:6,padding:"18px"}}>
+          <div key={i} className="glass-panel" style={{flex:1,borderRadius:8,padding:"18px"}}>
             {bar("60%", 9, 10)}
             {bar("80%", 28, 8)}
             {bar("50%", 10)}
@@ -173,23 +222,23 @@ function SkeletonPage() {
       </div>
       {/* Charts row */}
       <div style={{display:"grid",gridTemplateColumns:"1fr 280px",gap:14,marginBottom:14}}>
-        <div style={{background:"#080f1e",border:"1px solid #112540",borderRadius:6,padding:"22px"}}>
+        <div className="glass-panel" style={{borderRadius:8,padding:"22px"}}>
           {bar("180px", 11, 16)}
           <div className="skeleton" style={{width:"100%",height:190,borderRadius:4}}/>
         </div>
-        <div style={{background:"#080f1e",border:"1px solid #112540",borderRadius:6,padding:"22px"}}>
+        <div className="glass-panel" style={{borderRadius:8,padding:"22px"}}>
           {bar("140px", 11, 16)}
           <div className="skeleton" style={{width:"100%",height:130,borderRadius:"50%",margin:"0 auto"}}/>
-          {[1,2,3,4].map(i=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:"1px solid #112540"}}>
+          {[1,2,3,4].map(i=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:`1px solid ${"rgba(0,209,255,0.1)"}`}}>
             {bar("40%",10)} {bar("20%",10)}
           </div>)}
         </div>
       </div>
       {/* Table */}
-      <div style={{background:"#080f1e",border:"1px solid #112540",borderRadius:6,padding:"22px"}}>
+      <div className="glass-panel" style={{borderRadius:8,padding:"22px"}}>
         {bar("200px", 11, 16)}
         {[1,2,3,4,5].map(i=>(
-          <div key={i} style={{display:"flex",gap:14,padding:"12px 0",borderBottom:"1px solid #0d1e30",alignItems:"center"}}>
+          <div key={i} style={{display:"flex",gap:14,padding:"12px 0",borderBottom:`1px solid rgba(0,209,255,0.06)`,alignItems:"center"}}>
             <div className="skeleton" style={{width:32,height:32,borderRadius:6,flexShrink:0}}/>
             {bar("25%", 11)} {bar("15%", 11)} {bar("20%", 11)} {bar("30%", 8)}
           </div>
@@ -199,34 +248,41 @@ function SkeletonPage() {
   );
 }
 
-// ── PALETTE ──────────────────────────────────────────────
+// ── PALETTE — Stitch Cyber-Glassmorphism ─────────────────
 const C = {
-  bg:       "#030912",
-  panel:    "#080f1e",
-  panelAlt: "#060c1a",
-  border:   "#112540",
-  borderHi: "#163050",
-  cyan:     "#00ffe1",
-  cyanDim:  "#00ffe140",
-  cyanFaint:"#00ffe108",
-  red:      "#ff1e50",
-  redDim:   "#ff1e5040",
-  orange:   "#ff7c1e",
-  yellow:   "#ffd700",
-  green:    "#00ff87",
-  purple:   "#9d6fff",
-  text:     "#e2eeff",
-  textMid:  "#94b4d4",
-  textLow:  "#5a7a9f",
-  muted:    "#1e3a5c",
+  // Backgrounds
+  bg:       "#0a0e14",
+  panel:    "rgba(255,255,255,0.03)",
+  panelAlt: "rgba(255,255,255,0.02)",
+  panelSolid: "#10141a",     // solid fallback for overlays
+  border:   "rgba(0,209,255,0.1)",
+  borderHi: "rgba(0,209,255,0.25)",
+  // Accents
+  cyan:     "#00d1ff",       // Cyber-Blue — primary interactive
+  cyanDim:  "rgba(0,209,255,0.15)",
+  cyanFaint:"rgba(0,209,255,0.05)",
+  red:      "#ff3131",       // Warning-Red — critical threats
+  redDim:   "rgba(255,49,49,0.15)",
+  orange:   "#ff9a3c",       // High severity
+  yellow:   "#ffd166",       // Moderate
+  green:    "#39ff14",       // Neon-Green — safe / active
+  purple:   "#a78bfa",       // AI / Behavioral Twin accent
+  // Text
+  text:     "#dfe2eb",
+  textMid:  "#bbc9cf",
+  textLow:  "#859399",
+  muted:    "rgba(0,209,255,0.08)",
+  // Mono font
+  mono:     "'JetBrains Mono', monospace",
+  sans:     "'Inter', sans-serif",
 };
 
 const LEVEL_C = { Critical: C.red, High: C.orange, Moderate: C.yellow, Low: C.green };
 const LEVEL_BG = {
-  Critical: "rgba(255,30,80,0.12)",
-  High:     "rgba(255,124,30,0.12)",
-  Moderate: "rgba(255,215,0,0.10)",
-  Low:      "rgba(0,255,135,0.10)",
+  Critical: "rgba(255,49,49,0.10)",
+  High:     "rgba(255,154,60,0.10)",
+  Moderate: "rgba(255,209,102,0.08)",
+  Low:      "rgba(57,255,20,0.08)",
 };
 
 // ── DATA PARSER — converts raw JSON from employee_summary.json ──────────────
@@ -326,20 +382,19 @@ function buildRadar(emp) {
 const EVENTS = Array.from({length:24},(_,i)=>{
   const base   = i<8 ? 120 : i<14 ? 265 : 200;
   const jitter = [12,-8,15,-5,20,-12,8,18,-9,14,-6,22,-14,10,16,-7,19,-11,13,-4,17,-8,21,-10][i] || 0;
-  return { h:`${String(i).padStart(2,"0")}:00`, v: base + jitter };
+  return { h:`${String(i).padStart(2,"00")}:00`, v: base + jitter };
 });
 
 // Dept threat counts — computed from real ML-scored employee data
 const DEPT_MAP = {};
 
 
-// ── MICRO COMPONENTS ─────────────────────────────────────
-
+// ── MICRO COMPONENTS ────────────────────────────────────────
 function GlowDot({ color, size=8, pulse=false }) {
   return (
     <span style={{position:"relative",display:"inline-flex",alignItems:"center",justifyContent:"center",width:size,height:size,flexShrink:0}}>
-      <span style={{width:size,height:size,borderRadius:"50%",background:color,boxShadow:`0 0 6px ${color}`,display:"block"}}/>
-      {pulse && <span style={{position:"absolute",width:size,height:size,borderRadius:"50%",background:color,animation:"orbitPing 1.5s ease-out infinite"}}/>}
+      <span style={{width:size,height:size,borderRadius:"50%",background:color,boxShadow:`0 0 8px ${color}`,display:"block"}}/>
+      {pulse && <span style={{position:"absolute",width:size,height:size,borderRadius:"50%",background:color,animation:"pulse-animation 1.5s ease-out infinite", opacity:0.6}}/> }
     </span>
   );
 }
@@ -350,11 +405,11 @@ function CyberBadge({ level }) {
     <span style={{
       background: LEVEL_BG[level],
       color: c,
-      border: `1px solid ${c}60`,
-      padding:"2px 10px",
-      borderRadius:2,
+      border: `1px solid ${c}50`,
+      padding:"3px 10px",
+      borderRadius:4,
       fontSize:10,
-      fontFamily:"'Share Tech Mono',monospace",
+      fontFamily: C.mono,
       fontWeight:700,
       letterSpacing:1,
       textTransform:"uppercase",
@@ -372,13 +427,13 @@ function ScoreBar({ score, level, width=80 }) {
   const c = LEVEL_C[level];
   return (
     <div style={{display:"flex",alignItems:"center",gap:10}}>
-      <div style={{width,height:4,background:C.muted,borderRadius:2,overflow:"hidden"}}>
+      <div style={{width,height:4,background:"rgba(255,255,255,0.06)",borderRadius:2,overflow:"hidden"}}>
         <div style={{width:`${score}%`,height:"100%",background:c,borderRadius:2,
           boxShadow:`0 0 8px ${c}`,
           animation:"riskRise 1s ease-out"
         }}/>
       </div>
-      <span style={{fontSize:13,fontWeight:700,color:c,fontFamily:"'Share Tech Mono',monospace",minWidth:24}}>{score}</span>
+      <span style={{fontSize:13,fontWeight:700,color:c,fontFamily:C.mono,minWidth:24}}>{score}</span>
     </div>
   );
 }
@@ -388,12 +443,12 @@ function Avatar({ initials, size=36, level }) {
   return (
     <div style={{
       width:size, height:size, borderRadius:"50%",
-      background:`radial-gradient(circle at 40% 35%, #1a3050, #060e1d)`,
-      border:`2px solid ${c}50`,
+      background:`radial-gradient(circle at 40% 35%, rgba(0,209,255,0.12), rgba(10,14,20,0.9))`,
+      border:`1.5px solid ${c}60`,
       display:"flex", alignItems:"center", justifyContent:"center",
       fontSize:size*0.32, fontWeight:700, color:c,
-      fontFamily:"'Orbitron',monospace",
-      boxShadow:`0 0 12px ${c}30`,
+      fontFamily: C.mono,
+      boxShadow:`0 0 12px ${c}25`,
       flexShrink:0,
     }}>
       {initials}
@@ -403,23 +458,12 @@ function Avatar({ initials, size=36, level }) {
 
 function Panel({ children, style={}, critical=false, glow=false, animate=true }) {
   return (
-    <div style={{
-      background: C.panel,
-      border: `1px solid ${critical ? C.redDim : C.border}`,
-      borderRadius:6,
-      position:"relative",
-      overflow:"hidden",
+    <div className={`glass-panel${glow ? " cyber-glow" : ""}${critical ? " cyber-glow-red" : ""}`} style={{
+      borderRadius:8,
       animation: animate ? "slideInUp 0.4s ease-out both" : "none",
-      ...(critical ? {animation:"criticalPulse 2s ease-in-out infinite"} : {}),
-      ...(glow ? {boxShadow:`0 0 30px ${C.cyan}10`} : {}),
+      ...(critical ? {animation:"criticalPulse 2s ease-in-out infinite", borderColor: `${C.red}30`} : {}),
       ...style,
     }}>
-      {/* top accent line */}
-      <div style={{position:"absolute",top:0,left:0,right:0,height:1,
-        background: critical
-          ? `linear-gradient(90deg, transparent, ${C.red}, transparent)`
-          : `linear-gradient(90deg, transparent, ${C.cyan}80, transparent)`
-      }}/>
       {children}
     </div>
   );
@@ -428,13 +472,13 @@ function Panel({ children, style={}, critical=false, glow=false, animate=true })
 function SectionLabel({ children }) {
   return (
     <div style={{
-      fontSize:10, color:C.cyan, fontFamily:"'Share Tech Mono',monospace",
+      fontSize:10, color:C.cyan, fontFamily: C.mono,
       letterSpacing:3, textTransform:"uppercase", marginBottom:14,
       display:"flex", alignItems:"center", gap:8,
     }}>
-      <div style={{width:16,height:1,background:C.cyan}}/>
+      <div style={{width:16,height:1,background:C.cyan,opacity:0.7}}/>
       {children}
-      <div style={{flex:1,height:1,background:`linear-gradient(90deg,${C.cyan}40,transparent)`}}/>
+      <div style={{flex:1,height:1,background:`linear-gradient(90deg,${C.cyan}30,transparent)`}}/>
     </div>
   );
 }
@@ -447,21 +491,21 @@ function StatCard({ label, value, sub, subColor=C.green, icon, delay=0, critical
           <div style={{
             fontSize:10, color:C.textMid, letterSpacing:2,
             textTransform:"uppercase", marginBottom:10,
-            fontFamily:"'Share Tech Mono',monospace",
+            fontFamily: C.mono,
           }}>{label}</div>
           <div style={{
-            fontSize:30, fontWeight:900, color: critical ? C.red : C.text,
-            lineHeight:1, fontFamily:"'Orbitron',monospace",
+            fontSize:30, fontWeight:800, color: critical ? C.red : C.text,
+            lineHeight:1, fontFamily: C.mono,
             textShadow: critical ? `0 0 20px ${C.red}60` : "none",
             animation:"countUp 0.5s ease-out",
           }}>{value}</div>
-          {sub && <div style={{fontSize:11,color:subColor,marginTop:8,fontFamily:"'Share Tech Mono',monospace"}}>{sub}</div>}
+          {sub && <div style={{fontSize:11,color:subColor,marginTop:8,fontFamily:C.mono}}>{sub}</div>}
         </div>
         {icon && (
           <div style={{
-            width:42,height:42,borderRadius:6,
-            background:`linear-gradient(135deg,${C.cyan}15,${C.cyan}05)`,
-            border:`1px solid ${C.cyan}30`,
+            width:42,height:42,borderRadius:8,
+            background:`linear-gradient(135deg,${C.cyanDim},${C.cyanFaint})`,
+            border:`1px solid ${C.border}`,
             display:"flex",alignItems:"center",justifyContent:"center",
           }}>{icon}</div>
         )}
@@ -474,7 +518,7 @@ function StatCard({ label, value, sub, subColor=C.green, icon, delay=0, critical
 const TT = ({ active, payload, label }) => {
   if (!active||!payload?.length) return null;
   return (
-    <div style={{background:"#050d1a",border:`1px solid ${C.cyan}40`,borderRadius:4,padding:"8px 14px",fontFamily:"'Share Tech Mono',monospace",fontSize:11,color:"#a8c4e0"}}>
+    <div style={{background:"rgba(10,14,20,0.95)",border:`1px solid ${C.border}`,borderRadius:6,padding:"8px 14px",fontFamily:C.mono,fontSize:11,color:C.textMid,backdropFilter:"blur(8px)"}}>
       <div style={{color:C.cyan,marginBottom:4}}>{label}</div>
       {payload.map((p,i)=>(
         <div key={i} style={{color:p.color||C.cyan}}>{p.name||p.dataKey}: <span style={{color:C.text,fontWeight:700}}>{typeof p.value==="number"?p.value.toFixed(1):p.value}</span></div>
@@ -483,7 +527,7 @@ const TT = ({ active, payload, label }) => {
   );
 };
 
-// ── EMPLOYEE TABLE ────────────────────────────────────────
+// ── EMPLOYEE TABLE ────────────────────────────────────────────
 function RiskTable({ employees, delay=0, onAnalyze }) {
   return (
     <table style={{width:"100%",borderCollapse:"collapse"}}>
@@ -491,10 +535,10 @@ function RiskTable({ employees, delay=0, onAnalyze }) {
         <tr style={{borderBottom:`1px solid ${C.border}`}}>
           {["#","Employee","Dept","Risk Score","Level","Trend","Last Activity","Action"].map(h=>(
             <th key={h} style={{
-              padding:"8px 14px",textAlign:"left",
-              fontSize:9,color:C.textMid,fontWeight:600,
+              padding:"10px 14px",textAlign:"left",
+              fontSize:10,color:C.textLow,fontWeight:700,
               letterSpacing:2,textTransform:"uppercase",
-              fontFamily:"'Share Tech Mono',monospace",
+              fontFamily: C.mono,
             }}>{h}</th>
           ))}
         </tr>
@@ -502,36 +546,37 @@ function RiskTable({ employees, delay=0, onAnalyze }) {
       <tbody>
         {employees.map((e,i)=>(
           <tr key={e.id} className="row-hover" style={{
-            borderBottom:`1px solid ${C.border}50`,
+            borderBottom:`1px solid rgba(0,209,255,0.05)`,
             animation:`slideInUp 0.4s ease-out both`,
             animationDelay:`${delay + i*60}ms`,
           }}>
-            <td style={{padding:"13px 14px",color:C.textLow,fontSize:12,fontFamily:"'Share Tech Mono',monospace"}}>{i+1}</td>
-            <td style={{padding:"13px 14px"}}>
+            <td style={{padding:"14px 14px",color:C.textLow,fontSize:12,fontFamily:C.mono}}>{i+1}</td>
+            <td style={{padding:"14px 14px"}}>
               <div style={{display:"flex",alignItems:"center",gap:10}}>
                 <Avatar initials={e.initials} size={34} level={e.level}/>
                 <div>
-                  <div style={{fontSize:13,fontWeight:700,color:C.text}}>{e.name}</div>
-                  <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:1}}>{e.role}</div>
+                  <div style={{fontSize:13,fontWeight:600,color:C.text,fontFamily:C.sans}}>{e.name}</div>
+                  <div style={{fontSize:10,color:C.textLow,fontFamily:C.mono,marginTop:1}}>{e.role}</div>
                 </div>
               </div>
             </td>
-            <td style={{padding:"13px 14px",fontSize:11,color:C.textMid,fontFamily:"'Share Tech Mono',monospace"}}>{e.dept}</td>
-            <td style={{padding:"13px 14px"}}><ScoreBar score={e.score} level={e.level}/></td>
-            <td style={{padding:"13px 14px"}}><CyberBadge level={e.level}/></td>
-            <td style={{padding:"13px 14px",fontSize:11,fontFamily:"'Share Tech Mono',monospace",
+            <td style={{padding:"14px 14px",fontSize:11,color:C.textMid,fontFamily:C.mono}}>{e.dept}</td>
+            <td style={{padding:"14px 14px"}}><ScoreBar score={e.score} level={e.level}/></td>
+            <td style={{padding:"14px 14px"}}><CyberBadge level={e.level}/></td>
+            <td style={{padding:"14px 14px",fontSize:11,fontFamily:C.mono,
               color:e.trend==="Rising"?C.red:e.trend==="Declining"?C.green:C.textMid}}>
               <div style={{display:"flex",alignItems:"center",gap:4}}>
                 {e.trend==="Rising" ? <TrendingUp size={13} strokeWidth={2}/> : e.trend==="Declining" ? <TrendingDown size={13} strokeWidth={2}/> : <Minus size={13} strokeWidth={2}/>}
                 {e.trend}
               </div>
             </td>
-            <td style={{padding:"13px 14px",fontSize:11,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>{e.lastActivity}</td>
-            <td style={{padding:"13px 14px"}}>
+            <td style={{padding:"14px 14px",fontSize:11,color:C.textLow,fontFamily:C.mono}}>{e.lastActivity}</td>
+            <td style={{padding:"14px 14px"}}>
               <button className="cyber-btn" onClick={()=>onAnalyze&&onAnalyze(e)} style={{
-                background:"transparent",border:`1px solid ${C.cyan}40`,
-                color:C.cyan,borderRadius:3,padding:"5px 14px",
-                fontSize:11,cursor:"pointer",fontFamily:"'Share Tech Mono',monospace",
+                background:`linear-gradient(135deg,${C.cyanDim},${C.cyanFaint})`,
+                border:`1px solid ${C.borderHi}`,
+                color:C.cyan,borderRadius:5,padding:"6px 14px",
+                fontSize:11,cursor:"pointer",fontFamily:C.mono,
                 display:"flex",alignItems:"center",gap:5,
               }}><Eye size={11} strokeWidth={2}/>ANALYZE</button>
             </td>
@@ -565,17 +610,17 @@ function DashboardOverview({ attackDone, employees=[], onAnalyze, lastUpdate=nul
   return (
     <div style={{padding:"28px 32px",overflowY:"auto",height:"100%"}}>
       <div style={{marginBottom:26,animation:"glitchIn 0.5s ease-out"}}>
-        <div style={{fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:4,marginBottom:6}}>// SYSTEM STATUS: OPERATIONAL</div>
+        <div style={{fontSize:9,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:4,marginBottom:6}}>// SYSTEM STATUS: OPERATIONAL</div>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
           <div>
-            <h2 style={{fontSize:26,fontWeight:900,color:C.text,margin:0,fontFamily:"'Orbitron',monospace",letterSpacing:2}}>DASHBOARD OVERVIEW</h2>
-            <p style={{color:C.textMid,fontSize:11,margin:"6px 0 0",fontFamily:"'Share Tech Mono',monospace"}}>REAL-TIME BEHAVIORAL RISK INTELLIGENCE — LIVE MONITORING ACTIVE</p>
+            <h2 style={{fontSize:26,fontWeight:900,color:C.text,margin:0,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>DASHBOARD OVERVIEW</h2>
+            <p style={{color:C.textMid,fontSize:11,margin:"6px 0 0",fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>REAL-TIME BEHAVIORAL RISK INTELLIGENCE — LIVE MONITORING ACTIVE</p>
           </div>
           <button id="no-print" className="cyber-btn" onClick={()=>generateReport(employees)} style={{
             background:`linear-gradient(135deg,${C.cyan}20,${C.cyan}08)`,
             border:`1px solid ${C.cyan}60`,color:C.cyan,
             borderRadius:4,padding:"8px 18px",cursor:"pointer",fontSize:10,
-            fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,fontWeight:700,
+            fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,fontWeight:700,
             display:"flex",alignItems:"center",gap:7,flexShrink:0,marginTop:4,
             boxShadow:`0 0 12px ${C.cyan}15`,
           }}>
@@ -596,7 +641,7 @@ function DashboardOverview({ attackDone, employees=[], onAnalyze, lastUpdate=nul
         <Panel style={{padding:"22px"}} animate={false}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
             <SectionLabel>Alert Activity — 7 Days</SectionLabel>
-            {lastUpdate && <span style={{fontSize:9,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>↻ live</span>}
+            {lastUpdate && <span style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>↻ live</span>}
           </div>
           <ResponsiveContainer width="100%" height={190}>
             <AreaChart data={alertActivity}>
@@ -606,7 +651,7 @@ function DashboardOverview({ attackDone, employees=[], onAnalyze, lastUpdate=nul
                   <stop offset="100%" stopColor={C.red} stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <XAxis dataKey="day" tick={{fill:C.textLow,fontSize:10,fontFamily:"'Share Tech Mono',monospace"}} axisLine={false} tickLine={false}/>
+              <XAxis dataKey="day" tick={{fill:C.textLow,fontSize:10,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}} axisLine={false} tickLine={false}/>
               <YAxis tick={{fill:C.textLow,fontSize:10}} axisLine={false} tickLine={false}/>
               <Tooltip content={<TT/>}/>
               <Area type="monotone" dataKey="v" name="Alerts" stroke={C.red} fill="url(#ag)" strokeWidth={2}/>
@@ -617,7 +662,7 @@ function DashboardOverview({ attackDone, employees=[], onAnalyze, lastUpdate=nul
         <Panel style={{padding:"22px"}} animate={false}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
             <SectionLabel>Risk Distribution</SectionLabel>
-            {lastUpdate && <span style={{fontSize:9,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>↻ live</span>}
+            {lastUpdate && <span style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>↻ live</span>}
           </div>
           <div style={{display:"flex",justifyContent:"center",marginBottom:8}}>
             <PieChart width={130} height={130}>
@@ -627,7 +672,7 @@ function DashboardOverview({ attackDone, employees=[], onAnalyze, lastUpdate=nul
             </PieChart>
           </div>
           {riskDist.map(r=>(
-            <div key={r.name} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",fontSize:11,fontFamily:"'Share Tech Mono',monospace",borderBottom:`1px solid ${C.border}`}}>
+            <div key={r.name} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",fontSize:11,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",borderBottom:`1px solid ${C.border}`}}>
               <span style={{color:C.textMid,display:"flex",alignItems:"center",gap:7}}>
                 <GlowDot color={r.color} size={6}/>
                 {r.name}
@@ -652,9 +697,9 @@ function RiskLeaderboard({ employees=[], onAnalyze, lastUpdate=null }) {
   return (
     <div style={{padding:"28px 32px",overflowY:"auto",height:"100%"}}>
       <div style={{marginBottom:26}}>
-        <div style={{fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:4,marginBottom:6}}>// THREAT INTELLIGENCE</div>
-        <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace",letterSpacing:2}}>RISK LEADERBOARD</h2>
-        <p style={{color:C.textLow,fontSize:11,marginTop:6,fontFamily:"'Share Tech Mono',monospace"}}>EMPLOYEES RANKED BY BEHAVIORAL THREAT SCORE</p>
+        <div style={{fontSize:9,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:4,marginBottom:6}}>// THREAT INTELLIGENCE</div>
+        <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>RISK LEADERBOARD</h2>
+        <p style={{color:C.textLow,fontSize:11,marginTop:6,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>EMPLOYEES RANKED BY BEHAVIORAL THREAT SCORE</p>
       </div>
 
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:14,marginBottom:18}}>
@@ -675,23 +720,23 @@ function RiskLeaderboard({ employees=[], onAnalyze, lastUpdate=null }) {
                     background:C.panel,border:`2px solid ${c}`,
                     display:"flex",alignItems:"center",justifyContent:"center",
                     fontSize:9,fontWeight:700,color:c,
-                    fontFamily:"'Orbitron',monospace",
+                    fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                   }}>{i+1}</div>
                 </div>
                 <div>
-                  <div style={{fontSize:15,fontWeight:700,color:C.text,fontFamily:"'Rajdhani',sans-serif"}}>{e.name}</div>
-                  <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>{e.dept}</div>
+                  <div style={{fontSize:15,fontWeight:700,color:C.text,fontFamily:"var(--sans-font,'Inter',sans-serif)"}}>{e.name}</div>
+                  <div style={{fontSize:10,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{e.dept}</div>
                 </div>
               </div>
-              <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,marginBottom:6}}>RISK SCORE</div>
+              <div style={{fontSize:9,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2,marginBottom:6}}>RISK SCORE</div>
               <div style={{width:"100%",height:4,background:C.muted,borderRadius:2,marginBottom:10,overflow:"hidden"}}>
                 <div style={{width:`${e.score}%`,height:"100%",background:c,borderRadius:2,boxShadow:`0 0 10px ${c}`,animation:"riskRise 1s ease-out"}}/>
               </div>
-              <div style={{fontSize:42,fontWeight:900,color:c,fontFamily:"'Orbitron',monospace",
+              <div style={{fontSize:42,fontWeight:900,color:c,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                 textShadow:`0 0 20px ${c}80`,lineHeight:1,marginBottom:12}}>{e.score}</div>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                 <CyberBadge level={e.level}/>
-                <span style={{fontSize:11,color:e.trend==="Rising"?C.red:e.trend==="Declining"?C.green:C.textMid,fontFamily:"'Share Tech Mono',monospace"}}>
+                <span style={{fontSize:11,color:e.trend==="Rising"?C.red:e.trend==="Declining"?C.green:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>
                   {e.trend==="Rising"?"↑":e.trend==="Declining"?"↓":"—"} {e.trend}
                 </span>
               </div>
@@ -699,7 +744,7 @@ function RiskLeaderboard({ employees=[], onAnalyze, lastUpdate=null }) {
                 marginTop:12,width:"100%",background:"transparent",
                 border:`1px solid ${C.cyan}40`,color:C.cyan,borderRadius:3,
                 padding:"7px",fontSize:10,cursor:"pointer",
-                fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,
+                fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,
                 display:"flex",alignItems:"center",justifyContent:"center",gap:5,
               }}><Eye size={11} strokeWidth={2}/>DEEP DIVE</button>
             </Panel>
@@ -712,7 +757,7 @@ function RiskLeaderboard({ employees=[], onAnalyze, lastUpdate=null }) {
           <SectionLabel>Risk Score Comparison — All Employees</SectionLabel>
           <ResponsiveContainer width="100%" height={190}>
             <BarChart data={employees.map(e=>({n:e.name.split(" ")[0],s:e.score,l:e.level}))}>
-              <XAxis dataKey="n" tick={{fill:C.textLow,fontSize:10,fontFamily:"'Share Tech Mono',monospace"}} axisLine={false} tickLine={false}/>
+              <XAxis dataKey="n" tick={{fill:C.textLow,fontSize:10,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}} axisLine={false} tickLine={false}/>
               <YAxis domain={[0,100]} tick={{fill:C.textLow,fontSize:10}} axisLine={false} tickLine={false}/>
               <Tooltip content={<TT/>}/>
               <Bar dataKey="s" name="Score" radius={[3,3,0,0]}>
@@ -726,16 +771,16 @@ function RiskLeaderboard({ employees=[], onAnalyze, lastUpdate=null }) {
 
         <Panel style={{padding:"22px"}} animate={false}>
           <SectionLabel>Threat Profile</SectionLabel>
-          <div style={{fontSize:11,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginBottom:8}}>{(top3[0]||EMPTY_EMP).name} — #1</div>
+          <div style={{fontSize:11,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginBottom:8}}>{(top3[0]||EMPTY_EMP).name} — #1</div>
           <ResponsiveContainer width="100%" height={150}>
             <RadarChart data={buildRadar(top3[0] || EMPTY_EMP)}>
               <PolarGrid stroke={C.border}/>
-              <PolarAngleAxis dataKey="s" tick={{fill:C.textLow,fontSize:9,fontFamily:"'Share Tech Mono',monospace"}}/>
+              <PolarAngleAxis dataKey="s" tick={{fill:C.textLow,fontSize:9,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}/>
               <Radar dataKey="v" stroke={C.red} fill={C.red} fillOpacity={0.2} strokeWidth={2}/>
             </RadarChart>
           </ResponsiveContainer>
           {[["Files",`${(top3[0]||EMPTY_EMP).files}`],["Priv.",`${(top3[0]||EMPTY_EMP).priv}`],["USB",`${(top3[0]||EMPTY_EMP).usb}`]].map(([k,v])=>(
-            <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",fontSize:11,fontFamily:"'Share Tech Mono',monospace",borderTop:`1px solid ${C.border}`}}>
+            <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",fontSize:11,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",borderTop:`1px solid ${C.border}`}}>
               <span style={{color:C.textLow}}>{k}</span>
               <span style={{color:C.red,fontWeight:700}}>{v}</span>
             </div>
@@ -835,8 +880,8 @@ function EmployeeDeepDive({ emp = EMPTY_EMP, employees = [], onAnalyze }) {
       {/* ── Header with employee selector ── */}
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:22}}>
         <div>
-          <div style={{fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:4,marginBottom:6}}>// BEHAVIORAL ANALYSIS</div>
-          <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace",letterSpacing:2}}>EMPLOYEE DEEP DIVE</h2>
+          <div style={{fontSize:9,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:4,marginBottom:6}}>// BEHAVIORAL ANALYSIS</div>
+          <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>EMPLOYEE DEEP DIVE</h2>
         </div>
         {/* Employee quick-switch */}
         {employees.length > 0 && (
@@ -854,7 +899,7 @@ function EmployeeDeepDive({ emp = EMPTY_EMP, employees = [], onAnalyze }) {
                 }}
                 style={{
                   background:"transparent",border:"none",outline:"none",
-                  color:C.text,fontSize:12,fontFamily:"'Share Tech Mono',monospace",cursor:"pointer",
+                  color:C.text,fontSize:12,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",cursor:"pointer",
                 }}>
                 {employees.map(e=>(
                   <option key={e.id} value={e.id} style={{background:C.panel,color:C.text}}>
@@ -882,15 +927,15 @@ function EmployeeDeepDive({ emp = EMPTY_EMP, employees = [], onAnalyze }) {
           </div>
           <div>
             <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
-              <span style={{fontSize:22,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace"}}>{emp.name}</span>
+              <span style={{fontSize:22,fontWeight:900,color:C.text,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{emp.name}</span>
               <CyberBadge level={emp.level}/>
             </div>
-            <div style={{fontSize:12,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>{emp.role} — {emp.dept} — {emp.id}</div>
+            <div style={{fontSize:12,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{emp.role} — {emp.dept} — {emp.id}</div>
             <div style={{display:"flex",gap:14,marginTop:8}}>
-              <span style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>
+              <span style={{fontSize:10,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>
                 LAST SEEN: {emp.lastActivity || "—"}
               </span>
-              <span style={{fontSize:10,fontFamily:"'Share Tech Mono',monospace",
+              <span style={{fontSize:10,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                 color: anomCount >= 3 ? C.red : anomCount >= 1 ? C.orange : C.green}}>
                 {anomCount}/5 ANOMALIES
               </span>
@@ -898,12 +943,12 @@ function EmployeeDeepDive({ emp = EMPTY_EMP, employees = [], onAnalyze }) {
           </div>
         </div>
         <div style={{textAlign:"right"}}>
-          <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,marginBottom:4}}>RISK SCORE</div>
+          <div style={{fontSize:9,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2,marginBottom:4}}>RISK SCORE</div>
           <div style={{
-            fontSize:64,fontWeight:900,color:scoreColor,fontFamily:"'Orbitron',monospace",lineHeight:1,
+            fontSize:64,fontWeight:900,color:scoreColor,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",lineHeight:1,
             textShadow:`0 0 30px ${scoreColor}80, 0 0 60px ${scoreColor}40`,
           }}>{emp.score}</div>
-          <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:4}}>/ 100 · {emp.trend}</div>
+          <div style={{fontSize:10,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginTop:4}}>/ 100 · {emp.trend}</div>
         </div>
       </Panel>
 
@@ -914,7 +959,7 @@ function EmployeeDeepDive({ emp = EMPTY_EMP, employees = [], onAnalyze }) {
           <span style={{
             background:`${trendColor}18`,border:`1px solid ${trendColor}50`,
             color:trendColor,padding:"4px 12px",borderRadius:2,fontSize:10,
-            fontFamily:"'Share Tech Mono',monospace",fontWeight:700,letterSpacing:1,
+            fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",fontWeight:700,letterSpacing:1,
           }}>{trendLabel}</span>
         </div>
         <ResponsiveContainer width="100%" height={180}>
@@ -936,7 +981,7 @@ function EmployeeDeepDive({ emp = EMPTY_EMP, employees = [], onAnalyze }) {
         </ResponsiveContainer>
         <div style={{display:"flex",gap:20,marginTop:10}}>
           {[["Risk Score","url(#tg2)","solid"],["Org. Baseline",C.border,"dashed"],["High Risk Threshold",C.red,"dashed"]].map(([l,c,s])=>(
-            <div key={l} style={{display:"flex",alignItems:"center",gap:8,fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>
+            <div key={l} style={{display:"flex",alignItems:"center",gap:8,fontSize:10,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>
               <div style={{width:20,height:2,background:c,opacity:s==="dashed"?0.5:1}}/>
               {l}
             </div>
@@ -946,7 +991,7 @@ function EmployeeDeepDive({ emp = EMPTY_EMP, employees = [], onAnalyze }) {
 
       {/* ── Behavior Indicators ── */}
       <div style={{marginBottom:14}}>
-        <div style={{fontSize:13,fontWeight:700,color:C.text,fontFamily:"'Rajdhani',sans-serif",letterSpacing:1,marginBottom:12}}>BEHAVIOR INDICATORS</div>
+        <div style={{fontSize:13,fontWeight:700,color:C.text,fontFamily:"var(--sans-font,'Inter',sans-serif)",letterSpacing:1,marginBottom:12}}>BEHAVIOR INDICATORS</div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:10}}>
           {[
             {Icon:LogIn,     label:"Login Time",      value:loginStr,               sub:"Last recorded",      bad:loginBad},
@@ -964,12 +1009,12 @@ function EmployeeDeepDive({ emp = EMPTY_EMP, employees = [], onAnalyze }) {
                   border:`1px solid ${col}30`,
                   display:"flex",alignItems:"center",justifyContent:"center",
                 }}><b.Icon size={16} color={col} strokeWidth={1.8}/></div>
-                <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginBottom:4}}>{b.label}</div>
-                <div style={{fontSize:16,fontWeight:800,color:b.bad?col:C.text,fontFamily:"'Orbitron',monospace",marginBottom:4}}>{b.value}</div>
-                <div style={{fontSize:10,color:C.textMid,fontFamily:"'Share Tech Mono',monospace"}}>{b.sub}</div>
+                <div style={{fontSize:10,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginBottom:4}}>{b.label}</div>
+                <div style={{fontSize:16,fontWeight:800,color:b.bad?col:C.text,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginBottom:4}}>{b.value}</div>
+                <div style={{fontSize:10,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{b.sub}</div>
                 {b.bad
-                  ? <div style={{fontSize:9,color:col,marginTop:8,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>⚠ ANOMALOUS</div>
-                  : <div style={{fontSize:9,color:C.green,marginTop:8,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>✓ NORMAL</div>
+                  ? <div style={{fontSize:9,color:col,marginTop:8,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>⚠ ANOMALOUS</div>
+                  : <div style={{fontSize:9,color:C.green,marginTop:8,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>✓ NORMAL</div>
                 }
               </Panel>
             );
@@ -984,17 +1029,17 @@ function EmployeeDeepDive({ emp = EMPTY_EMP, employees = [], onAnalyze }) {
           <thead>
             <tr style={{borderBottom:`1px solid ${C.border}`}}>
               {["Signal","Baseline","Observed","Deviation","Severity"].map(h=>(
-                <th key={h} style={{padding:"8px 14px",textAlign:"left",fontSize:9,color:C.textMid,letterSpacing:2,textTransform:"uppercase",fontFamily:"'Share Tech Mono',monospace"}}>{h}</th>
+                <th key={h} style={{padding:"8px 14px",textAlign:"left",fontSize:9,color:C.textMid,letterSpacing:2,textTransform:"uppercase",fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {signals.map((r,i)=>(
               <tr key={r.s} className="row-hover" style={{borderBottom:`1px solid ${C.border}40`,animation:`slideInUp 0.4s ease-out both`,animationDelay:`${i*80}ms`}}>
-                <td style={{padding:"12px 14px",fontSize:13,fontWeight:700,color:C.text,fontFamily:"'Rajdhani',sans-serif"}}>{r.s}</td>
-                <td style={{padding:"12px 14px",fontSize:11,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>{r.base}</td>
-                <td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:r.bad?LEVEL_C[r.sev]:C.green,fontFamily:"'Share Tech Mono',monospace"}}>{r.obs}</td>
-                <td style={{padding:"12px 14px",fontSize:11,color:r.bad?C.textMid:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>{r.dev}</td>
+                <td style={{padding:"12px 14px",fontSize:13,fontWeight:700,color:C.text,fontFamily:"var(--sans-font,'Inter',sans-serif)"}}>{r.s}</td>
+                <td style={{padding:"12px 14px",fontSize:11,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{r.base}</td>
+                <td style={{padding:"12px 14px",fontSize:12,fontWeight:700,color:r.bad?LEVEL_C[r.sev]:C.green,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{r.obs}</td>
+                <td style={{padding:"12px 14px",fontSize:11,color:r.bad?C.textMid:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{r.dev}</td>
                 <td style={{padding:"12px 14px"}}><CyberBadge level={r.sev}/></td>
               </tr>
             ))}
@@ -1043,15 +1088,15 @@ function AlertCenter({ employees=[], onAnalyze }) {
     <div style={{padding:"28px 32px",overflowY:"auto",height:"100%"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:26}}>
         <div>
-          <div style={{fontSize:9,color:C.red,fontFamily:"'Share Tech Mono',monospace",letterSpacing:4,marginBottom:6,animation:"neonText 2s ease-in-out infinite"}}>// ⚠ ACTIVE THREATS DETECTED</div>
-          <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace",letterSpacing:2}}>ALERT CENTER</h2>
+          <div style={{fontSize:9,color:C.red,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:4,marginBottom:6,animation:"neonText 2s ease-in-out infinite"}}>// ⚠ ACTIVE THREATS DETECTED</div>
+          <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>ALERT CENTER</h2>
         </div>
         <div style={{display:"flex",gap:10}}>
           {[[`${alerts.filter(a=>a.level==="Critical").length} Critical`,C.red],[`${alerts.filter(a=>a.level==="High").length} High`,C.orange]].map(([t,c])=>(
             <span key={t} style={{
               background:`${c}15`,border:`1px solid ${c}50`,color:c,
               padding:"6px 16px",borderRadius:2,fontSize:11,fontWeight:700,
-              fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,
+              fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,
               display:"flex",alignItems:"center",gap:6,
             }}>
               <GlowDot color={c} pulse size={7}/>
@@ -1072,7 +1117,7 @@ function AlertCenter({ employees=[], onAnalyze }) {
             border:`1px solid ${search ? C.cyan : C.border}`,
             borderRadius:3,padding:"10px 16px",
             color:C.text,fontSize:12,
-            outline:"none",fontFamily:"'Share Tech Mono',monospace",minWidth:260,
+            outline:"none",fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",minWidth:260,
             transition:"border-color 0.2s",
           }}
         />
@@ -1080,7 +1125,7 @@ function AlertCenter({ employees=[], onAnalyze }) {
           <button onClick={()=>setSearch("")} style={{
             background:`${C.red}15`,border:`1px solid ${C.red}40`,color:C.red,
             borderRadius:3,padding:"8px 12px",fontSize:11,cursor:"pointer",
-            fontFamily:"'Share Tech Mono',monospace",
+            fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
           }}>✕ CLEAR</button>
         )}
         <div style={{display:"flex",gap:6}}>
@@ -1093,7 +1138,7 @@ function AlertCenter({ employees=[], onAnalyze }) {
                 border:`1px solid ${active?col:C.border}`,
                 color:active?col:C.textMid,borderRadius:3,
                 padding:"8px 14px",fontSize:10,cursor:"pointer",
-                fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,
+                fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,
                 transition:"all 0.15s",fontWeight:active?700:400,
               }}>{f}</button>
             );
@@ -1109,7 +1154,7 @@ function AlertCenter({ employees=[], onAnalyze }) {
                 border:`1px solid ${active?col:C.border}`,
                 color:active?col:C.textMid,borderRadius:3,
                 padding:"8px 14px",fontSize:10,cursor:"pointer",
-                fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,
+                fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,
                 transition:"all 0.15s",fontWeight:active?700:400,
               }}>{f}</button>
             );
@@ -1123,13 +1168,13 @@ function AlertCenter({ employees=[], onAnalyze }) {
             padding:"40px",textAlign:"center",
             background:C.panel,border:`1px solid ${C.border}`,borderRadius:4,
           }}>
-            <div style={{fontSize:13,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+            <div style={{fontSize:13,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>
               NO ALERTS MATCH CURRENT FILTERS
             </div>
             <button onClick={()=>{setSearch("");setLevelF("ALL");setStatusF("ALL");}} style={{
               marginTop:12,background:`${C.cyan}15`,border:`1px solid ${C.cyan}40`,color:C.cyan,
               borderRadius:3,padding:"6px 18px",fontSize:10,cursor:"pointer",
-              fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,
+              fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,
             }}>RESET FILTERS</button>
           </div>
         )}
@@ -1151,16 +1196,16 @@ function AlertCenter({ employees=[], onAnalyze }) {
                 </div>
                 <div>
                   <div style={{display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}>
-                    <span style={{fontSize:14,fontWeight:700,color:C.text,fontFamily:"'Rajdhani',sans-serif",letterSpacing:0.5}}>{a.type}</span>
+                    <span style={{fontSize:14,fontWeight:700,color:C.text,fontFamily:"var(--sans-font,'Inter',sans-serif)",letterSpacing:0.5}}>{a.type}</span>
                     <CyberBadge level={a.level}/>
                     <span style={{
                       background:a.status==="Investigating"?`${C.yellow}15`:`${C.textLow}20`,
                       border:`1px solid ${a.status==="Investigating"?C.yellow:C.textLow}40`,
                       color:a.status==="Investigating"?C.yellow:C.textLow,
-                      padding:"2px 10px",borderRadius:2,fontSize:9,fontFamily:"'Share Tech Mono',monospace",fontWeight:700,letterSpacing:1,
+                      padding:"2px 10px",borderRadius:2,fontSize:9,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",fontWeight:700,letterSpacing:1,
                     }}>● {a.status.toUpperCase()}</span>
                   </div>
-                  <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:4}}>
+                  <div style={{fontSize:10,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginTop:4}}>
                     {a.emp?.name} · {a.emp?.dept} · {a.time || "Today"}
                   </div>
                 </div>
@@ -1168,7 +1213,7 @@ function AlertCenter({ employees=[], onAnalyze }) {
               <button className="cyber-btn" onClick={e2=>{e2.stopPropagation();onAnalyze&&onAnalyze(a.emp)}} style={{
                 background:"transparent",border:`1px solid ${C.cyan}40`,color:C.cyan,
                 borderRadius:3,padding:"6px 16px",fontSize:10,cursor:"pointer",
-                fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,flexShrink:0,
+                fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,flexShrink:0,
                 display:"flex",alignItems:"center",gap:5,
               }}><Eye size={11} strokeWidth={2}/>ANALYZE</button>
             </div>
@@ -1177,18 +1222,18 @@ function AlertCenter({ employees=[], onAnalyze }) {
               <div style={{padding:"0 20px 20px",borderTop:`1px solid ${C.border}40`}}>
                 <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:24,margin:"18px 0"}}>
                   <div>
-                    <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>Incident Description</div>
+                    <div style={{fontSize:9,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>Incident Description</div>
                     <p style={{fontSize:13,color:C.textMid,lineHeight:1.8,margin:0}}>{a.desc}</p>
                   </div>
                   <div>
-                    <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>Recommended Actions</div>
+                    <div style={{fontSize:9,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>Recommended Actions</div>
                     {a.actions.map((ac,j)=>(
                       <div key={j} style={{display:"flex",gap:10,marginBottom:10,fontSize:12,color:C.textMid,alignItems:"flex-start"}}>
                         <span style={{
                           width:20,height:20,borderRadius:2,flexShrink:0,
                           background:`${C.red}15`,border:`1px solid ${C.red}40`,
                           color:C.red,display:"flex",alignItems:"center",justifyContent:"center",
-                          fontSize:9,fontWeight:700,fontFamily:"'Share Tech Mono',monospace",
+                          fontSize:9,fontWeight:700,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                         }}>{j+1}</span>
                         {ac}
                       </div>
@@ -1204,7 +1249,7 @@ function AlertCenter({ employees=[], onAnalyze }) {
                     <button key={b.l} className="cyber-btn" style={{
                       background:b.bg,border:`1px solid ${b.border}`,color:b.color,
                       borderRadius:3,padding:"8px 18px",fontSize:10,cursor:"pointer",
-                      fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,fontWeight:700,
+                      fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,fontWeight:700,
                       display:"flex",alignItems:"center",gap:6,
                     }}>{b.icon}{b.l}</button>
                   ))}
@@ -1213,7 +1258,7 @@ function AlertCenter({ employees=[], onAnalyze }) {
                     background:resolved[a.id]?`${C.green}25`:`${C.green}10`,
                     border:`1px solid ${C.green}${resolved[a.id]?"70":"40"}`,color:C.green,
                     borderRadius:3,padding:"8px 18px",fontSize:10,cursor:"pointer",
-                    fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,fontWeight:700,
+                    fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,fontWeight:700,
                     display:"flex",alignItems:"center",gap:6,
                   }}><CheckCircle size={12} strokeWidth={2}/>{resolved[a.id]?"RESOLVED ✓":"MARK RESOLVED"}</button>
                 </div>
@@ -1240,9 +1285,9 @@ function AlertCenter({ employees=[], onAnalyze }) {
               ["Alerts Resolved (30d)",`${resolved}`,   `${(resolved/(resolved+totalAt)*100).toFixed(1)}% resolution`, C.green],
             ].map(([l,v,s,c])=>(
               <Panel key={l} style={{flex:1,padding:"18px"}} animate={false}>
-                <div style={{fontSize:9,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,marginBottom:8}}>{l}</div>
-                <div style={{fontSize:24,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace"}}>{v}</div>
-                <div style={{fontSize:10,color:c,marginTop:6,fontFamily:"'Share Tech Mono',monospace"}}>{s}</div>
+                <div style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2,marginBottom:8}}>{l}</div>
+                <div style={{fontSize:24,fontWeight:900,color:C.text,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{v}</div>
+                <div style={{fontSize:10,color:c,marginTop:6,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{s}</div>
               </Panel>
             ))}
           </div>
@@ -1326,15 +1371,15 @@ function SystemAnalytics({ employees=[], lastUpdate=null }) {
   return (
     <div style={{padding:"28px 32px",overflowY:"auto",height:"100%"}}>
       <div style={{marginBottom:26}}>
-        <div style={{fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:4,marginBottom:6}}>// PLATFORM HEALTH</div>
-        <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace",letterSpacing:2}}>SYSTEM ANALYTICS</h2>
-        <p style={{color:C.textLow,fontSize:11,marginTop:6,fontFamily:"'Share Tech Mono',monospace"}}>ML MODEL HEALTH, INFRASTRUCTURE METRICS</p>
+        <div style={{fontSize:9,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:4,marginBottom:6}}>// PLATFORM HEALTH</div>
+        <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>SYSTEM ANALYTICS</h2>
+        <p style={{color:C.textLow,fontSize:11,marginTop:6,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>ML MODEL HEALTH, INFRASTRUCTURE METRICS</p>
       </div>
 
       {/* Last updated timestamp */}
       <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}>
         <GlowDot color={C.green} pulse size={6}/>
-        <span style={{fontSize:9,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2}}>
+        <span style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>
           ALL METRICS LIVE FROM ML MODEL · UPDATED {secAgo.toUpperCase()}
         </span>
       </div>
@@ -1350,11 +1395,11 @@ function SystemAnalytics({ employees=[], lastUpdate=null }) {
         ].map(([l,v,s,c,icon,d])=>(
           <Panel key={l} style={{flex:"1 1 130px",padding:"16px",animationDelay:`${d}ms`}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}>
-              <div style={{fontSize:9,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,lineHeight:1.4}}>{l}</div>
+              <div style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,lineHeight:1.4}}>{l}</div>
               {icon}
             </div>
-            <div style={{fontSize:22,fontWeight:900,color:c,fontFamily:"'Orbitron',monospace"}}>{v}</div>
-            <div style={{fontSize:10,color:C.textMid,marginTop:6,fontFamily:"'Share Tech Mono',monospace"}}>{s}</div>
+            <div style={{fontSize:22,fontWeight:900,color:c,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{v}</div>
+            <div style={{fontSize:10,color:C.textMid,marginTop:6,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{s}</div>
           </Panel>
         ))}
       </div>
@@ -1363,13 +1408,13 @@ function SystemAnalytics({ employees=[], lastUpdate=null }) {
         <Panel style={{padding:"22px"}} animate={false}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
             <SectionLabel>ML Model Performance — 6 Months</SectionLabel>
-            <span style={{fontSize:9,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+            <span style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>
               ↻ {secAgo}
             </span>
           </div>
           <ResponsiveContainer width="100%" height={180}>
             <LineChart data={ML_PERF}>
-              <XAxis dataKey="m" tick={{fill:C.textLow,fontSize:10,fontFamily:"'Share Tech Mono',monospace"}} axisLine={false} tickLine={false}/>
+              <XAxis dataKey="m" tick={{fill:C.textLow,fontSize:10,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}} axisLine={false} tickLine={false}/>
               <YAxis domain={[88,100]} tick={{fill:C.textLow,fontSize:10}} axisLine={false} tickLine={false}/>
               <Tooltip content={<TT/>}/>
               <Line type="monotone" dataKey="p" name="Precision" stroke={C.purple} strokeWidth={2} dot={false}/>
@@ -1379,7 +1424,7 @@ function SystemAnalytics({ employees=[], lastUpdate=null }) {
           </ResponsiveContainer>
           <div style={{display:"flex",gap:20,marginTop:10}}>
             {[["Precision",C.purple],["Recall",C.cyan],["F1 Score",C.green]].map(([l,c])=>(
-              <div key={l} style={{display:"flex",alignItems:"center",gap:6,fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>
+              <div key={l} style={{display:"flex",alignItems:"center",gap:6,fontSize:10,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>
                 <div style={{width:16,height:2,background:c}}/>
                 {l}
               </div>
@@ -1390,7 +1435,7 @@ function SystemAnalytics({ employees=[], lastUpdate=null }) {
         <Panel style={{padding:"22px"}} animate={false}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
             <SectionLabel>Event Processing Load — 24h</SectionLabel>
-            <span style={{fontSize:9,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+            <span style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>
               ↻ {secAgo}
             </span>
           </div>
@@ -1415,14 +1460,14 @@ function SystemAnalytics({ employees=[], lastUpdate=null }) {
         <Panel style={{padding:"22px"}} animate={false}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
             <SectionLabel>Threats by Department</SectionLabel>
-            <span style={{fontSize:9,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+            <span style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>
               {liveDept.length} depts · ↻ {secAgo}
             </span>
           </div>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={liveDept} layout="vertical">
               <XAxis type="number" tick={{fill:C.textLow,fontSize:10}} axisLine={false} tickLine={false}/>
-              <YAxis dataKey="d" type="category" tick={{fill:C.textLow,fontSize:10,fontFamily:"'Share Tech Mono',monospace"}} axisLine={false} tickLine={false} width={76}/>
+              <YAxis dataKey="d" type="category" tick={{fill:C.textLow,fontSize:10,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}} axisLine={false} tickLine={false} width={76}/>
               <Tooltip content={<TT/>}/>
               <Bar dataKey="h" name="High"     fill={C.orange} radius={[0,3,3,0]} stackId="a"/>
               <Bar dataKey="c" name="Critical" fill={C.red}    radius={[0,3,3,0]} stackId="a"/>
@@ -1430,7 +1475,7 @@ function SystemAnalytics({ employees=[], lastUpdate=null }) {
           </ResponsiveContainer>
           <div style={{display:"flex",gap:16,marginTop:10}}>
             {[["High",C.orange],["Critical",C.red]].map(([l,c])=>(
-              <div key={l} style={{display:"flex",alignItems:"center",gap:6,fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>
+              <div key={l} style={{display:"flex",alignItems:"center",gap:6,fontSize:10,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>
                 <GlowDot color={c} size={6}/>
                 {l}
               </div>
@@ -1448,7 +1493,7 @@ function SystemAnalytics({ employees=[], lastUpdate=null }) {
             </PieChart>
           </div>
           {modelDist.map(m=>(
-            <div key={m.name} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",fontSize:10,fontFamily:"'Share Tech Mono',monospace",borderBottom:`1px solid ${C.border}`}}>
+            <div key={m.name} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",fontSize:10,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",borderBottom:`1px solid ${C.border}`}}>
               <span style={{color:C.textMid,display:"flex",alignItems:"center",gap:6}}><GlowDot color={m.c} size={6}/>{m.name}</span>
               <span style={{color:m.c,fontWeight:700}}>{m.v}%</span>
             </div>
@@ -1473,13 +1518,13 @@ function SystemAnalytics({ employees=[], lastUpdate=null }) {
               background:C.panelAlt,border:`1px solid ${sv.c}25`,
               borderRadius:4,padding:"16px",
             }}>
-              <div style={{fontSize:9,color:sv.c,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,marginBottom:8,display:"flex",alignItems:"center",gap:5}}>
+              <div style={{fontSize:9,color:sv.c,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2,marginBottom:8,display:"flex",alignItems:"center",gap:5}}>
                 <GlowDot color={sv.c} size={6} pulse={sv.s==="DEGRADED"}/>
                 {sv.s}
               </div>
-              <div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:10,fontFamily:"'Rajdhani',sans-serif"}}>{sv.n}</div>
+              <div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:10,fontFamily:"var(--sans-font,'Inter',sans-serif)"}}>{sv.n}</div>
               {[["Uptime",sv.up],["Avg Latency",sv.lat]].map(([k,v])=>(
-                <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"3px 0",fontSize:10,fontFamily:"'Share Tech Mono',monospace"}}>
+                <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"3px 0",fontSize:10,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>
                   <span style={{color:C.textLow}}>{k}</span>
                   <span style={{color:C.textMid}}>{v}</span>
                 </div>
@@ -1511,7 +1556,7 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
   }, [emp?.id]);
 
   if (!emp || emp.id === "---") return (
-    <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100%",color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100%",color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>
       LOADING TWIN DATA...
     </div>
   );
@@ -1575,12 +1620,12 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
       {/* ── Header ── */}
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:24}}>
         <div>
-          <div style={{fontSize:9,color:C.purple,fontFamily:"'Share Tech Mono',monospace",letterSpacing:4,marginBottom:6,animation:"neonText 3s ease-in-out infinite",
+          <div style={{fontSize:9,color:C.purple,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:4,marginBottom:6,animation:"neonText 3s ease-in-out infinite",
             filter:"hue-rotate(200deg)"}}>// BEHAVIORAL INTELLIGENCE</div>
-          <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace",letterSpacing:2}}>
+          <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>
             DIGITAL TWIN
           </h2>
-          <p style={{color:C.textLow,fontSize:11,marginTop:5,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+          <p style={{color:C.textLow,fontSize:11,marginTop:5,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>
             VIRTUAL BEHAVIORAL MODEL · REAL vs PREDICTED
           </p>
         </div>
@@ -1596,7 +1641,7 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
               onChange={e=>setSelectedId(e.target.value)}
               style={{
                 background:"transparent",border:"none",outline:"none",
-                color:C.text,fontSize:12,fontFamily:"'Share Tech Mono',monospace",
+                color:C.text,fontSize:12,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                 cursor:"pointer",
               }}>
               {employees.map(e=>(
@@ -1612,7 +1657,7 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
             style={{
               background:`${C.purple}15`,border:`1px solid ${C.purple}50`,
               color:C.purple,borderRadius:4,padding:"8px 16px",
-              fontSize:11,cursor:"pointer",fontFamily:"'Share Tech Mono',monospace",
+              fontSize:11,cursor:"pointer",fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
               letterSpacing:1,display:"flex",alignItems:"center",gap:6,
             }}>
             <Eye size={12} strokeWidth={2}/>FULL PROFILE
@@ -1647,15 +1692,15 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
               border:`2px solid ${LEVEL_C[emp.level]}60`,
               display:"flex",alignItems:"center",justifyContent:"center",
               fontSize:18,fontWeight:900,color:LEVEL_C[emp.level],
-              fontFamily:"'Orbitron',monospace",marginBottom:6,
+              fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginBottom:6,
             }}>{emp.initials}</div>
-            <div style={{fontSize:9,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2}}>REAL</div>
+            <div style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>REAL</div>
           </div>
 
           {/* Connector line */}
           <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:4}}>
             <div style={{width:60,height:1,background:`linear-gradient(90deg,${LEVEL_C[emp.level]}60,${C.purple}60)`}}/>
-            <div style={{fontSize:9,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2}}>VS</div>
+            <div style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>VS</div>
             <div style={{width:60,height:1,background:`linear-gradient(90deg,${C.purple}60,${C.purple}20)`}}/>
           </div>
 
@@ -1667,29 +1712,29 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
               border:`2px solid ${C.purple}60`,
               display:"flex",alignItems:"center",justifyContent:"center",
               fontSize:18,fontWeight:900,color:C.purple,
-              fontFamily:"'Orbitron',monospace",marginBottom:6,
+              fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginBottom:6,
               animation:"floatY 4s ease-in-out infinite",
               boxShadow:`0 0 20px ${C.purple}30`,
             }}>
               {emp.initials}
             </div>
-            <div style={{fontSize:8,color:C.purple,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2}}>TWIN</div>
+            <div style={{fontSize:8,color:C.purple,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>TWIN</div>
           </div>
 
           <div style={{marginLeft:16}}>
-            <div style={{fontSize:18,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace",letterSpacing:1}}>{emp.name}</div>
-            <div style={{fontSize:11,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:4}}>
+            <div style={{fontSize:18,fontWeight:900,color:C.text,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>{emp.name}</div>
+            <div style={{fontSize:11,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginTop:4}}>
               {emp.role} · {emp.dept} · {emp.id}
             </div>
             <div style={{display:"flex",alignItems:"center",gap:10,marginTop:10}}>
               <CyberBadge level={emp.level}/>
-              <span style={{fontSize:10,color:C.purple,fontFamily:"'Share Tech Mono',monospace",
+              <span style={{fontSize:10,color:C.purple,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                 background:`${C.purple}15`,border:`1px solid ${C.purple}30`,
                 padding:"2px 8px",borderRadius:2}}>
                 TWIN ACTIVE
               </span>
               {scanned && (
-                <span style={{fontSize:10,color:C.green,fontFamily:"'Share Tech Mono',monospace",animation:"fadeIn 0.5s ease-out"}}>
+                <span style={{fontSize:10,color:C.green,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",animation:"fadeIn 0.5s ease-out"}}>
                   ✓ SYNC COMPLETE
                 </span>
               )}
@@ -1699,14 +1744,14 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
 
         {/* Deviation score */}
         <div style={{textAlign:"right"}}>
-          <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,marginBottom:6}}>DEVIATION SCORE</div>
+          <div style={{fontSize:9,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2,marginBottom:6}}>DEVIATION SCORE</div>
           <div style={{
             fontSize:52,fontWeight:900,
             color: devScore > 400 ? C.red : devScore > 200 ? C.orange : C.green,
-            fontFamily:"'Orbitron',monospace",lineHeight:1,
+            fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",lineHeight:1,
             textShadow: devScore > 400 ? `0 0 30px ${C.red}80` : devScore > 200 ? `0 0 20px ${C.orange}60` : `0 0 15px ${C.green}60`,
           }}>+{devScore}%</div>
-          <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:4}}>
+          <div style={{fontSize:10,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginTop:4}}>
             {anomCount} of 5 signals anomalous
           </div>
         </div>
@@ -1725,7 +1770,7 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
             {["METRIC","TWIN BASELINE","OBSERVED","STATUS"].map(h=>(
               <div key={h} style={{
                 padding:"8px 10px",fontSize:9,color:C.textMid,
-                fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,
+                fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2,
                 borderBottom:`1px solid ${C.border}`,
               }}>{h}</div>
             ))}
@@ -1739,11 +1784,11 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
                   animation:`slideInUp 0.3s ease-out ${i*60}ms both`,
                 }}>
                   <m.icon size={13} color={m.anomaly?LEVEL_C[emp.level]:C.textLow} strokeWidth={1.8}/>
-                  <span style={{fontSize:11,color:C.textMid,fontFamily:"'Share Tech Mono',monospace"}}>{m.label}</span>
+                  <span style={{fontSize:11,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{m.label}</span>
                 </div>
                 <div key={`b${i}`} style={{
                   padding:"12px 10px",fontSize:11,color:C.textLow,
-                  fontFamily:"'Share Tech Mono',monospace",
+                  fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                   borderBottom:`1px solid ${C.border}40`,
                   animation:`slideInUp 0.3s ease-out ${i*60+20}ms both`,
                   display:"flex",alignItems:"center",
@@ -1751,7 +1796,7 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
                 <div key={`c${i}`} style={{
                   padding:"12px 10px",fontSize:11,
                   color: m.anomaly ? LEVEL_C[emp.level] : C.green,
-                  fontFamily:"'Share Tech Mono',monospace",fontWeight: m.anomaly ? 700 : 400,
+                  fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",fontWeight: m.anomaly ? 700 : 400,
                   borderBottom:`1px solid ${C.border}40`,
                   animation:`slideInUp 0.3s ease-out ${i*60+40}ms both`,
                   display:"flex",alignItems:"center",gap:6,
@@ -1769,10 +1814,10 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
                   display:"flex",alignItems:"center",
                 }}>
                   {m.anomaly
-                    ? <span style={{fontSize:9,color:C.red,fontFamily:"'Share Tech Mono',monospace",
+                    ? <span style={{fontSize:9,color:C.red,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                         background:`${C.red}15`,border:`1px solid ${C.red}30`,
                         padding:"2px 6px",borderRadius:2,letterSpacing:1}}>⚠ ANOMALY</span>
-                    : <span style={{fontSize:9,color:C.green,fontFamily:"'Share Tech Mono',monospace",
+                    : <span style={{fontSize:9,color:C.green,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                         background:`${C.green}10`,border:`1px solid ${C.green}20`,
                         padding:"2px 6px",borderRadius:2,letterSpacing:1}}>✓ NORMAL</span>
                   }
@@ -1789,9 +1834,9 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
             borderRadius:4,
           }}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
-              <span style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2}}>TWIN DIVERGENCE INDEX</span>
+              <span style={{fontSize:10,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>TWIN DIVERGENCE INDEX</span>
               <span style={{
-                fontSize:16,fontWeight:900,fontFamily:"'Orbitron',monospace",
+                fontSize:16,fontWeight:900,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                 color:devScore>400?C.red:devScore>200?C.orange:C.green,
               }}>+{devScore}%</span>
             </div>
@@ -1805,7 +1850,7 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
                 boxShadow:`0 0 8px ${devScore>400?C.red:devScore>200?C.orange:C.green}`,
               }}/>
             </div>
-            <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:6,letterSpacing:1}}>
+            <div style={{fontSize:9,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginTop:6,letterSpacing:1}}>
               {devScore > 400
                 ? `CRITICAL DIVERGENCE · Twin model and observed behavior are severely misaligned`
                 : devScore > 200
@@ -1842,7 +1887,7 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
             </ResponsiveContainer>
             <div style={{display:"flex",gap:16,marginTop:8}}>
               {[["Real Behavior",LEVEL_C[emp.level],"solid"],["Twin Prediction",C.purple,"dashed"],["Normal Band",C.purple,"area"]].map(([l,c,s])=>(
-                <div key={l} style={{display:"flex",alignItems:"center",gap:6,fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>
+                <div key={l} style={{display:"flex",alignItems:"center",gap:6,fontSize:9,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>
                   <div style={{width:18,height:2,background:c,opacity:s==="area"?0.3:1,borderStyle:s==="dashed"?"dashed":"solid"}}/>
                   {l}
                 </div>
@@ -1862,8 +1907,8 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
             ].map((s,i)=>(
               <div key={s.label} style={{marginBottom:10,animation:`slideInUp 0.3s ease-out ${i*80}ms both`}}>
                 <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
-                  <span style={{fontSize:10,color:C.textMid,fontFamily:"'Share Tech Mono',monospace"}}>{s.label}</span>
-                  <span style={{fontSize:10,color:s.color,fontFamily:"'Share Tech Mono',monospace",fontWeight:700}}>{s.val}%</span>
+                  <span style={{fontSize:10,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{s.label}</span>
+                  <span style={{fontSize:10,color:s.color,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",fontWeight:700}}>{s.val}%</span>
                 </div>
                 <div style={{width:"100%",height:5,background:C.muted,borderRadius:3,overflow:"hidden"}}>
                   <div style={{
@@ -1908,9 +1953,9 @@ function BehavioralTwin({ employees=[], onAnalyze }) {
               border:`1px solid ${card.color}20`,
               animation:`slideInUp 0.4s ease-out ${i*100}ms both`,
             }}>
-              <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,marginBottom:8}}>{card.title}</div>
-              <div style={{fontSize:20,fontWeight:900,color:card.color,fontFamily:"'Orbitron',monospace",marginBottom:8,lineHeight:1}}>{card.val}</div>
-              <p style={{fontSize:11,color:C.textLow,lineHeight:1.7,fontFamily:"'Share Tech Mono',monospace"}}>{card.desc}</p>
+              <div style={{fontSize:9,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2,marginBottom:8}}>{card.title}</div>
+              <div style={{fontSize:20,fontWeight:900,color:card.color,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginBottom:8,lineHeight:1}}>{card.val}</div>
+              <p style={{fontSize:11,color:C.textLow,lineHeight:1.7,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{card.desc}</p>
             </div>
           ))}
         </div>
@@ -1931,8 +1976,7 @@ const SUGGESTED_PROMPTS = [
   { label:"Which departments are at risk?",     icon:"🏢", q:"Which departments have the most risk and what patterns do you see?" },
 ];
 
-function AISOCAnalyst({ employees = [], onAnalyze }) {
-  const [messages, setMessages]   = useState([]);
+function AISOCAnalyst({ employees = [], onAnalyze, messages, setMessages }) {
   const [input, setInput]         = useState("");
   const [loading, setLoading]     = useState(false);
   const [sessionId]               = useState(() => Date.now().toString());
@@ -1998,7 +2042,7 @@ Keep responses focused and under 300 words unless detail is specifically request
 
   // ── PASTE YOUR FREE GEMINI API KEY HERE ──────────────────
   // Get it free at: https://aistudio.google.com/app/apikey
-const GEMINI_KEY = "AIzaSyD7jePJbk_zfdcIZyL1WvdczkACb2BfIzk";
+const GEMINI_KEY = import.meta.env.VITE_GEMINI_KEY;
 const GEMINI_MODEL = "gemini-2.5-flash-lite";
 
 
@@ -2143,11 +2187,11 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
           background:`radial-gradient(circle,${C.cyan}08,transparent 70%)`,pointerEvents:"none"}}/>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",position:"relative"}}>
           <div>
-            <div style={{fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:4,marginBottom:5}}>
+            <div style={{fontSize:9,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:4,marginBottom:5}}>
               // SECURITY INTELLIGENCE
             </div>
             <div style={{display:"flex",alignItems:"center",gap:12}}>
-              <h2 style={{fontSize:22,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace",letterSpacing:2}}>
+              <h2 style={{fontSize:22,fontWeight:900,color:C.text,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>
                 AI SOC ANALYST
               </h2>
               <div style={{display:"flex",alignItems:"center",gap:6,
@@ -2155,12 +2199,12 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
                 borderRadius:3,padding:"4px 12px",
               }}>
                 <GlowDot color={C.cyan} pulse size={5}/>
-                <span style={{fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+                <span style={{fontSize:9,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>
                   ONLINE · {GEMINI_MODEL.toUpperCase()}
                 </span>
               </div>
             </div>
-            <p style={{color:C.textMid,fontSize:11,marginTop:4,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+            <p style={{color:C.textMid,fontSize:11,marginTop:4,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>
               ASK ANYTHING ABOUT YOUR THREAT LANDSCAPE · POWERED BY GEMINI
             </p>
           </div>
@@ -2177,8 +2221,8 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
                 borderRadius:6,padding:"10px 18px",
                 boxShadow:`0 0 14px ${s.color}10`,
               }}>
-                <div style={{fontSize:22,fontWeight:900,color:s.color,fontFamily:"'Orbitron',monospace",lineHeight:1}}>{s.val}</div>
-                <div style={{fontSize:8,color:s.color,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,marginTop:5,opacity:0.8}}>{s.label}</div>
+                <div style={{fontSize:22,fontWeight:900,color:s.color,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",lineHeight:1}}>{s.val}</div>
+                <div style={{fontSize:8,color:s.color,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2,marginTop:5,opacity:0.8}}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -2194,7 +2238,7 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
 
             {/* AI intro card */}
             <div style={{
-              background:`linear-gradient(135deg,#0d1f38,#091525)`,
+              background:`linear-gradient(135deg,rgba(0,209,255,0.08),rgba(0,209,255,0.02))`,
               border:`1px solid ${C.cyan}35`,borderRadius:8,
               padding:"22px 24px",marginBottom:22,
               position:"relative",overflow:"hidden",
@@ -2215,13 +2259,13 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
                   <Bot size={24} color={C.cyan} strokeWidth={1.5}/>
                 </div>
                 <div style={{flex:1}}>
-                  <div style={{fontSize:15,fontWeight:700,color:C.text,fontFamily:"'Rajdhani',sans-serif",letterSpacing:1,marginBottom:8}}>
+                  <div style={{fontSize:15,fontWeight:700,color:C.text,fontFamily:"var(--sans-font,'Inter',sans-serif)",letterSpacing:1,marginBottom:8}}>
                     ThreatWatch AI Analyst
-                    <span style={{marginLeft:10,fontSize:10,color:C.green,fontFamily:"'Share Tech Mono',monospace",
+                    <span style={{marginLeft:10,fontSize:10,color:C.green,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                       background:`${C.green}15`,border:`1px solid ${C.green}30`,
                       padding:"2px 8px",borderRadius:2}}>● READY</span>
                   </div>
-                  <p style={{fontSize:12,color:"#a0bcd8",lineHeight:1.9,fontFamily:"'Share Tech Mono',monospace",margin:0}}>
+                  <p style={{fontSize:12,color:"#a0bcd8",lineHeight:1.9,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",margin:0}}>
                     I have full visibility into your threat landscape —
                     <span style={{color:C.cyan,fontWeight:700}}> {employees.length} employees</span> monitored,
                     <span style={{color:C.red,fontWeight:700}}> {employees.filter(e=>e.level==="Critical").length} critical</span> threats active.
@@ -2234,7 +2278,7 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
                       borderRadius:4,display:"flex",alignItems:"center",gap:10,
                     }}>
                       <ShieldAlert size={14} color={C.red} strokeWidth={2}/>
-                      <span style={{fontSize:11,color:"#e0a0b0",fontFamily:"'Share Tech Mono',monospace"}}>
+                      <span style={{fontSize:11,color:"#e0a0b0",fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>
                         <span style={{color:C.red,fontWeight:700}}>TOP THREAT: </span>
                         {employees[0].name} · Score <span style={{color:C.red,fontWeight:700}}>{employees[0].score}/100</span> · {employees[0].dept}
                       </span>
@@ -2247,13 +2291,13 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
             {/* Suggested prompts */}
             <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}>
               <div style={{width:14,height:1,background:C.cyan}}/>
-              <span style={{fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:3}}>SUGGESTED QUERIES</span>
+              <span style={{fontSize:9,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:3}}>SUGGESTED QUERIES</span>
               <div style={{flex:1,height:1,background:`linear-gradient(90deg,${C.cyan}40,transparent)`}}/>
             </div>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
               {SUGGESTED_PROMPTS.map((p,i)=>(
                 <button key={i} className="cyber-btn" onClick={()=>sendMessage(p.q)} style={{
-                  background:`linear-gradient(135deg,#0d1f38,#091525)`,
+                  background:`linear-gradient(135deg,rgba(0,209,255,0.08),rgba(0,209,255,0.02))`,
                   border:`1px solid ${C.cyan}25`,
                   borderRadius:6,padding:"14px 16px",cursor:"pointer",
                   textAlign:"left",display:"flex",alignItems:"center",gap:12,
@@ -2266,7 +2310,7 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
                     display:"flex",alignItems:"center",justifyContent:"center",
                     fontSize:16,
                   }}>{p.icon}</div>
-                  <span style={{fontSize:12,color:"#c0d8f0",fontFamily:"'Share Tech Mono',monospace",lineHeight:1.5,fontWeight:500}}>
+                  <span style={{fontSize:12,color:"#c0d8f0",fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",lineHeight:1.5,fontWeight:500}}>
                     {p.label}
                   </span>
                 </button>
@@ -2315,11 +2359,11 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
               <div style={{position:"absolute",top:0,left:0,right:0,height:1,
                 background:`linear-gradient(90deg,transparent,${msg.role==="user"?C.purple:C.cyan}50,transparent)`}}/>
               {msg.role==="user" ? (
-                <div style={{fontSize:13,color:"#dde8ff",fontFamily:"'Rajdhani',sans-serif",lineHeight:1.7,fontWeight:500}}>
+                <div style={{fontSize:13,color:"#dde8ff",fontFamily:"var(--sans-font,'Inter',sans-serif)",lineHeight:1.7,fontWeight:500}}>
                   {msg.content}
                 </div>
               ) : (
-                <div style={{fontSize:12,color:"#b8d0e8",fontFamily:"'Share Tech Mono',monospace",lineHeight:1.9}}>
+                <div style={{fontSize:12,color:"#b8d0e8",fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",lineHeight:1.9}}>
                   {renderContent(msg.content)}
                 </div>
               )}
@@ -2340,7 +2384,7 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
               <Bot size={17} color={C.cyan} strokeWidth={1.8}/>
             </div>
             <div style={{
-              background:`linear-gradient(135deg,#0d1f38,#091525)`,
+              background:`linear-gradient(135deg,rgba(0,209,255,0.08),rgba(0,209,255,0.02))`,
               border:`1px solid ${C.cyan}30`,
               borderRadius:"2px 10px 10px 10px",padding:"14px 20px",
               display:"flex",alignItems:"center",gap:8,
@@ -2352,7 +2396,7 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
                   boxShadow:`0 0 6px ${C.cyan}`,
                 }}/>
               ))}
-              <span style={{fontSize:11,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",marginLeft:4,letterSpacing:1}}>
+              <span style={{fontSize:11,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginLeft:4,letterSpacing:1}}>
                 ANALYZING THREAT DATA...
               </span>
             </div>
@@ -2383,7 +2427,7 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
                 border:`1px solid ${chip.c}40`,
                 color:chip.c,borderRadius:4,
                 padding:"6px 14px",fontSize:10,cursor:"pointer",
-                fontFamily:"'Share Tech Mono',monospace",letterSpacing:0.5,fontWeight:600,
+                fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:0.5,fontWeight:600,
               }}>{chip.label}</button>
             ))}
           </div>
@@ -2393,7 +2437,7 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
         <div style={{display:"flex",gap:10,alignItems:"stretch"}}>
           <div style={{
             flex:1,
-            background:`linear-gradient(135deg,#0d1f38,#091525)`,
+            background:`linear-gradient(135deg,rgba(0,209,255,0.08),rgba(0,209,255,0.02))`,
             border:`2px solid ${C.cyan}50`,
             borderRadius:8,
             display:"flex",alignItems:"center",gap:10,
@@ -2414,12 +2458,12 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
               rows={1}
               style={{
                 flex:1,background:"transparent",border:"none",outline:"none",
-                color:"#e0eeff",fontSize:13,fontFamily:"'Share Tech Mono',monospace",
+                color:"#e0eeff",fontSize:13,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                 resize:"none",lineHeight:1.6,
                 caretColor:C.cyan,
               }}
             />
-            <div style={{fontSize:9,color:`${C.cyan}70`,fontFamily:"'Share Tech Mono',monospace",flexShrink:0,letterSpacing:1}}>
+            <div style={{fontSize:9,color:`${C.cyan}70`,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",flexShrink:0,letterSpacing:1}}>
               ENTER ↵
             </div>
           </div>
@@ -2432,7 +2476,7 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
             color: input.trim()&&!loading ? C.cyan : `${C.cyan}40`,
             borderRadius:8,padding:"12px 22px",cursor:"pointer",
             display:"flex",alignItems:"center",gap:8,
-            fontSize:12,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,fontWeight:700,
+            fontSize:12,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,fontWeight:700,
             transition:"all 0.2s",flexShrink:0,
             boxShadow: input.trim()&&!loading ? `0 0 20px ${C.cyan}25` : "none",
           }}>
@@ -2446,7 +2490,7 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
           marginTop:10,
         }}>
           <div style={{width:20,height:1,background:`linear-gradient(90deg,transparent,${C.cyan}30)`}}/>
-          <span style={{fontSize:9,color:`${C.cyan}60`,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2}}>
+          <span style={{fontSize:9,color:`${C.cyan}60`,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>
             THREATWATCH AI · GEMINI FREE TIER · SHIFT+ENTER FOR NEW LINE
           </span>
           <div style={{width:20,height:1,background:`linear-gradient(90deg,${C.cyan}30,transparent)`}}/>
@@ -2459,75 +2503,350 @@ const GEMINI_MODEL = "gemini-2.5-flash-lite";
 
 
 // ── KEYBOARD SHORTCUTS ────────────────────────────────────
-function KeyboardHints({ setPage }) {
-  const [visible, setVisible] = useState(false);
+// ── FLOATING CHAT BUBBLE & DRAWER ────────────────────────
+function FloatingChatBubble({ setPage, page, employees = [], messages, setMessages }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const chatEndRef = useRef(null);
+  const containerRef = useRef(null);
 
+  // Auto-scroll on new messages
+  useEffect(() => {
+    if (isOpen) {
+      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, loading, isOpen]);
+
+  // Click outside to close helper
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        // Wait briefly so inner button click handlers can run first
+        setTimeout(() => setIsOpen(false), 50);
+      }
+    }
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
+  // Keyboard shortcut navigation helper
   useEffect(() => {
     function onKey(e) {
       if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
       const map = { g:"leaderboard", a:"alerts", s:"soc", d:"deepdive", o:"overview", t:"twin", f:"forecast" };
-      if (map[e.key.toLowerCase()]) setPage(map[e.key.toLowerCase()]);
-      if (e.key === "?") setVisible(v => !v);
+      if (map[e.key.toLowerCase()]) {
+        setPage(map[e.key.toLowerCase()]);
+        setIsOpen(false);
+      }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const shortcuts = [
-    ["O", "Dashboard Overview"],
-    ["G", "Risk Leaderboard"],
-    ["D", "Employee Deep Dive"],
-    ["T", "Behavioral Twin"],
-    ["F", "Threat Forecast"],
-    ["A", "Alert Center"],
-    ["S", "AI SOC Analyst"],
-    ["?", "Toggle this panel"],
-  ];
+  // Do not render on the main AI SOC Analyst page
+  if (page === "soc") return null;
+
+  async function sendMessage(text) {
+    if (!text.trim() || loading) return;
+    const userMsg = { role: "user", content: text.trim(), id: Date.now() };
+    const history = [...messages, userMsg];
+    setMessages(history);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const top5 = employees.slice(0, 5);
+      const empDetails = top5.map((e, i) =>
+        `${i+1}. ${e.name} (${e.id})|${e.role}|${e.dept}|Score:${e.score}|${e.level}|Login:${e.loginTime}`
+      ).join("\n");
+
+      const systemPrompt = `You are ThreatWatch AI — an expert AI Security Operations Center (SOC) analyst.
+Monitored employees: ${employees.length}
+Top threats:\n${empDetails}
+Be very concise (under 2 sentences) because this is a compact floating chat window. Use bold formatting where appropriate.`;
+
+      const geminiContents = [
+        { role: "user", parts: [{ text: systemPrompt }] },
+        { role: "model", parts: [{ text: "Acknowledged." }] },
+        ...history.slice(-4).map(m => ({
+          role: m.role === "user" ? "user" : "model",
+          parts: [{ text: m.content }],
+        })),
+      ];
+
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: geminiContents,
+            generationConfig: { maxOutputTokens: 180, temperature: 0.7 },
+          }),
+        }
+      );
+
+      if (!res.ok) throw new Error("API Connection Error");
+      const data = await res.ok ? await res.json() : {};
+      const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Response unavailable.";
+      setMessages(prev => [...prev, { role: "assistant", content: reply, id: Date.now() + 1 }]);
+    } catch (err) {
+      setMessages(prev => [...prev, {
+        role: "assistant",
+        content: "**Error linking with Gemini.** Ensure your API key is correctly configured in `App.jsx`.",
+        id: Date.now() + 1,
+        error: true,
+      }]);
+    }
+    setLoading(false);
+  }
+
+  function handleKey(e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(input);
+    }
+  }
+
+  function renderContent(text) {
+    const lines = text.split("\n");
+    return lines.map((line, i) => {
+      const parts = line.split(/(\*\*[^*]+\*\*)/g).map((p, j) => {
+        if (p.startsWith("**") && p.endsWith("**"))
+          return <strong key={j} style={{color: C.cyan, fontWeight: 700}}>{p.slice(2,-2)}</strong>;
+        return p;
+      });
+      return <div key={i} style={{marginBottom: 4}}>{parts}</div>;
+    });
+  }
 
   return (
-    <>
-      {/* Fixed hint pill — bottom right */}
-      <div
-        onClick={() => setVisible(v => !v)}
-        style={{
-          position:"fixed", bottom:20, right:20, zIndex:300,
-          background:"#0d1f38", border:`1px solid ${C.cyan}40`,
-          borderRadius:20, padding:"6px 14px",
-          display:"flex", alignItems:"center", gap:8,
-          cursor:"pointer", boxShadow:`0 4px 20px rgba(0,0,0,0.5)`,
-          transition:"all 0.2s",
-        }}>
-        <span style={{fontSize:11, color:C.cyan, fontFamily:"'Share Tech Mono',monospace", letterSpacing:1}}>⌨ SHORTCUTS</span>
-        <span style={{fontSize:9, color:C.textMid, fontFamily:"'Share Tech Mono',monospace"}}>?</span>
-      </div>
-
-      {/* Shortcut panel */}
-      {visible && (
-        <div style={{
-          position:"fixed", bottom:56, right:20, zIndex:300,
-          background:"#080f1e", border:`1px solid ${C.cyan}40`,
-          borderRadius:8, padding:"16px", minWidth:220,
-          boxShadow:`0 8px 40px rgba(0,0,0,0.7), 0 0 20px ${C.cyan}08`,
-          animation:"slideInUp 0.2s ease-out",
-        }}>
-          <div style={{fontSize:9, color:C.cyan, fontFamily:"'Share Tech Mono',monospace", letterSpacing:3, marginBottom:12}}>
-            KEYBOARD SHORTCUTS
-          </div>
-          {shortcuts.map(([k, label]) => (
-            <div key={k} style={{display:"flex", alignItems:"center", gap:10, marginBottom:8}}>
-              <div style={{
-                width:24, height:24, borderRadius:4, flexShrink:0,
-                background:`${C.cyan}12`, border:`1px solid ${C.cyan}40`,
-                display:"flex", alignItems:"center", justifyContent:"center",
-                fontSize:11, fontWeight:700, color:C.cyan,
-                fontFamily:"'Share Tech Mono',monospace",
-              }}>{k}</div>
-              <span style={{fontSize:11, color:C.textMid, fontFamily:"'Share Tech Mono',monospace"}}>{label}</span>
+    <div ref={containerRef} style={{ position: "fixed", bottom: 20, right: 20, zIndex: 350 }}>
+      {/* Floating Action Bubble */}
+      {!isOpen && (
+        <button
+          onClick={() => setIsOpen(true)}
+          style={{
+            width: 56,
+            height: 56,
+            borderRadius: "50%",
+            background: "rgba(10, 22, 40, 0.9)",
+            border: `2px solid ${C.cyan}`,
+            boxShadow: `0 0 24px ${C.cyan}40, inset 0 0 12px ${C.cyan}15`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            transition: "transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s",
+            animation: "pulse-animation 3s infinite",
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.transform = "scale(1.08) rotate(5deg)";
+            e.currentTarget.style.boxShadow = `0 0 35px ${C.cyan}60, inset 0 0 15px ${C.cyan}25`;
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.transform = "scale(1) rotate(0deg)";
+            e.currentTarget.style.boxShadow = `0 0 24px ${C.cyan}40, inset 0 0 12px ${C.cyan}15`;
+          }}
+        >
+          <Bot size={26} color={C.cyan} strokeWidth={1.8} />
+          {messages.length > 0 && (
+            <div style={{
+              position:"absolute", top:-2, right:-2,
+              background:C.red, color:"#fff", fontSize:9, fontWeight:800,
+              width:18, height:18, borderRadius:"50%",
+              display:"flex", alignItems:"center", justifyContent:"center",
+              border:`1px solid ${C.bg}`, boxShadow:`0 0 10px ${C.red}80`
+            }}>
+              {messages.filter(m=>m.role==="assistant").length}
             </div>
-          ))}
+          )}
+        </button>
+      )}
+
+      {/* Expanded Floating Chat Panel */}
+      {isOpen && (
+        <div style={{
+          width: 360,
+          height: 480,
+          background: "rgba(10, 20, 32, 0.95)", // High opacity backing to avoid being fully see-through
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: `1px solid rgba(0, 209, 255, 0.35)`,
+          borderRadius: 16,
+          boxShadow: `0 16px 48px rgba(0,0,0,0.8), 0 0 30px ${C.cyan}15`,
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+          animation: "slideInUp 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+        }}>
+          {/* Header */}
+          <div style={{
+            padding: "14px 18px",
+            background: "linear-gradient(180deg, rgba(0, 209, 255, 0.15), transparent)",
+            borderBottom: "1px solid rgba(0, 209, 255, 0.2)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between"
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap:10 }}>
+              <Bot size={18} color={C.cyan} />
+              <div style={{ fontSize: 12, fontWeight: 700, color: C.text, fontFamily: C.sans, letterSpacing: 0.5 }}>
+                ThreatWatch Copilot
+              </div>
+            </div>
+            <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+              {messages.length > 0 && (
+                <button
+                  onClick={() => setMessages([])}
+                  style={{
+                    background: "transparent", border: "none", color: `${C.cyan}80`,
+                    cursor: "pointer", fontSize: 10, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)"
+                  }}
+                >
+                  Clear
+                </button>
+              )}
+              <button
+                onClick={() => setIsOpen(false)}
+                style={{
+                  background: "transparent", border: "none", color: C.textMid,
+                  cursor: "pointer", fontSize: 14, fontWeight: "bold"
+                }}
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+
+          {/* Messages Area */}
+          <div style={{ flex: 1, overflowY: "auto", padding: "16px", display: "flex", flexDirection: "column", gap: 12 }}>
+            {messages.length === 0 ? (
+              <div style={{
+                height: "100%", display: "flex", flexDirection: "column",
+                alignItems: "center", justifyContent: "center", padding: "20px", textAlign: "center"
+              }}>
+                <Bot size={36} color={`${C.cyan}40`} style={{ marginBottom: 12 }} />
+                <div style={{ fontSize: 12, fontWeight: 700, color: C.text, marginBottom: 6 }}>
+                  Secured SOC Companion
+                </div>
+                <div style={{ fontSize: 10, color: C.textMid, lineHeight: 1.6, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)" }}>
+                  Need instant intelligence? Ask me about Monitored Risks, Active Threats, or Mitigation playbooks.
+                </div>
+
+                {/* Micro Suggestions */}
+                <div style={{ marginTop: 20, display: "flex", flexDirection: "column", gap: 6, width: "100%" }}>
+                  {[
+                    "Monitored threat summary",
+                    "Isolation Forest details"
+                  ].map((q, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => sendMessage(q)}
+                      style={{
+                        background: "rgba(0, 209, 255, 0.06)",
+                        border: "1px solid rgba(0, 209, 255, 0.2)",
+                        borderRadius: 6, padding: "8px 12px",
+                        color: "#c0d8f0", fontSize: 10, cursor: "pointer",
+                        textAlign: "left", fontFamily: "var(--mono-font,'JetBrains Mono',monospace)",
+                        transition: "all 0.15s"
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = "rgba(0, 209, 255, 0.12)";
+                        e.currentTarget.style.borderColor = C.cyan;
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background = "rgba(0, 209, 255, 0.06)";
+                        e.currentTarget.style.borderColor = "rgba(0, 209, 255, 0.2)";
+                      }}
+                    >
+                      {q} →
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              messages.map((msg, i) => (
+                <div
+                  key={msg.id || i}
+                  style={{
+                    alignSelf: msg.role === "user" ? "flex-end" : "flex-start",
+                    maxWidth: "85%",
+                    background: msg.role === "user"
+                      ? "rgba(167, 139, 250, 0.15)"
+                      : "rgba(0, 209, 255, 0.1)",
+                    border: `1px solid ${msg.role === "user" ? "rgba(167, 139, 250, 0.3)" : "rgba(0, 209, 255, 0.3)"}`,
+                    borderRadius: msg.role === "user" ? "12px 12px 2px 12px" : "12px 12px 12px 2px",
+                    padding: "10px 14px",
+                    color: msg.error ? C.red : "#e2efff",
+                    fontSize: 11,
+                    lineHeight: 1.5,
+                    fontFamily: "var(--mono-font,'JetBrains Mono',monospace)",
+                    animation: "fadeIn 0.2s ease-out"
+                  }}
+                >
+                  {renderContent(msg.content)}
+                </div>
+              ))
+            )}
+            {loading && (
+              <div style={{ alignSelf: "flex-start", display: "flex", gap: 6, alignItems: "center", padding: "10px 14px", background: "rgba(0, 209, 255, 0.05)", borderRadius: 8, border: "1px solid rgba(0,209,255,0.15)" }}>
+                <span className="pulse-dot" style={{ width: 6, height: 6, borderRadius: "50%", background: C.cyan }}/>
+                <span className="pulse-dot" style={{ width: 6, height: 6, borderRadius: "50%", background: C.cyan, animationDelay: "0.2s" }}/>
+                <span className="pulse-dot" style={{ width: 6, height: 6, borderRadius: "50%", background: C.cyan, animationDelay: "0.4s" }}/>
+              </div>
+            )}
+            <div ref={chatEndRef} />
+          </div>
+
+          {/* Footer Input */}
+          <div style={{
+            padding: "12px",
+            background: "rgba(0, 10, 20, 0.6)",
+            borderTop: "1px solid rgba(0, 209, 255, 0.15)",
+            display: "flex",
+            gap: 8
+          }}>
+            <textarea
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={handleKey}
+              placeholder="Query copilot..."
+              rows={1}
+              style={{
+                flex: 1,
+                background: "rgba(0, 0, 0, 0.3)",
+                border: `1px solid rgba(0, 209, 255, 0.25)`,
+                borderRadius: 8,
+                padding: "8px 12px",
+                color: "#fff",
+                fontSize: 11,
+                fontFamily: "var(--mono-font,'JetBrains Mono',monospace)",
+                outline: "none",
+                resize: "none",
+                caretColor: C.cyan
+              }}
+            />
+            <button
+              onClick={() => sendMessage(input)}
+              disabled={!input.trim() || loading}
+              style={{
+                width: 32, height: 32, borderRadius: 6,
+                background: input.trim() && !loading ? C.cyan : "rgba(0, 209, 255, 0.1)",
+                border: "none", cursor: input.trim() && !loading ? "pointer" : "default",
+                display: "flex", alignItems: "center", justifyCenter: "center", alignContent: "center", justifyContent: "center",
+                transition: "all 0.2s"
+              }}
+            >
+              <Send size={14} color={input.trim() && !loading ? C.bg : `${C.cyan}40`} />
+            </button>
+          </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
@@ -2597,13 +2916,13 @@ function ForecastEngine({ employees=[], onAnalyze }) {
       {/* Header */}
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:24}}>
         <div>
-          <div style={{fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:4,marginBottom:6}}>
+          <div style={{fontSize:9,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:4,marginBottom:6}}>
             // PREDICTIVE ANALYTICS ENGINE
           </div>
-          <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace",letterSpacing:2}}>
+          <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>
             THREAT FORECAST
           </h2>
-          <p style={{color:C.textMid,fontSize:11,marginTop:6,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+          <p style={{color:C.textMid,fontSize:11,marginTop:6,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>
             7-DAY TRAJECTORY PREDICTION · LINEAR REGRESSION ON 30-DAY BEHAVIORAL BASELINE
           </p>
         </div>
@@ -2618,8 +2937,8 @@ function ForecastEngine({ employees=[], onAnalyze }) {
               background:`linear-gradient(135deg,${s.color}12,${s.color}05)`,
               border:`1px solid ${s.color}40`,borderRadius:6,padding:"10px 18px",
             }}>
-              <div style={{fontSize:22,fontWeight:900,color:s.color,fontFamily:"'Orbitron',monospace",lineHeight:1}}>{s.val}</div>
-              <div style={{fontSize:8,color:s.color,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,marginTop:5,opacity:0.8}}>{s.label}</div>
+              <div style={{fontSize:22,fontWeight:900,color:s.color,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",lineHeight:1}}>{s.val}</div>
+              <div style={{fontSize:8,color:s.color,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2,marginTop:5,opacity:0.8}}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -2631,16 +2950,16 @@ function ForecastEngine({ employees=[], onAnalyze }) {
         <Panel style={{padding:"22px"}} animate={false}>
           {/* Employee selector */}
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:18}}>
-            <div style={{fontSize:11,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2}}>
+            <div style={{fontSize:11,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>
               INDIVIDUAL TRAJECTORY FORECAST
             </div>
             <select
               value={selectedId || emp?.id || ""}
               onChange={e=>setSelectedId(e.target.value)}
               style={{
-                background:"#0d1f38",border:`1px solid ${C.cyan}40`,color:C.text,
+                background:"rgba(0,209,255,0.08)",border:`1px solid ${C.cyan}40`,color:C.text,
                 borderRadius:4,padding:"6px 12px",fontSize:11,
-                fontFamily:"'Share Tech Mono',monospace",cursor:"pointer",outline:"none",
+                fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",cursor:"pointer",outline:"none",
               }}>
               {employees.map(e=>(
                 <option key={e.id} value={e.id}>{e.name} — {e.level} ({e.score})</option>
@@ -2658,17 +2977,17 @@ function ForecastEngine({ employees=[], onAnalyze }) {
             }}>
               <Avatar initials={emp.initials} size={38} level={emp.level}/>
               <div style={{flex:1}}>
-                <div style={{fontSize:14,fontWeight:700,color:C.text,fontFamily:"'Rajdhani',sans-serif"}}>{emp.name}</div>
-                <div style={{fontSize:10,color:C.textMid,fontFamily:"'Share Tech Mono',monospace"}}>{emp.role} · {emp.dept}</div>
+                <div style={{fontSize:14,fontWeight:700,color:C.text,fontFamily:"var(--sans-font,'Inter',sans-serif)"}}>{emp.name}</div>
+                <div style={{fontSize:10,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{emp.role} · {emp.dept}</div>
               </div>
               <div style={{textAlign:"right"}}>
-                <div style={{fontSize:9,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,marginBottom:4}}>CURRENT</div>
-                <div style={{fontSize:20,fontWeight:900,color:LEVEL_C[emp.level],fontFamily:"'Orbitron',monospace"}}>{emp.score}</div>
+                <div style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,marginBottom:4}}>CURRENT</div>
+                <div style={{fontSize:20,fontWeight:900,color:LEVEL_C[emp.level],fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{emp.score}</div>
               </div>
               <div style={{width:1,height:36,background:C.border}}/>
               <div style={{textAlign:"right"}}>
-                <div style={{fontSize:9,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,marginBottom:4}}>FORECAST D+7</div>
-                <div style={{fontSize:20,fontWeight:900,color:traj.color,fontFamily:"'Orbitron',monospace"}}>
+                <div style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,marginBottom:4}}>FORECAST D+7</div>
+                <div style={{fontSize:20,fontWeight:900,color:traj.color,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>
                   {forecast7[6]?.score ?? "—"}
                 </div>
               </div>
@@ -2678,7 +2997,7 @@ function ForecastEngine({ employees=[], onAnalyze }) {
                 borderRadius:4,padding:"6px 12px",
               }}>
                 <span style={{fontSize:16,color:traj.color,fontWeight:900}}>{traj.icon}</span>
-                <span style={{fontSize:10,color:traj.color,fontFamily:"'Share Tech Mono',monospace",fontWeight:700,letterSpacing:1}}>{traj.label}</span>
+                <span style={{fontSize:10,color:traj.color,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",fontWeight:700,letterSpacing:1}}>{traj.label}</span>
               </div>
             </div>
           )}
@@ -2696,12 +3015,12 @@ function ForecastEngine({ employees=[], onAnalyze }) {
                   <stop offset="100%" stopColor={traj.color||C.cyan} stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <XAxis dataKey="day" tick={{fill:C.textLow,fontSize:9,fontFamily:"'Share Tech Mono',monospace"}}
+              <XAxis dataKey="day" tick={{fill:C.textLow,fontSize:9,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}
                 axisLine={false} tickLine={false} interval={6}/>
               <YAxis domain={[0,100]} tick={{fill:C.textLow,fontSize:9}} axisLine={false} tickLine={false}/>
               <Tooltip content={<TT/>}/>
               <ReferenceLine x="D30" stroke={C.cyan} strokeDasharray="4 2" strokeOpacity={0.5}
-                label={{value:"TODAY",position:"top",fill:C.cyan,fontSize:9,fontFamily:"'Share Tech Mono',monospace"}}/>
+                label={{value:"TODAY",position:"top",fill:C.cyan,fontSize:9,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}/>
               <ReferenceLine y={60} stroke={C.orange} strokeDasharray="3 3" strokeOpacity={0.4}/>
               <ReferenceLine y={80} stroke={C.red}    strokeDasharray="3 3" strokeOpacity={0.4}/>
               <Area type="monotone" dataKey="score"    name="Historical" stroke={emp?LEVEL_C[emp.level]:C.cyan}
@@ -2720,7 +3039,7 @@ function ForecastEngine({ employees=[], onAnalyze }) {
               ["High Risk (60)",C.orange,"dotted"],
               ["Critical (80)",C.red,"dotted"],
             ].map(([l,c,style])=>(
-              <div key={l} style={{display:"flex",alignItems:"center",gap:6,fontSize:10,color:C.textMid,fontFamily:"'Share Tech Mono',monospace"}}>
+              <div key={l} style={{display:"flex",alignItems:"center",gap:6,fontSize:10,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>
                 <div style={{width:18,height:2,background:c,borderTop:style==="dashed"?"none":"",
                   borderTopStyle:style==="dashed"?"dashed":style==="dotted"?"dotted":"solid",
                   borderTopColor:c,borderTopWidth:style!=="solid"?2:0}}/>
@@ -2737,17 +3056,17 @@ function ForecastEngine({ employees=[], onAnalyze }) {
             }}>
               <div style={{fontSize:22,color:traj.color}}>{traj.icon}</div>
               <div>
-                <div style={{fontSize:12,color:traj.color,fontWeight:700,fontFamily:"'Rajdhani',sans-serif",letterSpacing:1}}>
+                <div style={{fontSize:12,color:traj.color,fontWeight:700,fontFamily:"var(--sans-font,'Inter',sans-serif)",letterSpacing:1}}>
                   FORECAST: {traj.label}
                 </div>
-                <div style={{fontSize:11,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",marginTop:3}}>
+                <div style={{fontSize:11,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginTop:3}}>
                   {traj.desc} · Predicted score in 7 days: <span style={{color:traj.color,fontWeight:700}}>{forecast7[6]?.score ?? "N/A"}</span> / 100
                 </div>
               </div>
               <button className="cyber-btn" onClick={()=>onAnalyze&&onAnalyze(emp)} style={{
                 marginLeft:"auto",background:`${C.cyan}15`,border:`1px solid ${C.cyan}40`,
                 color:C.cyan,borderRadius:4,padding:"8px 16px",cursor:"pointer",fontSize:10,
-                fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,flexShrink:0,
+                fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,flexShrink:0,
               }}>DEEP DIVE →</button>
             </div>
           )}
@@ -2755,7 +3074,7 @@ function ForecastEngine({ employees=[], onAnalyze }) {
 
         {/* ── Right: Organisation forecast ranking ── */}
         <Panel style={{padding:"22px"}} animate={false}>
-          <div style={{fontSize:11,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,marginBottom:16}}>
+          <div style={{fontSize:11,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2,marginBottom:16}}>
             ORG-WIDE 7-DAY FORECAST
           </div>
           <div style={{display:"flex",flexDirection:"column",gap:8,maxHeight:520,overflowY:"auto"}}>
@@ -2774,12 +3093,12 @@ function ForecastEngine({ employees=[], onAnalyze }) {
                     width:22,height:22,borderRadius:4,flexShrink:0,
                     background:`${LEVEL_C[e.level]}15`,border:`1px solid ${LEVEL_C[e.level]}40`,
                     display:"flex",alignItems:"center",justifyContent:"center",
-                    fontSize:9,fontWeight:700,color:LEVEL_C[e.level],fontFamily:"'Share Tech Mono',monospace",
+                    fontSize:9,fontWeight:700,color:LEVEL_C[e.level],fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                   }}>{i+1}</div>
                   <div style={{flex:1,minWidth:0}}>
-                    <div style={{fontSize:12,fontWeight:700,color:C.text,fontFamily:"'Rajdhani',sans-serif",
+                    <div style={{fontSize:12,fontWeight:700,color:C.text,fontFamily:"var(--sans-font,'Inter',sans-serif)",
                       overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{e.name}</div>
-                    <div style={{fontSize:9,color:C.textMid,fontFamily:"'Share Tech Mono',monospace"}}>{e.dept}</div>
+                    <div style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{e.dept}</div>
                   </div>
                   {/* mini sparkline */}
                   <div style={{width:48,flexShrink:0}}>
@@ -2790,10 +3109,10 @@ function ForecastEngine({ employees=[], onAnalyze }) {
                     </ResponsiveContainer>
                   </div>
                   <div style={{textAlign:"right",flexShrink:0}}>
-                    <div style={{fontSize:13,fontWeight:900,color:deltaColor,fontFamily:"'Orbitron',monospace",lineHeight:1}}>
+                    <div style={{fontSize:13,fontWeight:900,color:deltaColor,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",lineHeight:1}}>
                       {e.forecastScore}
                     </div>
-                    <div style={{fontSize:9,color:deltaColor,fontFamily:"'Share Tech Mono',monospace",marginTop:2}}>
+                    <div style={{fontSize:9,color:deltaColor,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginTop:2}}>
                       {e.delta > 0 ? "+" : ""}{e.delta}
                     </div>
                   </div>
@@ -2808,8 +3127,8 @@ function ForecastEngine({ employees=[], onAnalyze }) {
       <Panel style={{padding:"16px 22px"}} animate={false}>
         <div style={{display:"flex",gap:32,alignItems:"center",flexWrap:"wrap"}}>
           <div>
-            <div style={{fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:3,marginBottom:6}}>FORECAST MODEL</div>
-            <div style={{fontSize:13,fontWeight:700,color:C.text,fontFamily:"'Rajdhani',sans-serif"}}>Linear Regression (OLS) on 10-Day Rolling Window</div>
+            <div style={{fontSize:9,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:3,marginBottom:6}}>FORECAST MODEL</div>
+            <div style={{fontSize:13,fontWeight:700,color:C.text,fontFamily:"var(--sans-font,'Inter',sans-serif)"}}>Linear Regression (OLS) on 10-Day Rolling Window</div>
           </div>
           <div style={{width:1,height:36,background:C.border}}/>
           {[
@@ -2819,8 +3138,8 @@ function ForecastEngine({ employees=[], onAnalyze }) {
             ["Baseline Period","30 days"],
           ].map(([k,v])=>(
             <div key={k}>
-              <div style={{fontSize:9,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,marginBottom:4}}>{k}</div>
-              <div style={{fontSize:12,color:C.text,fontFamily:"'Share Tech Mono',monospace",fontWeight:600}}>{v}</div>
+              <div style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,marginBottom:4}}>{k}</div>
+              <div style={{fontSize:12,color:C.text,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",fontWeight:600}}>{v}</div>
             </div>
           ))}
         </div>
@@ -2851,6 +3170,10 @@ export default function App() {
   const [demoActive, setDemoActive] = useState(false);
   const [demoStep, setDemoStep]     = useState(-1);
   const [pageKey, setPageKey]       = useState(0);
+  const [showAboutModal, setShowAboutModal] = useState(true);
+
+  const [messages, setMessages]   = useState([]);
+  const [chatOpen, setChatOpen]   = useState(false);
 
   // ── Live data from employee_summary.json ─────────────────
   const { employees, loading, lastUpdate, error } = useData();
@@ -2990,12 +3313,12 @@ export default function App() {
     <>
       <style>{GLOBAL_CSS}</style>
 
-      <div style={{display:"flex",height:"100vh",background:C.bg,overflow:"hidden",position:"relative",fontFamily:"'Rajdhani',sans-serif"}}>
+      <div style={{display:"flex",height:"100vh",background:C.bg,overflow:"hidden",position:"relative",fontFamily:C.sans}}>
 
         {/* ── GRID BACKGROUND ── */}
         <div style={{
           position:"fixed",inset:0,
-          backgroundImage:`linear-gradient(${C.cyan}06 1px,transparent 1px),linear-gradient(90deg,${C.cyan}06 1px,transparent 1px)`,
+          backgroundImage:`linear-gradient(rgba(0,209,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,209,255,0.04) 1px,transparent 1px)`,
           backgroundSize:"40px 40px",
           animation:"gridScroll 8s linear infinite",
           pointerEvents:"none",zIndex:0,
@@ -3003,10 +3326,10 @@ export default function App() {
 
         {/* ── SCANLINE ── */}
         <div style={{
-          position:"fixed",top:0,left:0,right:0,height:"3px",
-          background:`linear-gradient(transparent,${C.cyan}15,transparent)`,
-          animation:"scanline 6s linear infinite",
-          pointerEvents:"none",zIndex:1,opacity:0.4,
+          position:"fixed",top:0,left:0,right:0,height:"2px",
+          background:`linear-gradient(transparent,${C.cyan}20,transparent)`,
+          animation:"scanline 8s linear infinite",
+          pointerEvents:"none",zIndex:1,opacity:0.3,
         }}/>
 
         {/* ── STAGE 1: Full-screen red flash ── */}
@@ -3030,7 +3353,7 @@ export default function App() {
           }}>
             <div style={{
               width:640,
-              background:"#05090f",
+              background:"#0a0e14",
               border:`1px solid ${C.red}`,
               borderRadius:8,
               boxShadow:`0 0 80px ${C.red}30, 0 0 160px ${C.red}10`,
@@ -3048,14 +3371,14 @@ export default function App() {
                 <div style={{display:"flex",alignItems:"center",gap:10}}>
                   <ShieldX size={20} color={C.red} style={{filter:`drop-shadow(0 0 8px ${C.red})`}}/>
                   <span style={{
-                    fontSize:13,fontWeight:900,color:C.red,
-                    fontFamily:"'Orbitron',monospace",letterSpacing:3,
+                    fontSize:13,fontWeight:800,color:C.red,
+                    fontFamily:C.mono,letterSpacing:2,
                     textShadow:`0 0 15px ${C.red}`,
                   }}>INSIDER THREAT DETECTED</span>
                 </div>
                 <div style={{display:"flex",alignItems:"center",gap:8}}>
                   <GlowDot color={C.red} pulse size={8}/>
-                  <span style={{fontSize:10,color:C.red,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2}}>LIVE</span>
+                  <span style={{fontSize:10,color:C.red,fontFamily:C.mono,letterSpacing:2}}>LIVE</span>
                 </div>
               </div>
 
@@ -3068,23 +3391,23 @@ export default function App() {
               }}>
                 <Avatar initials={topThreat.initials} size={44} level="Critical"/>
                 <div style={{flex:1}}>
-                  <div style={{fontSize:16,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace"}}>{topThreat.name}</div>
-                  <div style={{fontSize:11,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:3}}>
+                  <div style={{fontSize:16,fontWeight:800,color:C.text,fontFamily:C.sans}}>{topThreat.name}</div>
+                  <div style={{fontSize:11,color:C.textLow,fontFamily:C.mono,marginTop:3}}>
                     {topThreat.role} · {topThreat.dept} · {topThreat.id}
                   </div>
                 </div>
                 {/* Live risk score counter */}
                 <div style={{textAlign:"right"}}>
-                  <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2,marginBottom:4}}>RISK INDEX</div>
+                  <div style={{fontSize:9,color:C.textLow,fontFamily:C.mono,letterSpacing:2,marginBottom:4}}>RISK INDEX</div>
                   <div style={{
-                    fontSize:44,fontWeight:900,
-                    fontFamily:"'Orbitron',monospace",
+                    fontSize:44,fontWeight:800,
+                    fontFamily:C.mono,
                     color: liveScore > 80 ? C.red : liveScore > 50 ? C.orange : C.yellow,
                     textShadow:`0 0 30px ${liveScore > 80 ? C.red : C.orange}`,
                     lineHeight:1,
                     transition:"color 0.3s",
                   }}>{liveScore.toFixed(1)}</div>
-                  <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>/ 100</div>
+                  <div style={{fontSize:9,color:C.textLow,fontFamily:C.mono}}>/ 100</div>
                 </div>
               </div>
 
@@ -3092,7 +3415,7 @@ export default function App() {
               <div style={{padding:"12px 20px 4px",borderBottom:`1px solid ${C.border}`}}>
                 <div style={{
                   width:"100%",height:6,
-                  background:C.muted,borderRadius:3,overflow:"hidden",
+                  background:"rgba(255,255,255,0.06)",borderRadius:3,overflow:"hidden",
                 }}>
                   <div style={{
                     width:`${liveScore}%`,height:"100%",borderRadius:3,
@@ -3103,7 +3426,7 @@ export default function App() {
                 </div>
                 <div style={{
                   display:"flex",justifyContent:"space-between",
-                  fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",marginTop:6,
+                  fontSize:9,color:C.textLow,fontFamily:C.mono,marginTop:6,
                 }}>
                   <span>LOW</span><span>MODERATE</span><span>HIGH</span><span style={{color:C.red}}>CRITICAL</span>
                 </div>
@@ -3112,12 +3435,12 @@ export default function App() {
               {/* ── Terminal log ── */}
               <div style={{
                 padding:"14px 20px",
-                fontFamily:"'Share Tech Mono',monospace",
+                fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                 fontSize:11,
                 lineHeight:1.9,
                 height:240,
                 overflowY:"auto",
-                background:"#020609",
+                background:"#06090f",
               }}>
                 {logLines.length === 0 && (
                   <span style={{color:C.textLow}}>// initializing anomaly engine...<span style={{animation:"blink 1s step-end infinite",display:"inline-block",width:8,height:12,background:C.cyan,verticalAlign:"middle",marginLeft:4}}/></span>
@@ -3149,7 +3472,7 @@ export default function App() {
                 borderTop:`1px solid ${C.red}30`,
                 display:"flex",alignItems:"center",justifyContent:"space-between",
               }}>
-                <div style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>
+                <div style={{fontSize:10,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>
                   {logLines.length < ATTACK_LOGS.length
                     ? `ANALYZING... ${logLines.length}/${ATTACK_LOGS.length} signals processed`
                     : "REDIRECTING TO ALERT CENTER..."}
@@ -3170,51 +3493,53 @@ export default function App() {
 
         {/* ── SIDEBAR ── */}
         <div style={{
-          width:236,background:`${C.panelAlt}ee`,
+          width:236,
+          background:"rgba(10,14,20,0.85)",
+          backdropFilter:"blur(20px)",
+          WebkitBackdropFilter:"blur(20px)",
           borderRight:`1px solid ${C.border}`,
           display:"flex",flexDirection:"column",flexShrink:0,
           position:"relative",zIndex:10,
-          backdropFilter:"blur(10px)",
         }}>
           {/* logo */}
           <div style={{padding:"20px 18px",borderBottom:`1px solid ${C.border}`}}>
             <div style={{display:"flex",alignItems:"center",gap:12}}>
               <div style={{
-                width:38,height:38,borderRadius:6,
-                background:`linear-gradient(135deg,${C.red},#8b0000)`,
+                width:38,height:38,borderRadius:8,
+                background:`linear-gradient(135deg,${C.cyan},#0088bb)`,
                 display:"flex",alignItems:"center",justifyContent:"center",
-                boxShadow:`0 0 20px ${C.red}50`,
-              }}><Shield size={20} color="white" strokeWidth={2}/></div>
+                boxShadow:`0 0 20px ${C.cyan}40`,
+              }}><Shield size={20} color="#0a0e14" strokeWidth={2.5}/></div>
               <div>
-                <div style={{fontSize:16,fontWeight:900,color:C.text,fontFamily:"'Orbitron',monospace",letterSpacing:1}}>ThreatWatch</div>
-                <div style={{fontSize:9,color:C.textLow,fontFamily:"'Share Tech Mono',monospace",letterSpacing:2}}>AI SECURITY PLATFORM</div>
+                <div style={{fontSize:15,fontWeight:800,color:C.text,fontFamily:C.sans,letterSpacing:0.5}}>ThreatWatch</div>
+                <div style={{fontSize:9,color:C.textLow,fontFamily:C.mono,letterSpacing:2}}>AI SECURITY PLATFORM</div>
               </div>
             </div>
           </div>
 
           {/* nav */}
           <div style={{padding:"14px 10px",flex:1}}>
-            <div style={{fontSize:9,color:C.textMid,letterSpacing:3,padding:"0 8px",marginBottom:10,fontFamily:"'Share Tech Mono',monospace"}}>NAVIGATION</div>
+            <div style={{fontSize:9,color:C.textMid,letterSpacing:3,padding:"0 8px",marginBottom:10,fontFamily:C.mono}}>NAVIGATION</div>
             {NAV.map(item=>{
               const active = page===item.id;
               const { Icon } = item;
               return (
                 <div key={item.id} className="nav-item" onClick={()=>{setPage(item.id);setPageKey(k=>k+1);}} style={{
                   display:"flex",alignItems:"center",justifyContent:"space-between",
-                  padding:"11px 12px",borderRadius:3,marginBottom:2,cursor:"pointer",
-                  background:active?(item.id==="twin"?`${C.purple}12`:`${C.cyan}0e`):"transparent",
-                  border:active?(item.id==="twin"?`1px solid ${C.purple}30`:`1px solid ${C.cyan}25`):`1px solid transparent`,
+                  padding:"11px 12px",borderRadius:6,marginBottom:2,cursor:"pointer",
+                  background:active?(item.id==="twin"?`${C.purple}18`:`${C.cyan}10`):"transparent",
+                  border:active?(item.id==="twin"?`1px solid ${C.purple}35`:`1px solid ${C.borderHi}`):`1px solid transparent`,
                 }}>
                   <div style={{display:"flex",alignItems:"center",gap:10}}>
-                    <Icon size={15} color={active?(item.id==="twin"?C.purple:C.cyan):C.textMid} strokeWidth={1.8}/>
-                    <span style={{fontSize:13,fontWeight:active?700:500,color:active?C.text:C.textMid}}>{item.label}</span>
+                    <Icon size={15} color={active?(item.id==="twin"?C.purple:C.cyan):C.textLow} strokeWidth={1.8}/>
+                    <span style={{fontSize:13,fontWeight:active?600:400,color:active?C.text:C.textMid,fontFamily:C.sans}}>{item.label}</span>
                   </div>
                   <div style={{display:"flex",alignItems:"center",gap:6}}>
                     {item.badge && !active && (
                       <span style={{
-                        background:`${C.purple}25`,border:`1px solid ${C.purple}50`,
-                        color:C.purple,fontSize:7,fontFamily:"'Share Tech Mono',monospace",
-                        padding:"1px 5px",borderRadius:2,letterSpacing:1,
+                        background:`${C.purple}20`,border:`1px solid ${C.purple}45`,
+                        color:C.purple,fontSize:7,fontFamily:C.mono,
+                        padding:"1px 5px",borderRadius:3,letterSpacing:1,
                       }}>{item.badge}</span>
                     )}
                     {active && <div style={{width:4,height:4,borderRadius:"50%",background:item.id==="twin"?C.purple:C.cyan,boxShadow:`0 0 6px ${item.id==="twin"?C.purple:C.cyan}`}}/>}
@@ -3228,20 +3553,20 @@ export default function App() {
           <div style={{padding:"14px 18px",borderTop:`1px solid ${C.border}`}}>
             <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
               <GlowDot color={C.green} pulse size={8}/>
-              <span style={{fontSize:11,fontWeight:700,color:C.green,fontFamily:"'Share Tech Mono',monospace"}}>ML ENGINE ONLINE</span>
+              <span style={{fontSize:11,fontWeight:700,color:C.green,fontFamily:C.mono}}>ML ENGINE ONLINE</span>
             </div>
-            <div style={{fontSize:10,color:C.textMid,fontFamily:"'Share Tech Mono',monospace",lineHeight:1.8}}>
+            <div style={{fontSize:10,color:C.textMid,fontFamily:C.mono,lineHeight:1.8}}>
               Last scan: 2 min ago<br/>Models: v4.2.1 active
             </div>
             <div style={{
               marginTop:10,paddingTop:10,
               borderTop:`1px solid ${C.border}`,
               fontSize:8,letterSpacing:2,lineHeight:2,
-              fontFamily:"'Share Tech Mono',monospace",
+              fontFamily:C.mono,
             }}>
-              <div style={{color:`${C.cyan}80`}}>INSIGHT PROJECT</div>
-              <div style={{color:`${C.cyan}50`}}>AI THREAT DETECTION</div>
-              <div style={{color:`${C.cyan}35`}}>SSIP EXHIBITION 2026</div>
+              <div style={{color:`${C.cyan}90`}}>INSIGHT PROJECT</div>
+              <div style={{color:`${C.cyan}60`}}>AI THREAT DETECTION</div>
+              <div style={{color:`${C.cyan}40`}}>SSIP EXHIBITION 2026</div>
             </div>
           </div>
         </div>
@@ -3250,27 +3575,34 @@ export default function App() {
         <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden",position:"relative",zIndex:5}}>
           {/* topbar */}
           <div style={{
-            height:54,background:`${C.panelAlt}dd`,
+            height:56,
+            background:"rgba(10,14,20,0.75)",
+            backdropFilter:"blur(20px)",
+            WebkitBackdropFilter:"blur(20px)",
             borderBottom:`1px solid ${C.border}`,
             display:"flex",alignItems:"center",justifyContent:"space-between",
-            padding:"0 24px",flexShrink:0,backdropFilter:"blur(10px)",
+            padding:"0 24px",flexShrink:0,
           }}>
             <div style={{display:"flex",alignItems:"center",gap:14}}>
-              <span style={{fontSize:14,fontWeight:700,color:C.text,fontFamily:"'Rajdhani',sans-serif",letterSpacing:1}}>
+              <span style={{fontSize:14,fontWeight:700,color:C.text,fontFamily:C.sans,letterSpacing:0.3}}>
                 Insider Risk Monitoring Dashboard
               </span>
               <span style={{
-                background:`${C.green}12`,border:`1px solid ${C.green}40`,
-                color:C.green,padding:"3px 12px",borderRadius:2,
-                fontSize:10,fontWeight:700,fontFamily:"'Share Tech Mono',monospace",
+                background:`${C.green}15`,border:`1px solid ${C.green}50`,
+                color:C.green,padding:"3px 12px",borderRadius:4,
+                fontSize:10,fontWeight:700,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                 display:"flex",alignItems:"center",gap:5,
               }}>
                 <GlowDot color={C.green} pulse size={5}/>
                 LIVE
               </span>
-              <span style={{fontSize:10,color:C.textLow,fontFamily:"'Share Tech Mono',monospace"}}>{timeStr}</span>
+              <span style={{fontSize:10,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>{timeStr}</span>
             </div>
             <div style={{display:"flex",alignItems:"center",gap:14}}>
+              <div style={{position:"relative",cursor:"pointer",display:"flex",alignItems:"center"}} onClick={() => setShowAboutModal(true)}>
+                <ShieldCheck size={20} color={C.cyan} style={{ animation: "pulse-animation 3s infinite" }} />
+              </div>
+
               <div style={{position:"relative",cursor:"pointer",display:"flex",alignItems:"center"}}>
                 <Bell size={20} color={C.textMid}/>
                 {attack && <div style={{
@@ -3290,7 +3622,7 @@ export default function App() {
                 color: demoActive ? "white" : C.cyan,
                 borderRadius:4,padding:"8px 18px",
                 fontSize:12,fontWeight:700,cursor:"pointer",
-                fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,
+                fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,
                 boxShadow: demoActive ? `0 0 20px ${C.purple}50` : `0 0 12px ${C.cyan}15`,
                 display:"flex",alignItems:"center",gap:8,
                 transition:"all 0.3s",
@@ -3306,7 +3638,7 @@ export default function App() {
                 border:`1px solid ${C.red}80`,
                 color:"white",borderRadius:4,padding:"8px 20px",
                 fontSize:12,fontWeight:700,cursor:"pointer",
-                fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,
+                fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,
                 boxShadow:`0 0 20px ${C.red}40`,
                 display:"flex",alignItems:"center",gap:8,
               }}>
@@ -3323,12 +3655,12 @@ export default function App() {
                   width:30,height:30,borderRadius:"50%",
                   background:`linear-gradient(135deg,${C.purple},#5b3fd4)`,
                   display:"flex",alignItems:"center",justifyContent:"center",
-                  fontSize:12,fontWeight:900,color:"white",fontFamily:"'Orbitron',monospace",
+                  fontSize:12,fontWeight:900,color:"white",fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",
                   boxShadow:`0 0 10px ${C.purple}50`,
                 }}>S</div>
                 <div>
-                  <div style={{fontSize:12,fontWeight:700,color:C.text,fontFamily:"'Rajdhani',sans-serif"}}>SOC Analyst</div>
-                  <div style={{fontSize:9,color:C.green,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>● ACTIVE SESSION</div>
+                  <div style={{fontSize:12,fontWeight:700,color:C.text,fontFamily:"var(--sans-font,'Inter',sans-serif)"}}>SOC Analyst</div>
+                  <div style={{fontSize:9,color:C.green,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>● ACTIVE SESSION</div>
                 </div>
               </div>
             </div>
@@ -3343,19 +3675,19 @@ export default function App() {
               padding:"6px 32px",pointerEvents:"none",
             }}>
               {loading && (
-                <div style={{display:"flex",alignItems:"center",gap:6,fontSize:9,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+                <div style={{display:"flex",alignItems:"center",gap:6,fontSize:9,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>
                   <div style={{width:6,height:6,borderRadius:"50%",background:C.cyan,animation:"pulseGlow 1s ease-in-out infinite"}}/>
                   LOADING DATA...
                 </div>
               )}
               {error && (
-                <div style={{display:"flex",alignItems:"center",gap:6,fontSize:9,color:C.orange,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+                <div style={{display:"flex",alignItems:"center",gap:6,fontSize:9,color:C.orange,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>
                   <div style={{width:6,height:6,borderRadius:"50%",background:C.orange}}/>
                   OFFLINE — COPY employee_summary.json TO public/
                 </div>
               )}
               {!loading && !error && lastUpdate && (
-                <div style={{display:"flex",alignItems:"center",gap:6,fontSize:9,color:`${C.green}`,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1}}>
+                <div style={{display:"flex",alignItems:"center",gap:6,fontSize:9,color:`${C.green}`,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>
                   <div style={{width:6,height:6,borderRadius:"50%",background:C.green,animation:"pulseGlow 3s ease-in-out infinite"}}/>
                   LIVE · UPDATED {lastUpdate.toLocaleTimeString()} · REFRESHING EVERY 15s
                 </div>
@@ -3371,21 +3703,21 @@ export default function App() {
                   {page==="alerts"      && <AlertCenter employees={employees} onAnalyze={analyzeEmployee}/>}
                   {page==="analytics"   && <SystemAnalytics employees={employees} lastUpdate={lastUpdate}/>}
                   {page==="twin"        && <BehavioralTwin employees={employees} onAnalyze={analyzeEmployee}/>}
-                  {page==="soc"         && <AISOCAnalyst employees={employees} onAnalyze={analyzeEmployee}/>}
+                  {page==="soc"         && <AISOCAnalyst employees={employees} onAnalyze={analyzeEmployee} messages={messages} setMessages={setMessages}/>}
                 </div>
             }
           </div>
         </div>
       </div>
 
-      {/* Keyboard shortcut hints */}
-      <KeyboardHints setPage={setPage}/>
+      {/* Floating chatbot bubble */}
+      <FloatingChatBubble setPage={setPage} page={page} employees={employees} messages={messages} setMessages={setMessages}/>
 
       {/* Demo mode step indicator */}
       {demoActive && demoStep >= 0 && (
         <div style={{
           position:"fixed",bottom:20,left:"50%",transform:"translateX(-50%)",
-          zIndex:400,background:"#080f1e",
+          zIndex:400,background:"rgba(255,255,255,0.03)",
           border:`1px solid ${C.purple}60`,borderRadius:30,
           padding:"10px 24px",
           boxShadow:`0 0 30px ${C.purple}30`,
@@ -3402,13 +3734,206 @@ export default function App() {
               }}/>
             ))}
           </div>
-          <span style={{fontSize:11,color:C.cyan,fontFamily:"'Share Tech Mono',monospace",letterSpacing:1,whiteSpace:"nowrap"}}>
+          <span style={{fontSize:11,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1,whiteSpace:"nowrap"}}>
             {DEMO_STEPS[demoStep] || "Running demo..."}
           </span>
           <button onClick={()=>{setDemoActive(false);setDemoStep(-1);}} style={{
             background:"transparent",border:"none",color:C.textMid,
             cursor:"pointer",fontSize:14,padding:"0 4px",
           }}>✕</button>
+        </div>
+      )}
+
+      {/* ── INFO / ABOUT MODAL ── */}
+      {showAboutModal && (
+        <div style={{
+          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+          zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center",
+          background: "rgba(3, 5, 8, 0.75)", backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
+          animation: "fadeIn 0.2s ease-out"
+        }}>
+          {/* Modal Container */}
+          <div style={{
+            width: 560,
+            maxHeight: "85vh",
+            background: "rgba(10, 18, 30, 0.98)", // dark solid panel backing
+            border: `1px solid rgba(0, 209, 255, 0.35)`,
+            borderRadius: 16,
+            boxShadow: "0 24px 64px rgba(0,0,0,0.95), 0 0 50px rgba(0, 209, 255, 0.15)",
+            display: "flex", flexDirection: "column",
+            animation: "scaleInModal 0.28s cubic-bezier(0.34, 1.4, 0.64, 1)",
+            overflow: "hidden"
+          }}>
+            {/* Header Content */}
+            <div style={{
+              padding: "28px 28px 20px", display: "flex", flexDirection: "column", alignItems: "center",
+              position: "relative", textAlign: "center"
+            }}>
+              {/* Close Button [✕] */}
+              <button
+                onClick={() => setShowAboutModal(false)}
+                style={{
+                  position: "absolute", top: 20, right: 24,
+                  background: "transparent", border: "none", color: C.textMid,
+                  cursor: "pointer", fontSize: 18, transition: "color 0.2s",
+                  fontFamily: "var(--sans-font, sans-serif)"
+                }}
+                onMouseEnter={e => e.target.style.color = C.red}
+                onMouseLeave={e => e.target.style.color = C.textMid}
+              >
+                ✕
+              </button>
+
+              {/* Shield+Eye SVG (80px) */}
+              <div style={{ marginBottom: 16, animation: "pulse-animation 4s infinite" }}>
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke={C.cyan} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(0, 209, 255, 0.05)" />
+                  <circle cx="12" cy="11" r="3" stroke={C.red} strokeWidth="1.8" />
+                  <path d="M8 11h.01M16 11h.01" stroke={C.text} strokeWidth="2" />
+                </svg>
+              </div>
+
+              {/* Title & Subtitle */}
+              <h1 style={{ fontSize: 32, fontWeight: 800, color: C.text, fontFamily: C.sans, margin: "0 0 6px", letterSpacing: 0.5 }}>
+                ThreatWatch
+              </h1>
+              <p style={{ fontSize: 14, color: C.textMid, fontFamily: C.sans, margin: 0, letterSpacing: 0.3 }}>
+                AI-Powered Insider Threat Prediction System
+              </p>
+            </div>
+
+            {/* Scrollable Contents */}
+            <div style={{ flex: 1, overflowY: "auto", padding: "0 28px 24px", display: "flex", flexDirection: "column", gap: 20 }}>
+              <div style={{ height: 1, background: `linear-gradient(90deg, transparent, ${C.cyan}25, transparent)` }} />
+
+              {/* The Problem / Our Solution */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                <div>
+                  <div style={{ fontSize: 10, color: C.red, fontFamily: C.mono, letterSpacing: 2, fontWeight: 700, marginBottom: 6 }}>THE PROBLEM</div>
+                  <p style={{ fontSize: 13, color: "#cbdcf0", fontFamily: C.sans, lineHeight: 1.7, margin: 0 }}>
+                    Insider threats take <span style={{ color: C.red, fontWeight: 700 }}>77 days</span> to detect on average and cost <span style={{ color: C.red, fontWeight: 700 }}>$15.38M</span> per incident. Traditional DLP systems miss <span style={{ color: C.red, fontWeight: 700 }}>60%</span> of attacks.
+                  </p>
+                </div>
+
+                <div>
+                  <div style={{ fontSize: 10, color: C.green, fontFamily: C.mono, letterSpacing: 2, fontWeight: 700, marginBottom: 6 }}>OUR SOLUTION</div>
+                  <p style={{ fontSize: 13, color: "#cbdcf0", fontFamily: C.sans, lineHeight: 1.7, margin: 0 }}>
+                    ThreatWatch uses behavioral AI to detect anomalous patterns across <span style={{ color: C.cyan, fontWeight: 700 }}>5 signal channels</span>, scoring threats in under <span style={{ color: C.cyan, fontWeight: 700 }}>2 seconds</span>.
+                  </p>
+                </div>
+              </div>
+
+              <div style={{ height: 1, background: `linear-gradient(90deg, transparent, ${C.cyan}25, transparent)` }} />
+
+              {/* How it Works Flow */}
+              <div>
+                <div style={{ fontSize: 10, color: C.cyan, fontFamily: C.mono, letterSpacing: 2, fontWeight: 700, marginBottom: 12 }}>HOW IT WORKS</div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0, 209, 255, 0.04)", border: `1px solid rgba(0, 209, 255, 0.2)`, borderRadius: 10, padding: "12px 18px" }}>
+                  {[
+                    { label: "Monitor", Icon: Eye, color: C.cyan },
+                    { label: "Analyze", Icon: Radio, color: C.purple },
+                    { label: "Score", Icon: BarChart3, color: C.yellow },
+                    { label: "Alert", Icon: BellRing, color: C.red }
+                  ].map((step, idx) => {
+                    const { Icon } = step;
+                    return (
+                      <div key={idx} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <Icon size={14} color={step.color} strokeWidth={2.2} />
+                        <span style={{ fontSize: 11, fontWeight: 700, color: C.text, fontFamily: C.mono, letterSpacing: 0.5 }}>{step.label}</span>
+                        {idx < 3 && <span style={{ color: `${C.cyan}60`, fontSize: 10, marginLeft: 10, marginRight: 2 }}>➔</span>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div style={{ height: 1, background: `linear-gradient(90deg, transparent, ${C.cyan}25, transparent)` }} />
+
+              {/* Tech Stack Badge Pills */}
+              <div>
+                <div style={{ fontSize: 10, color: C.cyan, fontFamily: C.mono, letterSpacing: 2, fontWeight: 700, marginBottom: 10 }}>TECH STACK</div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                  {["React", "FastAPI", "Python", "Isolation Forest", "Gemini AI", "Recharts", "Vite"].map((tech, idx) => (
+                    <span key={idx} style={{
+                      background: "rgba(0, 209, 255, 0.08)", border: `1px solid rgba(0, 209, 255, 0.3)`,
+                      color: C.cyan, borderRadius: 4, padding: "4px 10px", fontSize: 10, fontWeight: 700,
+                      fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 0.5
+                    }}>
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ height: 1, background: `linear-gradient(90deg, transparent, ${C.cyan}25, transparent)` }} />
+
+              {/* Team Section */}
+              <div>
+                <div style={{ fontSize: 10, color: C.cyan, fontFamily: C.mono, letterSpacing: 2, fontWeight: 700, marginBottom: 8 }}>THE TEAM</div>
+                <div style={{ display: "flex", alignItems: "flex-start", gap: 12, background: "rgba(255, 255, 255, 0.02)", border: `1px solid ${C.border}`, borderRadius: 8, padding: "12px 14px" }}>
+                  <div style={{
+                    width: 32, height: 32, borderRadius: "50%", background: `linear-gradient(135deg, ${C.cyan}, ${C.purple})`,
+                    display: "flex", alignItems: "center", justifyContent: "center", color: C.bg, fontWeight: 800, fontSize: 13, fontFamily: C.mono
+                  }}>
+                    S
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: C.text, fontFamily: C.sans, marginBottom: 2 }}>
+                      Sahal <span style={{ fontSize: 11, fontWeight: 400, color: C.textMid, marginLeft: 8 }}>Backend · ML · DevOps · Frontend</span>
+                    </div>
+                    <div style={{ fontSize: 10, color: C.textLow, fontFamily: C.mono }}>
+                      Government Polytechnic Palanpur · Sem 5
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer buttons */}
+            <div style={{
+              padding: "16px 28px 22px", borderTop: `1px solid ${C.border}`,
+              background: "rgba(0, 10, 20, 0.4)", display: "flex", gap: 12, justifyContent: "flex-end"
+            }}>
+              <button
+                className="cyber-btn"
+                onClick={() => {
+                  setShowAboutModal(false);
+                  handleDemo();
+                }}
+                style={{
+                  background: `linear-gradient(135deg, ${C.purple}, #5b3fd4)`,
+                  border: "none", color: "white", borderRadius: 6, padding: "10px 22px",
+                  fontSize: 12, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 8,
+                  fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 0.5,
+                  boxShadow: `0 0 15px ${C.purple}50`
+                }}
+              >
+                Launch Auto Demo ➔
+              </button>
+
+              <button
+                className="cyber-btn"
+                onClick={() => setShowAboutModal(false)}
+                style={{
+                  background: "transparent", border: `1px solid ${C.border}`, color: C.textMid,
+                  borderRadius: 6, padding: "10px 22px", fontSize: 12, fontWeight: 600, cursor: "pointer",
+                  fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", transition: "all 0.2s"
+                }}
+                onMouseEnter={e => {
+                  e.target.style.borderColor = C.cyan;
+                  e.target.style.color = C.cyan;
+                }}
+                onMouseLeave={e => {
+                  e.target.style.borderColor = C.border;
+                  e.target.style.color = C.textMid;
+                }}
+              >
+                Close
+              </button>
+            </div>
+
+          </div>
         </div>
       )}
     </>

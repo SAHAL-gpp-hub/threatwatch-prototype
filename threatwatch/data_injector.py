@@ -17,7 +17,7 @@ np.random.seed(RANDOM_SEED)
 #  STEP 2A — Load the CSV from Step 1
 # ─────────────────────────────────────────
 
-df = pd.read_csv("employee_logs.csv")
+df = pd.read_csv("../employee_logs.csv")
 
 print(f"✅ Loaded employee_logs.csv")
 print(f"   Total rows loaded: {len(df)}")
