@@ -6,8 +6,6 @@ import {
   streamWords, 
   isOutOfScope, 
   OUT_OF_SCOPE_MSG, 
-  GEMINI_KEY, 
-  GEMINI_MODEL 
 } from "../utils/aiCache";
 
 export default function FloatingChatBubble({ setPage, page, employees = [], messages, setMessages }) {
@@ -78,31 +76,42 @@ export default function FloatingChatBubble({ setPage, page, employees = [], mess
             `${m.role === "user" ? "User" : "Assistant"}: ${m.content}`
           ).join("\n")
         : "";
-      const prompt = `SOC AI. Max 40 words. Security only. ${employees.length} monitored, ${employees.filter(e => e.level === "Critical").length} critical. Top: ${top?.name} score ${top?.score}.${contextStr}\nQ: ${text.trim()}`;
-      const geminiContents = [
-        { role: "user", parts: [{ text: prompt }] },
-      ];
+      const rosterStr = employees
+        .map(e => `${e.name}(${e.dept},score:${e.score},${e.level},usb:${e.usb},priv:${e.priv},sent:${e.sentiment})`)
+        .join("|");
+      const prompt = `SOC AI. Max 40 words. Security only. Roster: ${rosterStr}.${contextStr}\nQ: ${text.trim()}`;
 
-      // Try primary model, fall back to gemini-1.5-flash-latest on 503 overload
-      const FALLBACK_MODEL = "gemini-1.5-flash-latest";
-      let res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ contents: geminiContents, generationConfig: { maxOutputTokens: 120, temperature: 0.7 } }),
-        }
-      );
-      if (res.status === 503) {
+      // Try primary model, fall back to gemma2-9b-it on failure
+      const GROQ_KEY = import.meta.env.VITE_GROQ_KEY;
+      const PRIMARY_MODEL = "llama-3.1-8b-instant";
+      const FALLBACK_MODEL = "gemma2-9b-it";
+
+      const makeGroqBody = (model) => JSON.stringify({
+        model,
+        messages: [{ role: "user", content: prompt }],
+        max_tokens: 120,
+        temperature: 0.7,
+      });
+
+      let res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${GROQ_KEY}`,
+        },
+        body: makeGroqBody(PRIMARY_MODEL),
+      });
+
+      if (res.status === 503 || res.status === 429) {
         await new Promise(r => setTimeout(r, 1500));
-        res = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/${FALLBACK_MODEL}:generateContent?key=${GEMINI_KEY}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ contents: geminiContents, generationConfig: { maxOutputTokens: 120, temperature: 0.7 } }),
-          }
-        );
+        res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${GROQ_KEY}`,
+          },
+          body: makeGroqBody(FALLBACK_MODEL),
+        });
       }
 
       if (!res.ok) {
@@ -119,7 +128,7 @@ export default function FloatingChatBubble({ setPage, page, employees = [], mess
           const fallback =
             matchCache("summarize alerts", employees) ||
             matchCache("current risk", employees) ||
-            `**ThreatWatch AI — Offline Mode**\n\nGemini is temporarily unavailable. Here's what I know from live data:\n\n- **${employees.length}** employees monitored\n- **${employees.filter(e => e.level === "Critical").length}** Critical · **${employees.filter(e => e.level === "High").length}** High risk\n- Top threat: **${top?.name}** (Score ${top?.score})\n\nTry asking about specific employees, SOC playbooks, or ML detection — those use cached responses and work offline.`;
+            `**ThreatWatch AI — Offline Mode**\n\nAI backend is temporarily unavailable. Here's what I know from live data:\n\n- **${employees.length}** employees monitored\n- **${employees.filter(e => e.level === "Critical").length}** Critical · **${employees.filter(e => e.level === "High").length}** High risk\n- Top threat: **${top?.name}** (Score ${top?.score})\n\nTry asking about specific employees, SOC playbooks, or ML detection.`;
           const msgId = Date.now() + 1;
           setMessages(prev => [...prev, { role: "assistant", content: "", id: msgId, streaming: true }]);
           setLoading(false);
@@ -131,7 +140,7 @@ export default function FloatingChatBubble({ setPage, page, employees = [], mess
       }
 
       const data = await res.json();
-      const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response.";
+      const reply = data.choices?.[0]?.message?.content || "No response.";
 
       const msgId = Date.now() + 1;
       setMessages(prev => [...prev, { role: "assistant", content: "", id: msgId, streaming: true }]);
@@ -144,7 +153,7 @@ export default function FloatingChatBubble({ setPage, page, employees = [], mess
         role: "assistant",
         content: isNetwork
           ? `**Connection error.**\n\nCheck your internet connection and try again.`
-          : `**AI backend busy.**\n\nTry rephrasing your question, or use one of the quick prompts — those run on cached data and always work.`,
+          : `**AI backend busy.**\n\nTry rephrasing your question or ask something more specific.`,
         id: Date.now() + 1,
         error: true,
       }]);

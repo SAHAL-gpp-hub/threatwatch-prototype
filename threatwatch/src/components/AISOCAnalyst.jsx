@@ -14,13 +14,10 @@ import {
 import { C } from "../constants/theme";
 import GlowDot from "./ui/GlowDot";
 import { 
-  buildCache, 
   matchCache, 
   streamWords, 
   isOutOfScope, 
   OUT_OF_SCOPE_MSG, 
-  GEMINI_KEY, 
-  GEMINI_MODEL 
 } from "../utils/aiCache";
 
 const SUGGESTED_PROMPTS = [
@@ -31,6 +28,9 @@ const SUGGESTED_PROMPTS = [
   { label: "Explain the ML detection method", IconComp: Bot, q: "How does the Isolation Forest ML model detect insider threats? Explain simply." },
   { label: "Which departments are at risk?", IconComp: Server, q: "Which departments have the most risk and what patterns do you see?" },
 ];
+
+const GROQ_MODEL = "llama-3.1-8b-instant";
+const GROQ_FALLBACK = "gemma2-9b-it";
 
 export default function AISOCAnalyst({ employees = [], onAnalyze, messages, setMessages }) {
   const [input, setInput] = useState("");
@@ -62,10 +62,11 @@ export default function AISOCAnalyst({ employees = [], onAnalyze, messages, setM
       return;
     }
 
-    if (!GEMINI_KEY) {
+    const GROQ_KEY = import.meta.env.VITE_GROQ_KEY;
+    if (!GROQ_KEY) {
       setMessages(prev => [...prev, {
         role: "assistant",
-        content: "**API key missing.** Add `VITE_GEMINI_KEY` to your `.env` file.",
+        content: "**API key missing.** Add `VITE_GROQ_KEY` to your `.env` file.",
         id: Date.now() + 1, error: true,
       }]);
       setLoading(false);
@@ -74,9 +75,6 @@ export default function AISOCAnalyst({ employees = [], onAnalyze, messages, setM
 
     try {
       const top = employees[0];
-      const systemPrompt = `SOC AI. 1-2 sentences max. Security only. Data: ${employees.length} monitored, ${employees.filter(e => e.level === "Critical").length} critical. Top: ${top?.name} score ${top?.score}.`;
-
-      // Include last 4 messages as conversation context for follow-up questions
       const recentHistory = messages.slice(-4);
       const contextStr = recentHistory.length > 0
         ? "\nRecent conversation:\n" + recentHistory.map(m =>
@@ -84,47 +82,60 @@ export default function AISOCAnalyst({ employees = [], onAnalyze, messages, setM
           ).join("\n")
         : "";
 
-      const geminiContents = [
-        { role: "user", parts: [{ text: systemPrompt + contextStr + "\n\nQuestion: " + text.trim() }] },
-      ];
+      const rosterStr = employees
+        .map(e => `${e.name}(${e.dept},score:${e.score},${e.level},usb:${e.usb},priv:${e.priv},sent:${e.sentiment})`)
+        .join("|");
+      const prompt = `SOC AI. Max 3 sentences. Security only. Roster: ${rosterStr}.${contextStr}\n\nQuestion: ${text.trim()}`;
 
-      // Try primary model, fall back to gemini-1.5-flash-latest on 503 overload
-      const FALLBACK_MODEL = "gemini-1.5-flash-latest";
-      let res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: geminiContents,
-            generationConfig: { maxOutputTokens: 120, temperature: 0.6 },
-          }),
-        }
-      );
+      const makeBody = (model) => JSON.stringify({
+        model,
+        messages: [{ role: "user", content: prompt }],
+        max_tokens: 120,
+        temperature: 0.6,
+      });
 
-      // 503 overload → retry once with fallback model after 1.5s
-      if (res.status === 503) {
+      const headers = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${GROQ_KEY}`,
+      };
+
+      let res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST", headers, body: makeBody(GROQ_MODEL),
+      });
+
+      if (res.status === 503 || res.status === 429) {
         await new Promise(r => setTimeout(r, 1500));
-        res = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/${FALLBACK_MODEL}:generateContent?key=${GEMINI_KEY}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              contents: geminiContents,
-              generationConfig: { maxOutputTokens: 120, temperature: 0.6 },
-            }),
-          }
-        );
+        res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST", headers, body: makeBody(GROQ_FALLBACK),
+        });
       }
 
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
-        throw new Error(`${res.status}: ${errData?.error?.message || res.statusText}`);
+        const errMsg = errData?.error?.message || "";
+        const isDown =
+          res.status === 503 ||
+          res.status === 429 ||
+          errMsg.toLowerCase().includes("unavailable") ||
+          errMsg.toLowerCase().includes("overloaded");
+
+        if (isDown) {
+          const fallback =
+            matchCache("summarize alerts", employees) ||
+            matchCache("current risk", employees) ||
+            `**ThreatWatch AI — Offline Mode**\n\nAI backend is temporarily unavailable. Here's what I know from live data:\n\n- **${employees.length}** employees monitored\n- **${employees.filter(e => e.level === "Critical").length}** Critical · **${employees.filter(e => e.level === "High").length}** High risk\n- Top threat: **${top?.name}** (Score ${top?.score})\n\nTry asking about specific employees, SOC playbooks, or ML detection.`;
+          const msgId = Date.now() + 1;
+          setMessages(prev => [...prev, { role: "assistant", content: "", id: msgId, streaming: true }]);
+          setLoading(false);
+          streamWords(fallback, msgId, setMessages, () => setTimeout(() => inputRef.current?.focus(), 100));
+          return;
+        }
+
+        throw new Error(errMsg || res.statusText);
       }
 
       const data = await res.json();
-      const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response received.";
+      const reply = data.choices?.[0]?.message?.content || "No response received.";
 
       const msgId = Date.now() + 1;
       setMessages(prev => [...prev, { role: "assistant", content: "", id: msgId, streaming: true }]);
@@ -132,17 +143,12 @@ export default function AISOCAnalyst({ employees = [], onAnalyze, messages, setM
       streamWords(reply, msgId, setMessages, () => setTimeout(() => inputRef.current?.focus(), 100));
 
     } catch (err) {
-      const msg = err.message || "";
-      const isQuota = msg.includes("429") || msg.includes("quota") || msg.includes("exceeded");
-      const isModel = msg.includes("404") || msg.includes("not found");
-      const isKey = msg.includes("400") || msg.includes("403") || msg.includes("API_KEY");
+      const isNetwork = !navigator.onLine || err.message?.toLowerCase().includes("fetch") || err.message?.toLowerCase().includes("network");
       setMessages(prev => [...prev, {
         role: "assistant",
-        content: isQuota
-          ? "**Quota exhausted.** Create a new free key at aistudio.google.com/app/apikey and add it to your `.env`."
-          : isModel ? "**Model unavailable.** The Gemini model is temporarily down. Please try again in a few seconds."
-          : isKey ? "**Invalid API key.** Get a free key at aistudio.google.com/app/apikey."
-          : `**Error:** ${msg || "Unable to reach Gemini API."}`,
+        content: isNetwork
+          ? `**Connection error.**\n\nCheck your internet connection and try again.`
+          : `**AI backend busy.**\n\nTry rephrasing your question or ask something more specific.`,
         id: Date.now() + 1, error: true,
       }]);
       setLoading(false);
@@ -249,12 +255,12 @@ export default function AISOCAnalyst({ employees = [], onAnalyze, messages, setM
               }}>
                 <GlowDot color={C.cyan} pulse size={5} />
                 <span style={{ fontSize: 9, color: C.cyan, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 1 }}>
-                  ONLINE · {GEMINI_MODEL.toUpperCase()}
+                  ONLINE · LLAMA 3.1
                 </span>
               </div>
             </div>
             <p style={{ color: C.textMid, fontSize: 11, marginTop: 4, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 1 }}>
-              ASK ANYTHING ABOUT YOUR THREAT LANDSCAPE · POWERED BY GEMINI
+              ASK ANYTHING ABOUT YOUR THREAT LANDSCAPE · POWERED BY GROQ
             </p>
           </div>
           <div style={{ display: "flex", gap: 10 }}>
@@ -621,7 +627,7 @@ export default function AISOCAnalyst({ employees = [], onAnalyze, messages, setM
         }}>
           <div style={{ width: 20, height: 1, background: `linear-gradient(90deg,transparent,${C.cyan}30)` }} />
           <span style={{ fontSize: 9, color: `${C.cyan}60`, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 2 }}>
-            THREATWATCH AI · GEMINI FREE TIER · SHIFT+ENTER FOR NEW LINE
+            THREATWATCH AI · GROQ FREE TIER · SHIFT+ENTER FOR NEW LINE
           </span>
           <div style={{ width: 20, height: 1, background: `linear-gradient(90deg,${C.cyan}30,transparent)` }} />
         </div>

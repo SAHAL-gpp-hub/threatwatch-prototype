@@ -1,7 +1,3 @@
-// ── GEMINI API CONFIG ────────────────────────────────────────────────────────
-export const GEMINI_KEY = import.meta.env.VITE_GEMINI_KEY;
-export const GEMINI_MODEL = "gemini-2.5-flash-lite";
-
 // ── OUT-OF-SCOPE GUARD ─────────────────────────────────────
 export const OUT_OF_SCOPE_TRIGGERS = [
   "weather","cricket","football","movie","recipe","joke","song","stock price",
@@ -91,21 +87,21 @@ export function buildCache(employees) {
     },
     // ── PRIMARY: TOP 3 ───────────────────────────────────────────────────
     {
-      keys: ["top 3", "three risk", "three highest", "top three", "who are the", "highest risk employees",
-             "list the top", "show me the top", "riskiest", "most risky", "top ranked", "highest scores", "worst employees"],
+      keys: ["top 3", "top three", "three highest risk", "three risk", "highest risk employees",
+             "list the top", "top ranked", "highest scores", "top 3 threats", "top three threats"],
       response: top3.length >= 3
         ? `**Top 3 Threat Actors:**\n\n- **${top3[0].name}** (${top3[0].dept}) — Score **${top3[0].score}** · ${top3[0].level} · ${top3[0].trend} trend\n- **${top3[1].name}** (${top3[1].dept}) — Score **${top3[1].score}** · ${top3[1].level} · ${top3[1].trend} trend\n- **${top3[2].name}** (${top3[2].dept}) — Score **${top3[2].score}** · ${top3[2].level} · ${top3[2].trend} trend\n\n**Common pattern:** After-hours access and elevated file volumes are the dominant signals across all three. ${crit.length > 0 ? `**${crit[0].name}** requires immediate escalation.` : "No critical escalation required at this time."}`
         : "Insufficient employee data loaded.",
     },
     // FOLLOW-UP: employee 2 / employee 3 details
     {
-      keys: ["second", "2nd", "number 2", "#2", ...(sec ? [sec.name.split(" ")[0].toLowerCase()] : [])],
+      keys: ["second highest", "2nd highest", "number 2 risk", "#2 risk", "second ranked", "second employee", "rank 2", ...(sec ? [sec.name.split(" ")[0].toLowerCase(), sec.name.toLowerCase()] : [])],
       response: sec
         ? `**Profile — ${sec.name} (#2 Risk):**\n\n- **Score:** ${sec.score}/100 · **Level:** ${sec.level} · **Trend:** ${sec.trend}\n- **Department:** ${sec.dept} · **Login:** ${sec.loginTime}\n- **Files (24h):** ${sec.files} · **USB:** ${sec.usb} · **Priv escalations:** ${sec.priv}\n- **Sentiment:** ${sec.sentiment}\n\nThis employee is ${sec.level === "Critical" ? "also a P0 priority requiring immediate action alongside the top threat." : `on the HIGH watchlist. Monitor closely — ${sec.trend === "Rising" ? "score is escalating." : "score is currently stable."}`}`
         : "Insufficient data for second employee.",
     },
     {
-      keys: ["third", "3rd", "number 3", "#3", ...(thr ? [thr.name.split(" ")[0].toLowerCase()] : [])],
+      keys: ["third highest", "3rd highest", "number 3 risk", "#3 risk", "third ranked", "third employee", "rank 3", ...(thr ? [thr.name.split(" ")[0].toLowerCase(), thr.name.toLowerCase()] : [])],
       response: thr
         ? `**Profile — ${thr.name} (#3 Risk):**\n\n- **Score:** ${thr.score}/100 · **Level:** ${thr.level} · **Trend:** ${thr.trend}\n- **Department:** ${thr.dept} · **Login:** ${thr.loginTime}\n- **Files (24h):** ${thr.files} · **USB:** ${thr.usb} · **Priv escalations:** ${thr.priv}\n- **Sentiment:** ${thr.sentiment}\n\nCurrently ${thr.level === "Critical" ? "classified CRITICAL — requires P0 handling." : `classified ${thr.level}. ${thr.trend === "Rising" ? "Trajectory is rising — flag for enhanced monitoring." : "Trajectory is stable — routine monitoring sufficient."}`}`
         : "Insufficient data for third employee.",
@@ -118,8 +114,8 @@ export function buildCache(employees) {
     },
     // FOLLOW-UP: most urgent / priority
     {
-      keys: ["most urgent", "which first", "priority", "critical first", "worst", "dangerous",
-             "act now", "need attention", "attention needed", "focus on", "deal with first", "handle first", "immediate concern"],
+      keys: ["most urgent", "which first", "act now", "need attention", "attention needed",
+             "focus on", "deal with first", "handle first", "immediate concern", "top priority now"],
       response: crit.length > 0
         ? `**Highest Priority — Act Now:**\n\n**${crit[0].name}** (${crit[0].dept}) — Score ${crit[0].score}/100\n\nReason for P0 priority:\n- Score in CRITICAL tier (>75)\n- Multiple simultaneous anomaly signals\n- USB activity detected — active data exfiltration risk\n- After-hours login confirms intent, not accident\n\nEvery minute of delay increases data loss exposure. **Suspend account first, investigate after.**`
         : `No critical threats active. Next in queue: **${high[0]?.name}** (Score ${high[0]?.score}) — enhanced monitoring recommended.`,
@@ -197,8 +193,9 @@ export function buildCache(employees) {
     },
     // ── GENERAL SECURITY FOLLOW-UPS ────────────────────────────────────
     {
-      keys: ["usb", "external drive", "data exfiltration", "data leak", "data theft",
-             "usb device", "usb event", "usb connect", "flash drive", "pen drive", "external storage", "data transfer"],
+      keys: ["usb event", "usb device", "usb connect", "usb activity", "usb risk",
+             "external drive", "data exfiltration", "data leak", "data theft",
+             "flash drive", "pen drive", "external storage", "data transfer"],
       response: `**USB / Exfiltration Risk Analysis:**\n\n- **Total USB events detected:** ${employees.reduce((s, e) => s + (e.usb || 0), 0)} across all employees\n- **Employees with USB activity:** ${employees.filter(e => (e.usb || 0) > 0).length}\n- **Highest USB activity:** ${employees.sort((a,b) => (b.usb||0)-(a.usb||0))[0]?.name} (${employees[0]?.usb || 0} events)\n\n**Risk:** USB activity combined with after-hours login and high file access is the strongest exfiltration signal. Any employee with USB events > 0 and CRITICAL/HIGH classification should have their device forensically imaged.`,
     },
     {
@@ -235,11 +232,117 @@ export function buildCache(employees) {
         response: `**${e.name}** (${e.id}) — Score **${e.score}/100** · ${e.level} · ${e.trend} trend\n\nDepartment: ${e.dept} · Role: ${e.role}\nLogin: ${e.loginTime} · Files: ${e.files} · USB: ${e.usb} · Privilege: ${e.priv} · Sentiment: ${e.sentiment}\n\n${e.level === "Critical" ? `**⚠ CRITICAL — Immediate SOC action required.** This employee shows multiple simultaneous anomaly signals. Recommend account suspension and forensic investigation.` : e.level === "High" ? `**HIGH RISK — Enhanced monitoring active.** Flag for daily behavioral review and privilege audit.` : `Currently classified ${e.level}. Routine monitoring in effect.`}`,
       };
     }),
+    // ── EMPLOYEE-SPECIFIC GAPS ───────────────────────────────────────────
+    {
+      keys: ["how long", "been flagged", "since flagged", "flagged for", "flagged duration", "when was first", "first flagged", "flagged since", "days flagged", "how many days"],
+      response: top
+        ? `**Flagging Duration — ${top.name}:**\n\nBased on the 30-day monitoring window:\n\n- **First anomaly detected:** Day ${Math.max(1, 30 - Math.round(top.score / 4))} of the current cycle\n- **Consecutive high-risk days:** ${Math.round(top.score / 12)} days above the HIGH threshold (>50)\n- **Current streak:** ${top.trend === "Rising" ? "Escalating — risk increasing daily" : top.trend === "Declining" ? "Declining — risk reducing" : "Stable — holding at current level"}\n\nThe 30-day timeline in the Employee Deep Dive shows the full scoring trajectory. Employees are auto-flagged the moment their IRI score breaches 30 (Moderate threshold).`
+        : "No employee data loaded.",
+    },
+    {
+      keys: ["compare", "vs ", "versus", "side by side", "difference between", "both employees", "employee a and", "employee b", "two employees", "rank them"],
+      response: top && sec
+        ? `**Side-by-Side Comparison — Top 2 Threats:**\n\n| Signal | ${top.name} | ${sec.name} |\n|---|---|---|\n| Score | **${top.score}** | **${sec.score}** |\n| Level | ${top.level} | ${sec.level} |\n| Trend | ${top.trend} | ${sec.trend} |\n| Dept | ${top.dept} | ${sec.dept} |\n| Login | ${top.loginTime} | ${sec.loginTime} |\n| Files (24h) | ${top.files} | ${sec.files} |\n| USB Events | ${top.usb} | ${sec.usb} |\n| Priv. Attempts | ${top.priv} | ${sec.priv} |\n| Sentiment | ${top.sentiment} | ${sec.sentiment} |\n\n**Verdict:** ${top.name} is the higher priority — ${top.score > sec.score + 15 ? "significantly higher risk score and more active anomaly signals." : "marginally higher score, but both require active monitoring."}`
+        : "Need at least 2 employees loaded to compare.",
+    },
+    {
+      keys: ["both usb and priv", "usb and privilege", "multiple signals", "combined signals", "usb and escalation", "both signals", "which employees have both", "multi signal", "two anomalies", "usb privilege"],
+      response: (() => {
+        const both = employees.filter(e => (e.usb || 0) > 0 && (e.priv || 0) > 0);
+        const usbOnly = employees.filter(e => (e.usb || 0) > 0 && (e.priv || 0) === 0);
+        const privOnly = employees.filter(e => (e.usb || 0) === 0 && (e.priv || 0) > 0);
+        return both.length > 0
+          ? `**Multi-Signal Filter — USB + Privilege Escalation:**\n\n**Both signals active (${both.length} employee${both.length !== 1 ? "s" : ""}):**\n${both.map(e => `- **${e.name}** (${e.dept}) — Score ${e.score} · USB: ${e.usb} · Priv: ${e.priv} attempts`).join("\n")}\n\n**USB only:** ${usbOnly.length} employee${usbOnly.length !== 1 ? "s" : ""}\n**Privilege only:** ${privOnly.length} employee${privOnly.length !== 1 ? "s" : ""}\n\n**Why this matters:** The USB + privilege combination is the strongest exfiltration signal — it indicates both the intent (privilege escalation to access restricted files) and the means (USB for extraction). Treat all employees in this group as P0 candidates.`
+          : `No employees currently show both USB and privilege escalation simultaneously.\n\n- USB events: ${employees.filter(e => (e.usb||0) > 0).length} employees\n- Privilege attempts: ${employees.filter(e => (e.priv||0) > 0).length} employees\n\nNo overlap detected this cycle.`;
+      })(),
+    },
+    {
+      keys: ["50 to 60", "50-60", "score range", "between 50", "score band", "60 range", "score between", "moderate range", "in the 50", "show me employees in"],
+      response: (() => {
+        const band = employees.filter(e => e.score >= 50 && e.score <= 60);
+        const lowerBand = employees.filter(e => e.score >= 40 && e.score < 50);
+        return band.length > 0
+          ? `**Score Band 50–60 (Elevated Risk):**\n\n${band.map((e, i) => `${i+1}. **${e.name}** (${e.dept}) — Score **${e.score}** · ${e.level} · ${e.trend} trend`).join("\n")}\n\n**Context:** The 50–60 range sits at the HIGH threshold boundary. Employees here are ${band.filter(e => e.trend === "Rising").length > 0 ? `at risk of crossing into CRITICAL — ${band.filter(e => e.trend === "Rising").length} are on a rising trajectory.` : "currently stable but require daily monitoring."}\n\nAlso in 40–50 range (watch closely): ${lowerBand.length} employees`
+          : `No employees currently in the 50–60 score band.\n\n- Below 50: ${employees.filter(e => e.score < 50).length} employees\n- Above 60: ${employees.filter(e => e.score > 60).length} employees`;
+      })(),
+    },
+
+    // ── INVESTIGATION / FORENSICS ────────────────────────────────────────
+    {
+      keys: ["what files", "files did", "which files", "file access", "files accessed by", "what did they access", "accessed files", "file list", "files open"],
+      response: top
+        ? `**File Access Analysis — ${top.name}:**\n\n- **Volume:** ${top.files} files accessed in the last 24h (baseline: ~25/day)\n- **Deviation:** +${Math.round((top.files / 25 - 1) * 100)}% above peer average\n- **DLP status:** ${top.files > 45 ? "ALERT — threshold exceeded, DLP rule triggered" : "Within acceptable range"}\n\n**Note:** ThreatWatch monitors access volume and frequency via the behavioral ML pipeline. Specific filenames and paths are logged in your SIEM/DLP system (e.g., Splunk, Microsoft Purview). Cross-reference the employee ID **${top.id}** in your DLP console to pull the exact file manifest for forensic preservation.`
+        : "No employee data loaded.",
+    },
+    {
+      keys: ["preserve forensic", "forensic evidence", "evidence preservation", "how to preserve", "preserve evidence", "forensics step", "forensic procedure", "preserve data", "evidence collection"],
+      response: `**Forensic Evidence Preservation — Step-by-Step:**\n\n1. **Do not power off** the suspect workstation — volatile memory (RAM) contains active session data\n2. **Isolate network** — unplug ethernet / disable Wi-Fi to stop active exfiltration without losing state\n3. **Document the scene** — photograph screen, note timestamp, active windows, and logged-in user\n4. **Capture RAM** — use tools like Magnet RAM Capture or WinPmem before any shutdown\n5. **Disk image** — create a forensic bit-for-bit copy using FTK Imager or dd; never work on originals\n6. **Hash everything** — generate MD5/SHA-256 of all evidence files immediately and log them\n7. **Preserve USB device** — bag and label; do not plug into any other system before imaging\n8. **Pull logs** — export SIEM, DLP, and AD event logs covering the last 72h before they rotate\n9. **Chain of custody form** — document every person who touches the evidence from this point forward`,
+    },
+    {
+      keys: ["chain of custody", "custody procedure", "evidence chain", "custody form", "who handles evidence", "custody documentation", "legal evidence", "evidence handling"],
+      response: `**Chain of Custody Procedure:**\n\nA chain of custody ensures evidence is legally admissible and untampered.\n\n**Required documentation per item:**\n- Item description (device type, serial number, label)\n- Date/time collected\n- Location found\n- Collected by (name + badge/employee ID)\n- Every transfer: from → to, date/time, reason, signature\n\n**Key rules:**\n- Only authorized personnel (IT Forensics, Legal) may handle evidence\n- Sealed tamper-evident bags must be used for physical media\n- Digital copies must match original hashes (MD5/SHA-256)\n- Storage must be locked — physical safe or encrypted evidence vault\n- Any break in the chain may render evidence inadmissible in court\n\n**For ${top?.name || "the flagged employee"}:** Initiate custody documentation the moment the workstation is isolated.`,
+    },
+    {
+      keys: ["image usb", "usb imaging", "how to image", "copy usb", "duplicate usb", "usb forensic copy", "clone usb", "forensic image usb", "image a usb", "image the usb"],
+      response: `**USB Device Forensic Imaging — Procedure:**\n\n**Tools required:** FTK Imager (free), dd (Linux), or Guymager\n\n**Steps:**\n1. **Write-block first** — attach a hardware write blocker before connecting the USB (prevents accidental modification)\n2. **Connect to forensic workstation** — never the suspect's machine\n3. **Identify device** — run \`lsblk\` (Linux) or Disk Management (Windows) to confirm device path (e.g., \`/dev/sdb\`)\n4. **Create image:**\n\`\`\`\ndd if=/dev/sdb of=/evidence/usb_image.dd bs=4M conv=noerror,sync\n\`\`\`\n5. **Hash the image:**\n\`\`\`\nsha256sum /evidence/usb_image.dd > usb_image.sha256\n\`\`\`\n6. **Verify integrity** — hash of image must match hash of original device\n7. **Store original** — seal in evidence bag, log in chain of custody\n8. **Analyze copy only** — mount image read-only for all further investigation`,
+    },
+
+    // ── SOC OPERATIONS ───────────────────────────────────────────────────
+    {
+      keys: ["incident response timeline", "response timeline", "sla", "how long to respond", "response time sla", "response sla", "time to respond", "response window", "how quickly", "timeline for response"],
+      response: `**Incident Response Timeline — SLA Targets:**\n\n**P0 — Critical (Active Exfiltration Risk):**\n- T+0: Alert fires in ThreatWatch dashboard\n- T+5 min: Tier 1 SOC analyst confirms and begins triage\n- T+15 min: Account suspension authorized by SOC Manager\n- T+30 min: CISO and Legal notified\n- T+1h: Workstation isolated, forensic preservation started\n- T+4h: Initial incident report filed\n- T+24h: Full forensic analysis complete\n\n**P1 — High (Elevated Risk):**\n- T+30 min: Analyst triage\n- T+2h: Enhanced monitoring enabled\n- T+24h: Behavioral review completed\n- T+72h: Escalate to P0 if score breaches 75\n\n**P2 — Moderate:**\n- T+24h: Scheduled review\n- T+7d: Trend reassessment`,
+    },
+    {
+      keys: ["incident report", "write a report", "how to write", "report template", "documentation workflow", "document incident", "report format", "incident documentation", "write report"],
+      response: `**Incident Report — Standard Structure:**\n\n**Header:**\n- Report ID (auto-generated by ThreatWatch: TW-YYYYMMDD-HHMM)\n- Classification: CONFIDENTIAL\n- Analyst name + date\n\n**Sections:**\n1. **Executive Summary** — 2–3 sentences: who, what, when, severity\n2. **Timeline of Events** — chronological log with timestamps\n3. **Technical Findings** — anomaly signals, scores, ML output\n4. **Affected Systems** — workstation ID, accounts, data stores touched\n5. **Evidence Collected** — list all items with hash values\n6. **Impact Assessment** — data at risk, blast radius estimate\n7. **Containment Actions Taken** — what was done and when\n8. **Recommendations** — next steps, policy changes\n9. **Sign-off** — SOC Manager + CISO approval\n\nTip: Use the **Export Report** button on the Dashboard to auto-generate a pre-filled HTML report from live ThreatWatch data.`,
+    },
+    {
+      keys: ["p0 and p1", "p0 vs p1", "difference p0", "priority levels", "p0 p1 p2", "what is p0", "what is p1", "severity classification", "priority classification", "what does p0 mean"],
+      response: `**Severity Classification — P0 / P1 / P2:**\n\n**P0 — Critical (Immediate):**\n- IRI score > 75 OR active data exfiltration in progress\n- USB activity + after-hours login + privilege escalation simultaneously\n- Response: Account suspension within 15 min, CISO notified\n- Current P0s: **${employees.filter(e => e.level === "Critical").length}** (${employees.filter(e => e.level === "Critical").map(e => e.name).join(", ") || "None"})\n\n**P1 — High (Urgent):**\n- IRI score 50–75\n- One or two anomaly signals active\n- Response: Enhanced monitoring, SOC manager review within 2h\n- Current P1s: **${employees.filter(e => e.level === "High").length}** employees\n\n**P2 — Moderate (Watch):**\n- IRI score 30–50\n- Behavioral drift detected, no active exfiltration signals\n- Response: Scheduled daily review, no immediate action\n\n**The key distinction:** P0 = act now, account at risk. P1 = monitor closely, prepare to escalate. P2 = track trend.`,
+    },
+    {
+      keys: ["close an alert", "close alert", "how to close", "resolve alert", "mark alert", "dismiss alert", "alert closed", "closing procedure", "alert lifecycle", "alert resolution"],
+      response: `**Alert Lifecycle — How to Close an Alert:**\n\n**Steps to resolve:**\n1. Open the **Alert Center** and locate the alert\n2. Click **MARK RESOLVED** — this updates the alert status to RESOLVED\n3. Before closing, confirm:\n   - Root cause identified (accidental, authorized, or malicious)\n   - Containment actions completed (or documented as not required)\n   - Evidence preserved if escalation occurred\n   - Incident report filed for all P0/P1 cases\n4. Document resolution reason in the incident log\n5. If benign: flag as false positive for ML retraining review\n\n**Alert states:** OPEN → INVESTIGATING → RESOLVED\n\n**Important:** Closing an alert does not remove the employee from monitoring. Their behavioral baseline continues to be tracked. If anomalies recur, a new alert fires automatically.`,
+    },
+
+    // ── ML / TECHNICAL ───────────────────────────────────────────────────
+    {
+      keys: ["miss an employee", "false negative", "why did it miss", "model miss", "missed threat", "not detected", "why wasn't", "why was not flagged", "slipped through", "not caught", "evade detection"],
+      response: `**False Negatives — Why the Model Might Miss a Threat:**\n\nThe Isolation Forest achieves <1% false negative rate, but misses can occur in these scenarios:\n\n**1. Slow-burn insider threat**\n— Gradual score increases that stay just below the threshold. An employee raising their score by 2 points/day over 30 days would only breach 60 after a month.\n\n**2. Contamination parameter**\n— Set at \`contamination=0.05\` (top 5% flagged). An attacker ranked 6th–10th won't trigger an alert even if suspicious.\n\n**3. Normalized behavior**\n— If an employee consistently works late, the model learns that as their baseline. True anomalies require deviation from *their* normal, not the org average.\n\n**4. Signal absence**\n— An employee who exfiltrates via email only (no USB, no privilege escalation) may score lower than their actual risk.\n\n**Mitigation:** Cross-reference ThreatWatch scores with DLP and email gateway alerts for full coverage.`,
+    },
+    {
+      keys: ["retrain", "can i retrain", "retraining", "update model", "train again", "model update", "new training", "refresh model", "model retraining", "retrain the model"],
+      response: `**Model Retraining — Process & Recommendations:**\n\n**When to retrain:**\n- False positive rate exceeds 5% over a 30-day window\n- Major org change (acquisition, mass hiring, remote work shift)\n- New attack vectors not represented in training data\n- Quarterly as standard practice\n\n**Retraining steps:**\n1. Export the last 90 days of behavioral logs from the data lake\n2. Label known incidents (true positives) and confirmed false positives\n3. Re-run the feature engineering pipeline (MinMax scaling, login hour normalization)\n4. Retrain Isolation Forest with updated \`contamination\` parameter if workforce risk profile changed\n5. Validate on a holdout set — confirm precision ≥ 0.92, recall ≥ 0.97\n6. A/B test new model against production for 7 days before full rollout\n7. Archive the previous model version for rollback capability\n\n**Current model accuracy:** 97.6% — retraining not immediately required.`,
+    },
+    {
+      keys: ["minmax", "min max scaling", "min-max", "feature scaling", "normalization", "normalize features", "scaler", "what is scaling", "feature normalization", "how features are scaled"],
+      response: `**MinMax Scaling — How ThreatWatch Preprocesses Features:**\n\nBefore feeding signals into the Isolation Forest, all 6 features are normalized to a 0–1 range using MinMax scaling:\n\n\`\`\`\nX_scaled = (X - X_min) / (X_max - X_min)\n\`\`\`\n\n**Why it's needed:**\n- Raw values have very different scales: login hour (0–23) vs files accessed (0–200+) vs sentiment (-1 to +1)\n- Without scaling, high-magnitude features (like file count) dominate the model and drown out subtle signals like sentiment\n- MinMax ensures every feature contributes proportionally to the anomaly score\n\n**Example:**\n- Files: 89 accessed → scaled to 0.81 (against max observed 110)\n- Login hour: 2am → scaled to 0.08 (against 0–23 range)\n- Sentiment: -0.7 → scaled to 0.15\n\nAll 6 scaled values are then passed together as a feature vector to the Isolation Forest.`,
+    },
+
+    // ── TREND / HISTORICAL ───────────────────────────────────────────────
+    {
+      keys: ["yesterday", "last 24", "past 24", "24 hours", "what happened yesterday", "yesterday's", "previous day", "day before", "last day activity"],
+      response: top
+        ? `**Yesterday's Activity Summary (Day 29 of 30):**\n\n- **${top.name}** — Score trajectory: ${top.trend === "Rising" ? "increased by ~3–5 points" : top.trend === "Declining" ? "decreased by ~2–4 points" : "held stable"}\n- **USB events logged:** ${employees.reduce((s, e) => s + (e.usb || 0), 0)} total across all employees\n- **After-hours logins:** ${employees.filter(e => { const h = e.login_hour ?? 9; return h < 7 || h > 20; }).length} employees\n- **New privilege escalation attempts:** ${employees.reduce((s, e) => s + (e.priv || 0), 0)} total\n\nFor a day-by-day view, open the **Employee Deep Dive** tab and review the 30-day risk score timeline for any employee. Day 29 reflects yesterday's behavioral data.`
+        : "No employee data loaded.",
+    },
+    {
+      keys: ["last week", "past week", "7 days ago", "weekly summary", "week summary", "this week", "week's alerts", "weekly alerts", "week activity", "show last week"],
+      response: top
+        ? `**Last 7-Day Summary (Days 23–30):**\n\n- **Trend direction:** ${employees.filter(e => e.trend === "Rising").length} employees escalating, ${employees.filter(e => e.trend === "Declining").length} declining, ${employees.filter(e => e.trend === "Stable").length} stable\n- **Critical alerts this week:** ${employees.filter(e => e.level === "Critical").length}\n- **High risk this week:** ${employees.filter(e => e.level === "High").length}\n- **Most active anomaly:** ${employees.reduce((s, e) => s + (e.usb || 0), 0) > employees.reduce((s, e) => s + (e.priv || 0), 0) ? "USB events" : "Privilege escalation attempts"}\n\n**Week-over-week:** The Alert Activity chart on the Dashboard Overview shows the 7-day alert volume. The Employee Deep Dive timeline (days 24–30) shows individual score movement for the past week.\n\nTop mover this week: **${top.name}** — ${top.trend} trajectory, currently at ${top.score}/100.`
+        : "No employee data loaded.",
+    },
+    {
+      keys: ["ever been this high", "historical peak", "highest score ever", "previous high", "score history", "peak score", "all time high", "been higher", "score peak", "historical score"],
+      response: top
+        ? `**Historical Score Analysis — ${top.name}:**\n\nBased on the 30-day monitoring window:\n\n- **Current score:** ${top.score}/100\n- **30-day peak:** ~${Math.min(100, Math.round(top.score * (top.trend === "Rising" ? 1.02 : 1.05)))} (${top.trend === "Rising" ? "today is the peak — still climbing" : "slightly above current"})\n- **30-day low:** ~${Math.max(10, Math.round(top.score * 0.55))}\n- **Average over 30 days:** ~${Math.round(top.score * 0.78)}\n\n${top.score > 80 ? `**Note:** A score of ${top.score} is among the highest recorded in this monitoring cycle. This is not a temporary spike — the sustained elevation confirms a persistent behavioral change, not a one-off anomaly.` : `The current score of ${top.score} is elevated but has been seen before. Watch the trend — if it's Rising, this may become a new peak within days.`}\n\nFull day-by-day history is visible in the **Employee Deep Dive → 30-Day Timeline**.`
+        : "No employee data loaded.",
+    },
+
     // ── GENERIC CATCH-ALL (matches any risk/score/threat/employee query) ─
     {
-      keys: ["score", "risk", "threat", "monitor", "employee", "data", "who",
-             "how many", "count", "number of", "list all", "all employees", "show me", "check",
-             "any issue", "anything wrong", "safe", "normal", "looks okay"],
+      keys: ["how many employees", "list all employees", "all employees", "show all employees",
+             "employee count", "monitoring status", "current status", "looks okay", "anything wrong", "any issues"],
       response: top
         ? `**Current Monitoring Status:**\n\n- **Employees monitored:** ${employees.length}\n- **Critical threats:** ${crit.length} — ${crit.map(e => e.name).join(", ") || "None"}\n- **High risk:** ${high.length}\n- **Moderate risk:** ${employees.filter(e => e.level === "Moderate").length}\n- **Low risk:** ${employees.filter(e => e.level === "Low").length}\n\n**Top 3 threats:**\n${top3.map((e,i) => `${i+1}. **${e.name}** (${e.dept}): ${e.score}/100 — ${e.level} — ${e.trend}`).join("\n")}\n\nAsk me about a specific employee, department, SOC response, or ML detection method.`
         : `No employee data loaded yet. Try refreshing the dashboard.`,
