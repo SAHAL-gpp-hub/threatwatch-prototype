@@ -98,7 +98,7 @@ export function generateReport(employees) {
       "<button class='btn' id='dlbtn' style='background:#9d6fff15;color:#9d6fff;border-color:#9d6fff40'>&#9632; DOWNLOAD HTML</button>" +
       "<span style='margin-left:auto;font-size:10px;color:#3d5470'>Report ID: "+reportId+" &nbsp;|&nbsp; CONFIDENTIAL</span>" +
     "</div>" +
-    "<div class='hdr'><div class='logo'>THREATWATCH</div><div class='sub'>INSIDER THREAT INTELLIGENCE REPORT &middot; INSIGHT PLATFORM &middot; SSIP 2026</div>" +
+    "<div class='hdr'><div class='logo'>THREATWATCH</div><div class='sub'>INSIDER THREAT INTELLIGENCE REPORT &middot; INSIGHT PLATFORM</div>" +
       "<div class='rmeta'><div><label>GENERATED</label><span>"+ts+"</span></div><div><label>REPORT ID</label><span>"+reportId+"</span></div>" +
       "<div><label>EMPLOYEES</label><span>"+employees.length+"</span></div><div><label>ML ENGINE</label><span>Isolation Forest v4.2.1</span></div>" +
       "<div><label>PERIOD</label><span>Last 30 days</span></div><div><label>STATUS</label><span style='color:#ff1e50'>CONFIDENTIAL</span></div></div></div>" +
