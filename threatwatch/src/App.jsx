@@ -23,6 +23,7 @@ import {
 import { GLOBAL_CSS, C } from "./constants/theme";
 import { useData, EMPTY_EMP } from "./utils/data";
 import { useMobile } from "./utils/useMobile";
+import { useCursorEffects } from "./utils/useCursorEffects";
 
 import GlowDot from "./components/ui/GlowDot";
 import Avatar from "./components/ui/Avatar";
@@ -61,6 +62,7 @@ export default function App() {
   const [showAboutModal, setShowAboutModal] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const mobile = useMobile();
+  useCursorEffects(mobile);
 
   const [messages, setMessages] = useState([]);
 
@@ -190,6 +192,81 @@ export default function App() {
   return (
     <>
       <style>{GLOBAL_CSS}</style>
+      <style>{`
+        /* ── Hide default cursor everywhere ── */
+        *, *::before, *::after { cursor: none !important; }
+
+        /* ── Dot: small filled circle, instant ── */
+        #tw-cursor-dot {
+          position: fixed;
+          width: 8px; height: 8px;
+          background: #00d1ff;
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 9999;
+          top: 0; left: 0;
+          box-shadow: 0 0 8px #00d1ff, 0 0 16px #00d1ff80;
+          transition: background 0.2s, box-shadow 0.2s;
+        }
+
+        /* ── Ring: larger circle, lags behind ── */
+        #tw-cursor-ring {
+          position: fixed;
+          width: 36px; height: 36px;
+          border: 1.5px solid #00d1ff;
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 9999;
+          top: 0; left: 0;
+          opacity: 0.7;
+          transition: width 0.2s ease, height 0.2s ease,
+                      border-color 0.2s ease, opacity 0.2s ease,
+                      background 0.15s ease;
+          box-shadow: 0 0 10px #00d1ff40, inset 0 0 8px #00d1ff10;
+        }
+
+        /* Crosshair notches on the ring */
+        #tw-cursor-ring::before,
+        #tw-cursor-ring::after {
+          content: '';
+          position: absolute;
+          background: #00d1ff;
+          opacity: 0.8;
+        }
+        #tw-cursor-ring::before {
+          width: 1px; height: 8px;
+          left: 50%; top: -5px;
+          transform: translateX(-50%);
+        }
+        #tw-cursor-ring::after {
+          width: 8px; height: 1px;
+          top: 50%; left: -5px;
+          transform: translateY(-50%);
+        }
+
+        /* Hover state — ring expands + brightens */
+        #tw-cursor-ring.tw-ring-hover {
+          width: 52px; height: 52px;
+          border-color: #00d1ff;
+          opacity: 1;
+          background: rgba(0,209,255,0.05);
+          margin-left: -8px; margin-top: -8px;
+        }
+
+        /* Click state — ring contracts + flashes */
+        #tw-cursor-ring.tw-ring-click {
+          width: 24px; height: 24px;
+          border-color: #ff1e50;
+          opacity: 1;
+          background: rgba(255,30,80,0.08);
+          margin-left: 6px; margin-top: 6px;
+          box-shadow: 0 0 16px #ff1e5080;
+        }
+        #tw-cursor-ring.tw-ring-click::before,
+        #tw-cursor-ring.tw-ring-click::after {
+          background: #ff1e50;
+        }
+      `}</style>
 
       <div style={{ display: "flex", height: "100vh", background: C.bg, overflow: "hidden", position: "relative", fontFamily: C.sans }}>
         {/* MOBILE SIDEBAR OVERLAY */}
