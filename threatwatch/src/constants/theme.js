@@ -122,6 +122,10 @@ export const GLOBAL_CSS = `
     from { background-position: 0 0; }
     to   { background-position: 0 40px; }
   }
+  @keyframes mouseScrollWheel {
+    0% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, 8px); }
+  }
   @keyframes neonText {
     0%,100% { text-shadow: 0 0 7px #00ffe1, 0 0 20px #00ffe1; }
     50%     { text-shadow: 0 0 15px #00ffe1, 0 0 40px #00ffe1, 0 0 80px #00ffe1; }

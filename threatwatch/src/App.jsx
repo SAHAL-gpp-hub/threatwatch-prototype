@@ -65,6 +65,33 @@ export default function App() {
   useCursorEffects(mobile);
 
   const [messages, setMessages] = useState([]);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+
+  useEffect(() => {
+    setScrollProgress(0);
+    setShowScrollIndicator(true);
+  }, [page]);
+
+  useEffect(() => {
+    const handleScroll = (e) => {
+      const target = e.target;
+      if (target && target.scrollHeight) {
+        const totalHeight = target.scrollHeight - target.clientHeight;
+        if (totalHeight > 0) {
+          const scrolled = (target.scrollTop / totalHeight) * 100;
+          setScrollProgress(scrolled);
+          if (target.scrollTop > 50) {
+            setShowScrollIndicator(false);
+          } else {
+            setShowScrollIndicator(true);
+          }
+        }
+      }
+    };
+    window.addEventListener("scroll", handleScroll, true);
+    return () => window.removeEventListener("scroll", handleScroll, true);
+  }, []);
 
   // Live data hook
   const { employees, loading, lastUpdate, error } = useData();
@@ -269,6 +296,20 @@ export default function App() {
       `}</style>
 
       <div style={{ display: "flex", height: "100vh", background: C.bg, overflow: "hidden", position: "relative", fontFamily: C.sans }}>
+        {/* SCROLL PROGRESS BAR */}
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: `${scrollProgress}%`,
+          height: "3px",
+          background: `linear-gradient(90deg, ${C.cyan}, #9d6fff)`,
+          boxShadow: `0 0 10px ${C.cyan}cc`,
+          zIndex: 9999,
+          transition: "width 0.1s ease-out",
+          pointerEvents: "none",
+        }} />
+
         {/* MOBILE SIDEBAR OVERLAY */}
         {mobile && sidebarOpen && (
           <div style={{
@@ -830,6 +871,53 @@ export default function App() {
 
       {/* Floating chatbot bubble */}
       <FloatingChatBubble setPage={setPage} page={page} employees={employees} messages={messages} setMessages={setMessages} />
+
+      {/* Cyberpunk Floating Mouse Scroll Indicator */}
+      {showScrollIndicator && ["overview", "leaderboard", "deepdive", "forecast", "alerts", "analytics", "twin"].includes(page) && (
+        <div style={{
+          position: "fixed",
+          bottom: "20px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 99,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "6px",
+          pointerEvents: "none",
+          animation: "fadeIn 0.5s ease-out",
+        }}>
+          <div style={{
+            width: "20px",
+            height: "32px",
+            border: `1.5px solid ${C.cyan}50`,
+            borderRadius: "10px",
+            position: "relative",
+            boxShadow: `0 0 8px ${C.cyan}15`,
+          }}>
+            <div style={{
+              width: "3px",
+              height: "6px",
+              background: C.cyan,
+              borderRadius: "50%",
+              position: "absolute",
+              top: "6px",
+              left: "50%",
+              animation: "mouseScrollWheel 1.5s infinite ease-out",
+            }} />
+          </div>
+          <span style={{
+            fontFamily: "var(--mono-font)",
+            fontSize: "9px",
+            color: `${C.cyan}80`,
+            textTransform: "uppercase",
+            letterSpacing: "0.15em",
+            textShadow: `0 0 5px ${C.cyan}30`,
+          }}>
+            Scroll to Explore
+          </span>
+        </div>
+      )}
 
       {/* Demo mode step indicator */}
       {demoActive && demoStep >= 0 && (

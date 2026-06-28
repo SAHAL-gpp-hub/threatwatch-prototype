@@ -1,2742 +1,1163 @@
-[
-  {
-    "employee_id": "EMP-007",
-    "name": "John Smith",
-    "initials": "FA",
-    "department": "IT",
-    "role": "Systems Administrator",
-    "peak_score": 94.5,
-    "risk_label": "CRITICAL",
-    "trend": "Rising",
-    "login_hour": 1,
-    "files": 214,
-    "privilege": 7,
-    "usb": 1,
-    "sentiment": -0.92,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 17.8
-      },
-      {
-        "day": 2,
-        "score": 9.0
-      },
-      {
-        "day": 3,
-        "score": 42.9
-      },
-      {
-        "day": 4,
-        "score": 20.7
-      },
-      {
-        "day": 5,
-        "score": 6.4
-      },
-      {
-        "day": 6,
-        "score": 14.0
-      },
-      {
-        "day": 7,
-        "score": 7.3
-      },
-      {
-        "day": 8,
-        "score": 9.3
-      },
-      {
-        "day": 9,
-        "score": 23.8
-      },
-      {
-        "day": 10,
-        "score": 28.3
-      },
-      {
-        "day": 11,
-        "score": 18.0
-      },
-      {
-        "day": 12,
-        "score": 15.8
-      },
-      {
-        "day": 13,
-        "score": 14.5
-      },
-      {
-        "day": 14,
-        "score": 12.0
-      },
-      {
-        "day": 15,
-        "score": 13.4
-      },
-      {
-        "day": 16,
-        "score": 13.1
-      },
-      {
-        "day": 17,
-        "score": 39.6
-      },
-      {
-        "day": 18,
-        "score": 9.5
-      },
-      {
-        "day": 19,
-        "score": 23.3
-      },
-      {
-        "day": 20,
-        "score": 21.2
-      },
-      {
-        "day": 21,
-        "score": 44.4
-      },
-      {
-        "day": 22,
-        "score": 8.6
-      },
-      {
-        "day": 23,
-        "score": 18.9
-      },
-      {
-        "day": 24,
-        "score": 4.9
-      },
-      {
-        "day": 25,
-        "score": 8.5
-      },
-      {
-        "day": 26,
-        "score": 94.3
-      },
-      {
-        "day": 27,
-        "score": 92.9
-      },
-      {
-        "day": 28,
-        "score": 94.1
-      },
-      {
-        "day": 29,
-        "score": 92.4
-      },
-      {
-        "day": 30,
-        "score": 94.5
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-002",
-    "name": "Priya Nair",
-    "initials": "PN",
-    "department": "Finance",
-    "role": "Financial Analyst",
-    "peak_score": 60.4,
-    "risk_label": "HIGH",
-    "trend": "Stable",
-    "login_hour": 8,
-    "files": 25,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.37,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 12.8
-      },
-      {
-        "day": 2,
-        "score": 23.3
-      },
-      {
-        "day": 3,
-        "score": 13.9
-      },
-      {
-        "day": 4,
-        "score": 8.5
-      },
-      {
-        "day": 5,
-        "score": 7.1
-      },
-      {
-        "day": 6,
-        "score": 17.4
-      },
-      {
-        "day": 7,
-        "score": 11.6
-      },
-      {
-        "day": 8,
-        "score": 15.4
-      },
-      {
-        "day": 9,
-        "score": 6.9
-      },
-      {
-        "day": 10,
-        "score": 8.4
-      },
-      {
-        "day": 11,
-        "score": 12.9
-      },
-      {
-        "day": 12,
-        "score": 60.4
-      },
-      {
-        "day": 13,
-        "score": 15.3
-      },
-      {
-        "day": 14,
-        "score": 19.6
-      },
-      {
-        "day": 15,
-        "score": 39.1
-      },
-      {
-        "day": 16,
-        "score": 34.9
-      },
-      {
-        "day": 17,
-        "score": 30.6
-      },
-      {
-        "day": 18,
-        "score": 27.8
-      },
-      {
-        "day": 19,
-        "score": 14.9
-      },
-      {
-        "day": 20,
-        "score": 30.5
-      },
-      {
-        "day": 21,
-        "score": 7.7
-      },
-      {
-        "day": 22,
-        "score": 28.7
-      },
-      {
-        "day": 23,
-        "score": 51.5
-      },
-      {
-        "day": 24,
-        "score": 16.8
-      },
-      {
-        "day": 25,
-        "score": 13.3
-      },
-      {
-        "day": 26,
-        "score": 23.4
-      },
-      {
-        "day": 27,
-        "score": 9.3
-      },
-      {
-        "day": 28,
-        "score": 31.8
-      },
-      {
-        "day": 29,
-        "score": 6.1
-      },
-      {
-        "day": 30,
-        "score": 11.5
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-017",
-    "name": "David Park",
-    "initials": "DP",
-    "department": "Marketing",
-    "role": "Brand Strategist",
-    "peak_score": 53.4,
-    "risk_label": "MODERATE",
-    "trend": "Rising",
-    "login_hour": 8,
-    "files": 17,
-    "privilege": 0,
-    "usb": 1,
-    "sentiment": 0.68,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 5.9
-      },
-      {
-        "day": 2,
-        "score": 10.5
-      },
-      {
-        "day": 3,
-        "score": 14.7
-      },
-      {
-        "day": 4,
-        "score": 5.5
-      },
-      {
-        "day": 5,
-        "score": 5.2
-      },
-      {
-        "day": 6,
-        "score": 10.0
-      },
-      {
-        "day": 7,
-        "score": 11.8
-      },
-      {
-        "day": 8,
-        "score": 12.7
-      },
-      {
-        "day": 9,
-        "score": 11.0
-      },
-      {
-        "day": 10,
-        "score": 14.9
-      },
-      {
-        "day": 11,
-        "score": 25.9
-      },
-      {
-        "day": 12,
-        "score": 44.6
-      },
-      {
-        "day": 13,
-        "score": 21.9
-      },
-      {
-        "day": 14,
-        "score": 18.3
-      },
-      {
-        "day": 15,
-        "score": 15.0
-      },
-      {
-        "day": 16,
-        "score": 8.5
-      },
-      {
-        "day": 17,
-        "score": 6.3
-      },
-      {
-        "day": 18,
-        "score": 8.6
-      },
-      {
-        "day": 19,
-        "score": 8.9
-      },
-      {
-        "day": 20,
-        "score": 28.4
-      },
-      {
-        "day": 21,
-        "score": 53.4
-      },
-      {
-        "day": 22,
-        "score": 21.9
-      },
-      {
-        "day": 23,
-        "score": 16.6
-      },
-      {
-        "day": 24,
-        "score": 11.7
-      },
-      {
-        "day": 25,
-        "score": 7.5
-      },
-      {
-        "day": 26,
-        "score": 13.9
-      },
-      {
-        "day": 27,
-        "score": 4.5
-      },
-      {
-        "day": 28,
-        "score": 42.1
-      },
-      {
-        "day": 29,
-        "score": 10.3
-      },
-      {
-        "day": 30,
-        "score": 41.8
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-020",
-    "name": "Hannah Mueller",
-    "initials": "HM",
-    "department": "IT",
-    "role": "Cloud Infrastructure Eng",
-    "peak_score": 50.2,
-    "risk_label": "MODERATE",
-    "trend": "Stable",
-    "login_hour": 8,
-    "files": 19,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.28,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 14.7
-      },
-      {
-        "day": 2,
-        "score": 18.7
-      },
-      {
-        "day": 3,
-        "score": 13.9
-      },
-      {
-        "day": 4,
-        "score": 13.8
-      },
-      {
-        "day": 5,
-        "score": 14.8
-      },
-      {
-        "day": 6,
-        "score": 19.0
-      },
-      {
-        "day": 7,
-        "score": 23.7
-      },
-      {
-        "day": 8,
-        "score": 14.5
-      },
-      {
-        "day": 9,
-        "score": 16.9
-      },
-      {
-        "day": 10,
-        "score": 28.7
-      },
-      {
-        "day": 11,
-        "score": 10.5
-      },
-      {
-        "day": 12,
-        "score": 13.2
-      },
-      {
-        "day": 13,
-        "score": 6.4
-      },
-      {
-        "day": 14,
-        "score": 19.7
-      },
-      {
-        "day": 15,
-        "score": 11.5
-      },
-      {
-        "day": 16,
-        "score": 9.0
-      },
-      {
-        "day": 17,
-        "score": 14.0
-      },
-      {
-        "day": 18,
-        "score": 16.0
-      },
-      {
-        "day": 19,
-        "score": 15.0
-      },
-      {
-        "day": 20,
-        "score": 18.5
-      },
-      {
-        "day": 21,
-        "score": 14.2
-      },
-      {
-        "day": 22,
-        "score": 20.3
-      },
-      {
-        "day": 23,
-        "score": 36.5
-      },
-      {
-        "day": 24,
-        "score": 14.7
-      },
-      {
-        "day": 25,
-        "score": 11.1
-      },
-      {
-        "day": 26,
-        "score": 19.1
-      },
-      {
-        "day": 27,
-        "score": 50.2
-      },
-      {
-        "day": 28,
-        "score": 7.5
-      },
-      {
-        "day": 29,
-        "score": 11.9
-      },
-      {
-        "day": 30,
-        "score": 9.8
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-019",
-    "name": "Omar Shaikh",
-    "initials": "OS",
-    "department": "Sales",
-    "role": "Business Dev Manager",
-    "peak_score": 47.5,
-    "risk_label": "MODERATE",
-    "trend": "Declining",
-    "login_hour": 9,
-    "files": 18,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.57,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 13.3
-      },
-      {
-        "day": 2,
-        "score": 13.7
-      },
-      {
-        "day": 3,
-        "score": 5.5
-      },
-      {
-        "day": 4,
-        "score": 42.7
-      },
-      {
-        "day": 5,
-        "score": 13.4
-      },
-      {
-        "day": 6,
-        "score": 10.1
-      },
-      {
-        "day": 7,
-        "score": 20.5
-      },
-      {
-        "day": 8,
-        "score": 9.1
-      },
-      {
-        "day": 9,
-        "score": 10.2
-      },
-      {
-        "day": 10,
-        "score": 10.9
-      },
-      {
-        "day": 11,
-        "score": 10.2
-      },
-      {
-        "day": 12,
-        "score": 15.0
-      },
-      {
-        "day": 13,
-        "score": 14.5
-      },
-      {
-        "day": 14,
-        "score": 30.5
-      },
-      {
-        "day": 15,
-        "score": 19.5
-      },
-      {
-        "day": 16,
-        "score": 7.5
-      },
-      {
-        "day": 17,
-        "score": 5.3
-      },
-      {
-        "day": 18,
-        "score": 20.3
-      },
-      {
-        "day": 19,
-        "score": 24.8
-      },
-      {
-        "day": 20,
-        "score": 13.3
-      },
-      {
-        "day": 21,
-        "score": 19.6
-      },
-      {
-        "day": 22,
-        "score": 47.5
-      },
-      {
-        "day": 23,
-        "score": 28.2
-      },
-      {
-        "day": 24,
-        "score": 7.3
-      },
-      {
-        "day": 25,
-        "score": 11.8
-      },
-      {
-        "day": 26,
-        "score": 11.8
-      },
-      {
-        "day": 27,
-        "score": 7.8
-      },
-      {
-        "day": 28,
-        "score": 7.5
-      },
-      {
-        "day": 29,
-        "score": 11.0
-      },
-      {
-        "day": 30,
-        "score": 15.9
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-010",
-    "name": "Robert Liu",
-    "initials": "RL",
-    "department": "Engineering",
-    "role": "Frontend Developer",
-    "peak_score": 47.3,
-    "risk_label": "MODERATE",
-    "trend": "Declining",
-    "login_hour": 9,
-    "files": 24,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.44,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 21.0
-      },
-      {
-        "day": 2,
-        "score": 5.5
-      },
-      {
-        "day": 3,
-        "score": 39.6
-      },
-      {
-        "day": 4,
-        "score": 10.7
-      },
-      {
-        "day": 5,
-        "score": 5.2
-      },
-      {
-        "day": 6,
-        "score": 17.1
-      },
-      {
-        "day": 7,
-        "score": 11.6
-      },
-      {
-        "day": 8,
-        "score": 28.8
-      },
-      {
-        "day": 9,
-        "score": 12.0
-      },
-      {
-        "day": 10,
-        "score": 11.2
-      },
-      {
-        "day": 11,
-        "score": 5.5
-      },
-      {
-        "day": 12,
-        "score": 26.8
-      },
-      {
-        "day": 13,
-        "score": 22.3
-      },
-      {
-        "day": 14,
-        "score": 7.6
-      },
-      {
-        "day": 15,
-        "score": 5.6
-      },
-      {
-        "day": 16,
-        "score": 18.2
-      },
-      {
-        "day": 17,
-        "score": 7.6
-      },
-      {
-        "day": 18,
-        "score": 19.6
-      },
-      {
-        "day": 19,
-        "score": 8.2
-      },
-      {
-        "day": 20,
-        "score": 24.5
-      },
-      {
-        "day": 21,
-        "score": 8.7
-      },
-      {
-        "day": 22,
-        "score": 11.6
-      },
-      {
-        "day": 23,
-        "score": 47.3
-      },
-      {
-        "day": 24,
-        "score": 7.6
-      },
-      {
-        "day": 25,
-        "score": 6.9
-      },
-      {
-        "day": 26,
-        "score": 17.2
-      },
-      {
-        "day": 27,
-        "score": 8.4
-      },
-      {
-        "day": 28,
-        "score": 15.2
-      },
-      {
-        "day": 29,
-        "score": 5.9
-      },
-      {
-        "day": 30,
-        "score": 5.9
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-001",
-    "name": "Marcus Webb",
-    "initials": "MW",
-    "department": "Engineering",
-    "role": "Senior DevOps Engineer",
-    "peak_score": 45.6,
-    "risk_label": "MODERATE",
-    "trend": "Stable",
-    "login_hour": 10,
-    "files": 23,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.5,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 8.5
-      },
-      {
-        "day": 2,
-        "score": 8.7
-      },
-      {
-        "day": 3,
-        "score": 12.7
-      },
-      {
-        "day": 4,
-        "score": 23.4
-      },
-      {
-        "day": 5,
-        "score": 11.6
-      },
-      {
-        "day": 6,
-        "score": 5.5
-      },
-      {
-        "day": 7,
-        "score": 45.6
-      },
-      {
-        "day": 8,
-        "score": 9.2
-      },
-      {
-        "day": 9,
-        "score": 14.0
-      },
-      {
-        "day": 10,
-        "score": 6.4
-      },
-      {
-        "day": 11,
-        "score": 9.7
-      },
-      {
-        "day": 12,
-        "score": 9.3
-      },
-      {
-        "day": 13,
-        "score": 13.8
-      },
-      {
-        "day": 14,
-        "score": 12.7
-      },
-      {
-        "day": 15,
-        "score": 13.8
-      },
-      {
-        "day": 16,
-        "score": 16.1
-      },
-      {
-        "day": 17,
-        "score": 24.1
-      },
-      {
-        "day": 18,
-        "score": 5.6
-      },
-      {
-        "day": 19,
-        "score": 41.6
-      },
-      {
-        "day": 20,
-        "score": 13.3
-      },
-      {
-        "day": 21,
-        "score": 38.5
-      },
-      {
-        "day": 22,
-        "score": 17.2
-      },
-      {
-        "day": 23,
-        "score": 19.6
-      },
-      {
-        "day": 24,
-        "score": 9.2
-      },
-      {
-        "day": 25,
-        "score": 13.5
-      },
-      {
-        "day": 26,
-        "score": 23.8
-      },
-      {
-        "day": 27,
-        "score": 8.2
-      },
-      {
-        "day": 28,
-        "score": 14.9
-      },
-      {
-        "day": 29,
-        "score": 13.8
-      },
-      {
-        "day": 30,
-        "score": 14.3
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-006",
-    "name": "Chen Wei",
-    "initials": "CW",
-    "department": "Engineering",
-    "role": "Backend Developer",
-    "peak_score": 44.9,
-    "risk_label": "MODERATE",
-    "trend": "Rising",
-    "login_hour": 10,
-    "files": 20,
-    "privilege": 1,
-    "usb": 0,
-    "sentiment": 0.38,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 14.0
-      },
-      {
-        "day": 2,
-        "score": 6.8
-      },
-      {
-        "day": 3,
-        "score": 8.7
-      },
-      {
-        "day": 4,
-        "score": 6.6
-      },
-      {
-        "day": 5,
-        "score": 11.9
-      },
-      {
-        "day": 6,
-        "score": 4.8
-      },
-      {
-        "day": 7,
-        "score": 5.0
-      },
-      {
-        "day": 8,
-        "score": 12.5
-      },
-      {
-        "day": 9,
-        "score": 12.0
-      },
-      {
-        "day": 10,
-        "score": 11.3
-      },
-      {
-        "day": 11,
-        "score": 37.8
-      },
-      {
-        "day": 12,
-        "score": 18.3
-      },
-      {
-        "day": 13,
-        "score": 5.9
-      },
-      {
-        "day": 14,
-        "score": 7.7
-      },
-      {
-        "day": 15,
-        "score": 8.1
-      },
-      {
-        "day": 16,
-        "score": 8.8
-      },
-      {
-        "day": 17,
-        "score": 22.9
-      },
-      {
-        "day": 18,
-        "score": 5.6
-      },
-      {
-        "day": 19,
-        "score": 19.6
-      },
-      {
-        "day": 20,
-        "score": 36.4
-      },
-      {
-        "day": 21,
-        "score": 12.6
-      },
-      {
-        "day": 22,
-        "score": 6.6
-      },
-      {
-        "day": 23,
-        "score": 12.9
-      },
-      {
-        "day": 24,
-        "score": 11.6
-      },
-      {
-        "day": 25,
-        "score": 5.6
-      },
-      {
-        "day": 26,
-        "score": 28.4
-      },
-      {
-        "day": 27,
-        "score": 34.9
-      },
-      {
-        "day": 28,
-        "score": 8.4
-      },
-      {
-        "day": 29,
-        "score": 44.9
-      },
-      {
-        "day": 30,
-        "score": 35.4
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-011",
-    "name": "Nina Patel",
-    "initials": "NP",
-    "department": "HR",
-    "role": "Talent Acquisition Lead",
-    "peak_score": 43.3,
-    "risk_label": "MODERATE",
-    "trend": "Stable",
-    "login_hour": 8,
-    "files": 19,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.4,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 4.8
-      },
-      {
-        "day": 2,
-        "score": 11.7
-      },
-      {
-        "day": 3,
-        "score": 13.9
-      },
-      {
-        "day": 4,
-        "score": 13.3
-      },
-      {
-        "day": 5,
-        "score": 7.7
-      },
-      {
-        "day": 6,
-        "score": 25.0
-      },
-      {
-        "day": 7,
-        "score": 34.5
-      },
-      {
-        "day": 8,
-        "score": 6.7
-      },
-      {
-        "day": 9,
-        "score": 6.9
-      },
-      {
-        "day": 10,
-        "score": 6.6
-      },
-      {
-        "day": 11,
-        "score": 16.6
-      },
-      {
-        "day": 12,
-        "score": 14.1
-      },
-      {
-        "day": 13,
-        "score": 5.0
-      },
-      {
-        "day": 14,
-        "score": 43.3
-      },
-      {
-        "day": 15,
-        "score": 13.7
-      },
-      {
-        "day": 16,
-        "score": 7.3
-      },
-      {
-        "day": 17,
-        "score": 16.7
-      },
-      {
-        "day": 18,
-        "score": 5.1
-      },
-      {
-        "day": 19,
-        "score": 7.5
-      },
-      {
-        "day": 20,
-        "score": 8.4
-      },
-      {
-        "day": 21,
-        "score": 8.1
-      },
-      {
-        "day": 22,
-        "score": 11.6
-      },
-      {
-        "day": 23,
-        "score": 30.6
-      },
-      {
-        "day": 24,
-        "score": 9.9
-      },
-      {
-        "day": 25,
-        "score": 14.9
-      },
-      {
-        "day": 26,
-        "score": 8.8
-      },
-      {
-        "day": 27,
-        "score": 11.3
-      },
-      {
-        "day": 28,
-        "score": 17.1
-      },
-      {
-        "day": 29,
-        "score": 15.0
-      },
-      {
-        "day": 30,
-        "score": 6.0
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-008",
-    "name": "James Thornton",
-    "initials": "JT",
-    "department": "Marketing",
-    "role": "Marketing Director",
-    "peak_score": 42.6,
-    "risk_label": "MODERATE",
-    "trend": "Rising",
-    "login_hour": 8,
-    "files": 24,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.71,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 6.3
-      },
-      {
-        "day": 2,
-        "score": 31.0
-      },
-      {
-        "day": 3,
-        "score": 12.2
-      },
-      {
-        "day": 4,
-        "score": 5.2
-      },
-      {
-        "day": 5,
-        "score": 11.6
-      },
-      {
-        "day": 6,
-        "score": 18.3
-      },
-      {
-        "day": 7,
-        "score": 16.0
-      },
-      {
-        "day": 8,
-        "score": 9.5
-      },
-      {
-        "day": 9,
-        "score": 18.2
-      },
-      {
-        "day": 10,
-        "score": 19.2
-      },
-      {
-        "day": 11,
-        "score": 7.5
-      },
-      {
-        "day": 12,
-        "score": 32.8
-      },
-      {
-        "day": 13,
-        "score": 4.2
-      },
-      {
-        "day": 14,
-        "score": 6.9
-      },
-      {
-        "day": 15,
-        "score": 4.9
-      },
-      {
-        "day": 16,
-        "score": 7.3
-      },
-      {
-        "day": 17,
-        "score": 6.5
-      },
-      {
-        "day": 18,
-        "score": 5.2
-      },
-      {
-        "day": 19,
-        "score": 15.1
-      },
-      {
-        "day": 20,
-        "score": 42.6
-      },
-      {
-        "day": 21,
-        "score": 7.0
-      },
-      {
-        "day": 22,
-        "score": 8.8
-      },
-      {
-        "day": 23,
-        "score": 17.9
-      },
-      {
-        "day": 24,
-        "score": 10.2
-      },
-      {
-        "day": 25,
-        "score": 5.7
-      },
-      {
-        "day": 26,
-        "score": 11.3
-      },
-      {
-        "day": 27,
-        "score": 17.7
-      },
-      {
-        "day": 28,
-        "score": 21.4
-      },
-      {
-        "day": 29,
-        "score": 24.7
-      },
-      {
-        "day": 30,
-        "score": 16.4
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-013",
-    "name": "Yuki Tanaka",
-    "initials": "YT",
-    "department": "Engineering",
-    "role": "ML Engineer",
-    "peak_score": 41.5,
-    "risk_label": "MODERATE",
-    "trend": "Stable",
-    "login_hour": 9,
-    "files": 11,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.58,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 5.8
-      },
-      {
-        "day": 2,
-        "score": 10.2
-      },
-      {
-        "day": 3,
-        "score": 5.7
-      },
-      {
-        "day": 4,
-        "score": 15.0
-      },
-      {
-        "day": 5,
-        "score": 14.9
-      },
-      {
-        "day": 6,
-        "score": 18.2
-      },
-      {
-        "day": 7,
-        "score": 9.0
-      },
-      {
-        "day": 8,
-        "score": 9.3
-      },
-      {
-        "day": 9,
-        "score": 32.9
-      },
-      {
-        "day": 10,
-        "score": 4.8
-      },
-      {
-        "day": 11,
-        "score": 41.5
-      },
-      {
-        "day": 12,
-        "score": 10.8
-      },
-      {
-        "day": 13,
-        "score": 17.8
-      },
-      {
-        "day": 14,
-        "score": 9.9
-      },
-      {
-        "day": 15,
-        "score": 5.8
-      },
-      {
-        "day": 16,
-        "score": 10.9
-      },
-      {
-        "day": 17,
-        "score": 17.0
-      },
-      {
-        "day": 18,
-        "score": 5.3
-      },
-      {
-        "day": 19,
-        "score": 18.0
-      },
-      {
-        "day": 20,
-        "score": 8.4
-      },
-      {
-        "day": 21,
-        "score": 9.3
-      },
-      {
-        "day": 22,
-        "score": 24.8
-      },
-      {
-        "day": 23,
-        "score": 4.7
-      },
-      {
-        "day": 24,
-        "score": 13.1
-      },
-      {
-        "day": 25,
-        "score": 17.3
-      },
-      {
-        "day": 26,
-        "score": 10.9
-      },
-      {
-        "day": 27,
-        "score": 6.9
-      },
-      {
-        "day": 28,
-        "score": 12.2
-      },
-      {
-        "day": 29,
-        "score": 6.4
-      },
-      {
-        "day": 30,
-        "score": 17.0
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-016",
-    "name": "Sofia Rossi",
-    "initials": "SR",
-    "department": "Legal",
-    "role": "Corporate Counsel",
-    "peak_score": 40.5,
-    "risk_label": "MODERATE",
-    "trend": "Rising",
-    "login_hour": 9,
-    "files": 24,
-    "privilege": 0,
-    "usb": 1,
-    "sentiment": 0.38,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 7.9
-      },
-      {
-        "day": 2,
-        "score": 16.1
-      },
-      {
-        "day": 3,
-        "score": 15.8
-      },
-      {
-        "day": 4,
-        "score": 12.3
-      },
-      {
-        "day": 5,
-        "score": 8.4
-      },
-      {
-        "day": 6,
-        "score": 18.8
-      },
-      {
-        "day": 7,
-        "score": 12.0
-      },
-      {
-        "day": 8,
-        "score": 6.5
-      },
-      {
-        "day": 9,
-        "score": 15.3
-      },
-      {
-        "day": 10,
-        "score": 16.4
-      },
-      {
-        "day": 11,
-        "score": 7.3
-      },
-      {
-        "day": 12,
-        "score": 10.9
-      },
-      {
-        "day": 13,
-        "score": 12.5
-      },
-      {
-        "day": 14,
-        "score": 16.2
-      },
-      {
-        "day": 15,
-        "score": 5.7
-      },
-      {
-        "day": 16,
-        "score": 6.3
-      },
-      {
-        "day": 17,
-        "score": 9.6
-      },
-      {
-        "day": 18,
-        "score": 10.7
-      },
-      {
-        "day": 19,
-        "score": 12.5
-      },
-      {
-        "day": 20,
-        "score": 13.3
-      },
-      {
-        "day": 21,
-        "score": 12.8
-      },
-      {
-        "day": 22,
-        "score": 10.2
-      },
-      {
-        "day": 23,
-        "score": 22.0
-      },
-      {
-        "day": 24,
-        "score": 8.5
-      },
-      {
-        "day": 25,
-        "score": 19.3
-      },
-      {
-        "day": 26,
-        "score": 40.5
-      },
-      {
-        "day": 27,
-        "score": 22.5
-      },
-      {
-        "day": 28,
-        "score": 12.3
-      },
-      {
-        "day": 29,
-        "score": 9.3
-      },
-      {
-        "day": 30,
-        "score": 38.0
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-012",
-    "name": "Carlos Mendez",
-    "initials": "CM",
-    "department": "Sales",
-    "role": "Regional Sales Manager",
-    "peak_score": 40.3,
-    "risk_label": "MODERATE",
-    "trend": "Stable",
-    "login_hour": 8,
-    "files": 23,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.43,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 12.2
-      },
-      {
-        "day": 2,
-        "score": 12.9
-      },
-      {
-        "day": 3,
-        "score": 34.8
-      },
-      {
-        "day": 4,
-        "score": 7.0
-      },
-      {
-        "day": 5,
-        "score": 22.2
-      },
-      {
-        "day": 6,
-        "score": 28.9
-      },
-      {
-        "day": 7,
-        "score": 6.0
-      },
-      {
-        "day": 8,
-        "score": 8.7
-      },
-      {
-        "day": 9,
-        "score": 40.3
-      },
-      {
-        "day": 10,
-        "score": 15.6
-      },
-      {
-        "day": 11,
-        "score": 31.7
-      },
-      {
-        "day": 12,
-        "score": 5.9
-      },
-      {
-        "day": 13,
-        "score": 7.8
-      },
-      {
-        "day": 14,
-        "score": 9.5
-      },
-      {
-        "day": 15,
-        "score": 6.7
-      },
-      {
-        "day": 16,
-        "score": 6.1
-      },
-      {
-        "day": 17,
-        "score": 8.0
-      },
-      {
-        "day": 18,
-        "score": 10.6
-      },
-      {
-        "day": 19,
-        "score": 6.8
-      },
-      {
-        "day": 20,
-        "score": 19.8
-      },
-      {
-        "day": 21,
-        "score": 6.6
-      },
-      {
-        "day": 22,
-        "score": 10.4
-      },
-      {
-        "day": 23,
-        "score": 19.7
-      },
-      {
-        "day": 24,
-        "score": 10.5
-      },
-      {
-        "day": 25,
-        "score": 9.9
-      },
-      {
-        "day": 26,
-        "score": 11.0
-      },
-      {
-        "day": 27,
-        "score": 8.0
-      },
-      {
-        "day": 28,
-        "score": 16.1
-      },
-      {
-        "day": 29,
-        "score": 7.7
-      },
-      {
-        "day": 30,
-        "score": 18.9
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-005",
-    "name": "Tom\u00e1s Rivera",
-    "initials": "TR",
-    "department": "Legal",
-    "role": "Compliance Officer",
-    "peak_score": 39.1,
-    "risk_label": "MODERATE",
-    "trend": "Stable",
-    "login_hour": 8,
-    "files": 25,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.33,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 11.7
-      },
-      {
-        "day": 2,
-        "score": 21.2
-      },
-      {
-        "day": 3,
-        "score": 17.3
-      },
-      {
-        "day": 4,
-        "score": 14.3
-      },
-      {
-        "day": 5,
-        "score": 11.9
-      },
-      {
-        "day": 6,
-        "score": 12.9
-      },
-      {
-        "day": 7,
-        "score": 31.9
-      },
-      {
-        "day": 8,
-        "score": 4.7
-      },
-      {
-        "day": 9,
-        "score": 12.4
-      },
-      {
-        "day": 10,
-        "score": 18.5
-      },
-      {
-        "day": 11,
-        "score": 24.8
-      },
-      {
-        "day": 12,
-        "score": 11.8
-      },
-      {
-        "day": 13,
-        "score": 16.5
-      },
-      {
-        "day": 14,
-        "score": 9.7
-      },
-      {
-        "day": 15,
-        "score": 14.0
-      },
-      {
-        "day": 16,
-        "score": 39.1
-      },
-      {
-        "day": 17,
-        "score": 11.2
-      },
-      {
-        "day": 18,
-        "score": 6.0
-      },
-      {
-        "day": 19,
-        "score": 21.4
-      },
-      {
-        "day": 20,
-        "score": 12.4
-      },
-      {
-        "day": 21,
-        "score": 31.7
-      },
-      {
-        "day": 22,
-        "score": 10.1
-      },
-      {
-        "day": 23,
-        "score": 7.5
-      },
-      {
-        "day": 24,
-        "score": 27.2
-      },
-      {
-        "day": 25,
-        "score": 7.0
-      },
-      {
-        "day": 26,
-        "score": 7.7
-      },
-      {
-        "day": 27,
-        "score": 13.9
-      },
-      {
-        "day": 28,
-        "score": 6.8
-      },
-      {
-        "day": 29,
-        "score": 9.1
-      },
-      {
-        "day": 30,
-        "score": 22.9
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-009",
-    "name": "Sarah Kim",
-    "initials": "SK",
-    "department": "Finance",
-    "role": "Accountant",
-    "peak_score": 39.1,
-    "risk_label": "MODERATE",
-    "trend": "Stable",
-    "login_hour": 8,
-    "files": 17,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.53,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 17.5
-      },
-      {
-        "day": 2,
-        "score": 14.6
-      },
-      {
-        "day": 3,
-        "score": 6.7
-      },
-      {
-        "day": 4,
-        "score": 8.0
-      },
-      {
-        "day": 5,
-        "score": 39.1
-      },
-      {
-        "day": 6,
-        "score": 8.9
-      },
-      {
-        "day": 7,
-        "score": 12.5
-      },
-      {
-        "day": 8,
-        "score": 17.9
-      },
-      {
-        "day": 9,
-        "score": 12.4
-      },
-      {
-        "day": 10,
-        "score": 5.5
-      },
-      {
-        "day": 11,
-        "score": 10.0
-      },
-      {
-        "day": 12,
-        "score": 9.9
-      },
-      {
-        "day": 13,
-        "score": 27.1
-      },
-      {
-        "day": 14,
-        "score": 10.7
-      },
-      {
-        "day": 15,
-        "score": 13.0
-      },
-      {
-        "day": 16,
-        "score": 12.1
-      },
-      {
-        "day": 17,
-        "score": 19.6
-      },
-      {
-        "day": 18,
-        "score": 16.8
-      },
-      {
-        "day": 19,
-        "score": 16.0
-      },
-      {
-        "day": 20,
-        "score": 36.6
-      },
-      {
-        "day": 21,
-        "score": 10.9
-      },
-      {
-        "day": 22,
-        "score": 10.9
-      },
-      {
-        "day": 23,
-        "score": 10.0
-      },
-      {
-        "day": 24,
-        "score": 34.0
-      },
-      {
-        "day": 25,
-        "score": 13.7
-      },
-      {
-        "day": 26,
-        "score": 10.7
-      },
-      {
-        "day": 27,
-        "score": 9.6
-      },
-      {
-        "day": 28,
-        "score": 38.1
-      },
-      {
-        "day": 29,
-        "score": 6.8
-      },
-      {
-        "day": 30,
-        "score": 6.2
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-018",
-    "name": "Elena Vasquez",
-    "initials": "EV",
-    "department": "Engineering",
-    "role": "QA Engineer",
-    "peak_score": 38.7,
-    "risk_label": "MODERATE",
-    "trend": "Stable",
-    "login_hour": 9,
-    "files": 23,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.43,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 14.1
-      },
-      {
-        "day": 2,
-        "score": 10.0
-      },
-      {
-        "day": 3,
-        "score": 7.1
-      },
-      {
-        "day": 4,
-        "score": 14.9
-      },
-      {
-        "day": 5,
-        "score": 8.9
-      },
-      {
-        "day": 6,
-        "score": 14.8
-      },
-      {
-        "day": 7,
-        "score": 20.0
-      },
-      {
-        "day": 8,
-        "score": 8.9
-      },
-      {
-        "day": 9,
-        "score": 17.4
-      },
-      {
-        "day": 10,
-        "score": 33.9
-      },
-      {
-        "day": 11,
-        "score": 20.9
-      },
-      {
-        "day": 12,
-        "score": 36.9
-      },
-      {
-        "day": 13,
-        "score": 17.3
-      },
-      {
-        "day": 14,
-        "score": 29.6
-      },
-      {
-        "day": 15,
-        "score": 18.0
-      },
-      {
-        "day": 16,
-        "score": 5.2
-      },
-      {
-        "day": 17,
-        "score": 10.5
-      },
-      {
-        "day": 18,
-        "score": 7.7
-      },
-      {
-        "day": 19,
-        "score": 8.5
-      },
-      {
-        "day": 20,
-        "score": 18.9
-      },
-      {
-        "day": 21,
-        "score": 15.1
-      },
-      {
-        "day": 22,
-        "score": 9.3
-      },
-      {
-        "day": 23,
-        "score": 8.6
-      },
-      {
-        "day": 24,
-        "score": 33.9
-      },
-      {
-        "day": 25,
-        "score": 10.7
-      },
-      {
-        "day": 26,
-        "score": 11.8
-      },
-      {
-        "day": 27,
-        "score": 6.9
-      },
-      {
-        "day": 28,
-        "score": 38.7
-      },
-      {
-        "day": 29,
-        "score": 13.2
-      },
-      {
-        "day": 30,
-        "score": 7.3
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-003",
-    "name": "Derek Sloane",
-    "initials": "DS",
-    "department": "Sales",
-    "role": "Account Executive",
-    "peak_score": 38.6,
-    "risk_label": "MODERATE",
-    "trend": "Stable",
-    "login_hour": 8,
-    "files": 23,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.37,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 10.6
-      },
-      {
-        "day": 2,
-        "score": 9.8
-      },
-      {
-        "day": 3,
-        "score": 6.2
-      },
-      {
-        "day": 4,
-        "score": 15.8
-      },
-      {
-        "day": 5,
-        "score": 13.0
-      },
-      {
-        "day": 6,
-        "score": 13.9
-      },
-      {
-        "day": 7,
-        "score": 17.8
-      },
-      {
-        "day": 8,
-        "score": 7.0
-      },
-      {
-        "day": 9,
-        "score": 38.6
-      },
-      {
-        "day": 10,
-        "score": 15.8
-      },
-      {
-        "day": 11,
-        "score": 12.5
-      },
-      {
-        "day": 12,
-        "score": 31.5
-      },
-      {
-        "day": 13,
-        "score": 13.5
-      },
-      {
-        "day": 14,
-        "score": 11.5
-      },
-      {
-        "day": 15,
-        "score": 18.6
-      },
-      {
-        "day": 16,
-        "score": 12.2
-      },
-      {
-        "day": 17,
-        "score": 10.5
-      },
-      {
-        "day": 18,
-        "score": 12.6
-      },
-      {
-        "day": 19,
-        "score": 12.0
-      },
-      {
-        "day": 20,
-        "score": 20.3
-      },
-      {
-        "day": 21,
-        "score": 6.9
-      },
-      {
-        "day": 22,
-        "score": 16.5
-      },
-      {
-        "day": 23,
-        "score": 15.1
-      },
-      {
-        "day": 24,
-        "score": 17.1
-      },
-      {
-        "day": 25,
-        "score": 31.2
-      },
-      {
-        "day": 26,
-        "score": 21.2
-      },
-      {
-        "day": 27,
-        "score": 21.3
-      },
-      {
-        "day": 28,
-        "score": 7.1
-      },
-      {
-        "day": 29,
-        "score": 7.0
-      },
-      {
-        "day": 30,
-        "score": 7.7
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-015",
-    "name": "Liam O'Brien",
-    "initials": "LO",
-    "department": "IT",
-    "role": "Network Administrator",
-    "peak_score": 37.3,
-    "risk_label": "MODERATE",
-    "trend": "Stable",
-    "login_hour": 8,
-    "files": 15,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.44,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 10.5
-      },
-      {
-        "day": 2,
-        "score": 8.5
-      },
-      {
-        "day": 3,
-        "score": 6.3
-      },
-      {
-        "day": 4,
-        "score": 5.2
-      },
-      {
-        "day": 5,
-        "score": 17.1
-      },
-      {
-        "day": 6,
-        "score": 5.9
-      },
-      {
-        "day": 7,
-        "score": 24.8
-      },
-      {
-        "day": 8,
-        "score": 6.2
-      },
-      {
-        "day": 9,
-        "score": 21.3
-      },
-      {
-        "day": 10,
-        "score": 34.0
-      },
-      {
-        "day": 11,
-        "score": 30.0
-      },
-      {
-        "day": 12,
-        "score": 20.1
-      },
-      {
-        "day": 13,
-        "score": 6.1
-      },
-      {
-        "day": 14,
-        "score": 14.7
-      },
-      {
-        "day": 15,
-        "score": 6.9
-      },
-      {
-        "day": 16,
-        "score": 24.2
-      },
-      {
-        "day": 17,
-        "score": 7.6
-      },
-      {
-        "day": 18,
-        "score": 6.9
-      },
-      {
-        "day": 19,
-        "score": 11.5
-      },
-      {
-        "day": 20,
-        "score": 16.6
-      },
-      {
-        "day": 21,
-        "score": 21.9
-      },
-      {
-        "day": 22,
-        "score": 22.5
-      },
-      {
-        "day": 23,
-        "score": 37.3
-      },
-      {
-        "day": 24,
-        "score": 23.6
-      },
-      {
-        "day": 25,
-        "score": 9.6
-      },
-      {
-        "day": 26,
-        "score": 9.0
-      },
-      {
-        "day": 27,
-        "score": 7.1
-      },
-      {
-        "day": 28,
-        "score": 23.0
-      },
-      {
-        "day": 29,
-        "score": 7.5
-      },
-      {
-        "day": 30,
-        "score": 9.7
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-004",
-    "name": "Aisha Okonkwo",
-    "initials": "AO",
-    "department": "HR",
-    "role": "HR Manager",
-    "peak_score": 35.2,
-    "risk_label": "MODERATE",
-    "trend": "Stable",
-    "login_hour": 7,
-    "files": 22,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.32,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 8.1
-      },
-      {
-        "day": 2,
-        "score": 9.8
-      },
-      {
-        "day": 3,
-        "score": 13.2
-      },
-      {
-        "day": 4,
-        "score": 9.8
-      },
-      {
-        "day": 5,
-        "score": 12.0
-      },
-      {
-        "day": 6,
-        "score": 5.0
-      },
-      {
-        "day": 7,
-        "score": 17.3
-      },
-      {
-        "day": 8,
-        "score": 9.6
-      },
-      {
-        "day": 9,
-        "score": 17.2
-      },
-      {
-        "day": 10,
-        "score": 6.7
-      },
-      {
-        "day": 11,
-        "score": 14.4
-      },
-      {
-        "day": 12,
-        "score": 10.4
-      },
-      {
-        "day": 13,
-        "score": 8.9
-      },
-      {
-        "day": 14,
-        "score": 8.4
-      },
-      {
-        "day": 15,
-        "score": 13.4
-      },
-      {
-        "day": 16,
-        "score": 19.1
-      },
-      {
-        "day": 17,
-        "score": 6.9
-      },
-      {
-        "day": 18,
-        "score": 35.2
-      },
-      {
-        "day": 19,
-        "score": 14.1
-      },
-      {
-        "day": 20,
-        "score": 22.8
-      },
-      {
-        "day": 21,
-        "score": 22.3
-      },
-      {
-        "day": 22,
-        "score": 7.3
-      },
-      {
-        "day": 23,
-        "score": 16.6
-      },
-      {
-        "day": 24,
-        "score": 6.8
-      },
-      {
-        "day": 25,
-        "score": 9.8
-      },
-      {
-        "day": 26,
-        "score": 22.5
-      },
-      {
-        "day": 27,
-        "score": 17.4
-      },
-      {
-        "day": 28,
-        "score": 7.6
-      },
-      {
-        "day": 29,
-        "score": 8.0
-      },
-      {
-        "day": 30,
-        "score": 20.1
-      }
-    ]
-  },
-  {
-    "employee_id": "EMP-014",
-    "name": "Amara Osei",
-    "initials": "AM",
-    "department": "Finance",
-    "role": "Risk Analyst",
-    "peak_score": 27.3,
-    "risk_label": "LOW",
-    "trend": "Stable",
-    "login_hour": 9,
-    "files": 26,
-    "privilege": 0,
-    "usb": 0,
-    "sentiment": 0.69,
-    "timeline": [
-      {
-        "day": 1,
-        "score": 9.2
-      },
-      {
-        "day": 2,
-        "score": 16.8
-      },
-      {
-        "day": 3,
-        "score": 11.3
-      },
-      {
-        "day": 4,
-        "score": 10.9
-      },
-      {
-        "day": 5,
-        "score": 8.2
-      },
-      {
-        "day": 6,
-        "score": 17.7
-      },
-      {
-        "day": 7,
-        "score": 19.8
-      },
-      {
-        "day": 8,
-        "score": 18.9
-      },
-      {
-        "day": 9,
-        "score": 9.3
-      },
-      {
-        "day": 10,
-        "score": 19.9
-      },
-      {
-        "day": 11,
-        "score": 5.4
-      },
-      {
-        "day": 12,
-        "score": 12.5
-      },
-      {
-        "day": 13,
-        "score": 11.5
-      },
-      {
-        "day": 14,
-        "score": 9.8
-      },
-      {
-        "day": 15,
-        "score": 15.2
-      },
-      {
-        "day": 16,
-        "score": 10.0
-      },
-      {
-        "day": 17,
-        "score": 8.3
-      },
-      {
-        "day": 18,
-        "score": 6.6
-      },
-      {
-        "day": 19,
-        "score": 8.7
-      },
-      {
-        "day": 20,
-        "score": 15.5
-      },
-      {
-        "day": 21,
-        "score": 15.0
-      },
-      {
-        "day": 22,
-        "score": 17.8
-      },
-      {
-        "day": 23,
-        "score": 27.3
-      },
-      {
-        "day": 24,
-        "score": 13.1
-      },
-      {
-        "day": 25,
-        "score": 12.9
-      },
-      {
-        "day": 26,
-        "score": 7.2
-      },
-      {
-        "day": 27,
-        "score": 19.3
-      },
-      {
-        "day": 28,
-        "score": 12.7
-      },
-      {
-        "day": 29,
-        "score": 11.6
-      },
-      {
-        "day": 30,
-        "score": 14.5
-      }
-    ]
+import { useState, useEffect, useRef } from "react";
+import { 
+  Shield, 
+  ShieldX, 
+  Bell, 
+  Sparkles, 
+  Zap, 
+  ShieldCheck, 
+  LayoutDashboard, 
+  Trophy, 
+  UserSearch, 
+  GitBranch, 
+  TrendingUp, 
+  BellRing, 
+  BarChart3, 
+  Bot, 
+  Eye, 
+  Radio,
+  Menu,
+  X 
+} from "lucide-react";
+
+import { GLOBAL_CSS, C } from "./constants/theme";
+import { useData, EMPTY_EMP } from "./utils/data";
+import { useMobile } from "./utils/useMobile";
+import { useCursorEffects } from "./utils/useCursorEffects";
+import { useScrollAnimations } from "./utils/useScrollAnimations";
+
+import GlowDot from "./components/ui/GlowDot";
+import Avatar from "./components/ui/Avatar";
+import SkeletonPage from "./components/ui/SkeletonPage";
+
+import DashboardOverview from "./components/DashboardOverview";
+import RiskLeaderboard from "./components/RiskLeaderboard";
+import EmployeeDeepDive from "./components/EmployeeDeepDive";
+import ForecastEngine from "./components/ForecastEngine";
+import AlertCenter from "./components/AlertCenter";
+import SystemAnalytics from "./components/SystemAnalytics";
+import BehavioralTwin from "./components/BehavioralTwin";
+import AISOCAnalyst from "./components/AISOCAnalyst";
+import FloatingChatBubble from "./components/FloatingChatBubble";
+
+const NAV = [
+  { id: "overview",    label: "Dashboard Overview",  Icon: LayoutDashboard },
+  { id: "leaderboard", label: "Risk Leaderboard",    Icon: Trophy },
+  { id: "deepdive",    label: "Employee Deep Dive",  Icon: UserSearch },
+  { id: "twin",        label: "Behavioral Twin",     Icon: GitBranch, badge: "NEW" },
+  { id: "forecast",    label: "Threat Forecast",     Icon: TrendingUp, badge: "NEW" },
+  { id: "alerts",      label: "Alert Center",        Icon: BellRing },
+  { id: "analytics",   label: "System Analytics",    Icon: BarChart3 },
+  { id: "soc",         label: "AI SOC Analyst",       Icon: Bot, badge: "AI" },
+];
+
+export default function App() {
+  const [page, setPage] = useState("overview");
+  const [attack, setAttack] = useState(false);
+  const [attackStage, setStage] = useState(0);
+  const [logLines, setLogLines] = useState([]);
+  const [tick, setTick] = useState(0);
+  const [demoActive, setDemoActive] = useState(false);
+  const [demoStep, setDemoStep] = useState(-1);
+  const [pageKey, setPageKey] = useState(0);
+  const [showAboutModal, setShowAboutModal] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const mobile = useMobile();
+  useCursorEffects(mobile);
+  useScrollAnimations();
+
+  const [messages, setMessages] = useState([]);
+
+  // Live data hook
+  const { employees, loading, lastUpdate, error } = useData();
+  const topThreat = employees[0] || EMPTY_EMP;
+
+  const [selectedEmp, setSelectedEmp] = useState(null);
+
+  useEffect(() => {
+    if (!selectedEmp && employees.length > 0 && employees[0].id !== "---") {
+      setSelectedEmp(employees[0]);
+    }
+    if (selectedEmp && employees.length > 0) {
+      const updated = employees.find(e => e.id === selectedEmp.id);
+      if (updated && updated.score !== selectedEmp.score) setSelectedEmp(updated);
+    }
+  }, [employees]);
+
+  const [liveScore, setLiveScore] = useState(0);
+  useEffect(() => { 
+    setLiveScore(topThreat.score); 
+  }, [topThreat.score]);
+
+  function analyzeEmployee(emp) {
+    setSelectedEmp(emp);
+    setPage("deepdive");
+    setPageKey(k => k + 1);
   }
-]
+
+  useEffect(() => { 
+    const t = setInterval(() => setTick(x => x + 1), 1000); 
+    return () => clearInterval(t); 
+  }, []);
+
+  useEffect(() => {
+    document.title = `ThreatWatch — ${employees.filter(e => e.level === "Critical").length} Critical Threat${employees.filter(e => e.level === "Critical").length !== 1 ? "s" : ""} Detected`;
+  }, [employees]);
+
+  const ATTACK_LOGS = [
+    { t: 0,    text: `[SYSTEM] Behavioral anomaly engine triggered`,                                          color: C.yellow },
+    { t: 300,  text: `[TARGET] Flagging employee: ${topThreat.name} · ${topThreat.id} · ${topThreat.dept}`,           color: C.orange },
+    { t: 600,  text: `[DETECT] Login hour: ${topThreat.loginTime} — deviation from 09:00 baseline`,             color: C.orange },
+    { t: 900,  text: `[DETECT] Files accessed: ${topThreat.files} in 6h window (+${Math.round(topThreat.files / 25 * 100 - 100)}% over avg)`, color: C.red },
+    { t: 1200, text: `[DETECT] Privilege escalation attempts: ${topThreat.priv} (baseline: 0/week)`,            color: C.red },
+    { t: 1500, text: `[DETECT] USB device connected — 2.4GB outbound transfer initiated`,                    color: C.red },
+    { t: 1800, text: `[DETECT] Email sentiment score: ${topThreat.sentiment} (threshold: < 0.0)`,               color: C.red },
+    { t: 2100, text: `[MODEL]  Isolation Forest decision_function → anomaly_score: -0.847`,                  color: C.cyan },
+    { t: 2400, text: `[SCORE]  AccessAnomaly   = ${Math.round(topThreat.files / 3)} × 0.40  =  ${(Math.round(topThreat.files / 3) * 0.40).toFixed(1)}`, color: C.cyan },
+    { t: 2700, text: `[SCORE]  BehavioralDrift = ${Math.min(100, Math.round(Math.abs(parseInt(topThreat.loginTime) - 9) * 8 + topThreat.usb * 40))} × 0.35  =  ${(Math.min(100, Math.round(Math.abs(parseInt(topThreat.loginTime) - 9) * 8 + topThreat.usb * 40)) * 0.35).toFixed(1)}`, color: C.cyan },
+    { t: 3000, text: `[SCORE]  SentimentShift  = ${Math.round((1 - topThreat.sentiment) / 2 * 100)} × 0.25  =  ${(Math.round((1 - topThreat.sentiment) / 2 * 100) * 0.25).toFixed(1)}`, color: C.cyan },
+    { t: 3200, text: `[SCORE]  ─────────────────────────────────────────────────`,                          color: C.textLow },
+    { t: 3400, text: `[SCORE]  IRI = ${topThreat.score.toFixed(1)} -> CLASSIFICATION: CRITICAL`,             color: C.green },
+    { t: 3700, text: `[ALERT]  Auto-alert dispatched to SOC team — Priority P0`,                             color: C.red },
+    { t: 4000, text: `[ACTION] Navigating to Alert Center... Stand by.`,                                     color: C.textMid },
+  ];
+
+  const logEndRef = useRef(null);
+  useEffect(() => {
+    if (logEndRef.current) logEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [logLines]);
+
+  function handleAttack() {
+    if (attack) return;
+
+    setStage(1);
+    setLogLines([]);
+    setLiveScore(18);
+
+    setTimeout(() => setStage(2), 600);
+
+    ATTACK_LOGS.forEach(({ t, text, color }) => {
+      setTimeout(() => {
+        setLogLines(prev => [...prev, { text, color }]);
+      }, 800 + t);
+    });
+
+    setTimeout(() => {
+      setStage(3);
+      let current = 18;
+      const target = topThreat.score;
+      const interval = setInterval(() => {
+        current = Math.min(current + 1.8, target);
+        setLiveScore(parseFloat(current.toFixed(1)));
+        if (current >= target) clearInterval(interval);
+      }, 35);
+    }, 2400);
+
+    setTimeout(() => {
+      setAttack(true);
+      setStage(4);
+      setPage("alerts");
+    }, 5400);
+  }
+
+  function handleDemo() {
+    if (demoActive) { setDemoActive(false); setDemoStep(-1); return; }
+    setDemoActive(true);
+    setDemoStep(0);
+    const steps = [
+      [0,       () => { setPage("overview");    setDemoStep(1);  }],
+      [2000,    () => { setPage("leaderboard"); setDemoStep(2);  }],
+      [2800,    () => { setPage("deepdive");    setDemoStep(3);  }],
+      [3600,    () => { setPage("forecast");    setDemoStep(4);  }],
+      [4400,    () => { setPage("twin");        setDemoStep(5);  }],
+      [5200,    () => { handleAttack();         setDemoStep(6);  }],
+      [11000,   () => { setPage("soc");         setDemoStep(7);  }],
+      [13000,   () => { setDemoActive(false); setDemoStep(-1); }],
+    ];
+    steps.forEach(([delay, fn]) => setTimeout(fn, delay));
+  }
+
+  const DEMO_STEPS = [
+    "Starting demo...",
+    "Dashboard Overview — live threat stats",
+    "Risk Leaderboard — top threat identified",
+    "Employee Deep Dive — 30-day behavioural spike",
+    "Threat Forecast — 7-day trajectory",
+    "Behavioral Twin — +740% deviation",
+    "Simulating insider attack sequence...",
+    "AI SOC Analyst — live threat analysis",
+  ];
+
+  const now = new Date();
+  const timeStr = now.toTimeString().slice(0, 8);
+
+  return (
+    <>
+      <style>{GLOBAL_CSS}</style>
+      <style>{`
+        /* ── Hide default cursor ── */
+        *, *::before, *::after { cursor: none !important; }
+
+        #tw-cursor-dot {
+          position:fixed; width:8px; height:8px;
+          background:#00d1ff; border-radius:50%;
+          pointer-events:none; z-index:9999; top:0; left:0;
+          box-shadow:0 0 8px #00d1ff,0 0 16px #00d1ff80;
+          transition:background 0.2s,box-shadow 0.2s;
+        }
+        #tw-cursor-ring {
+          position:fixed; width:36px; height:36px;
+          border:1.5px solid #00d1ff; border-radius:50%;
+          pointer-events:none; z-index:9999; top:0; left:0;
+          opacity:0.7;
+          transition:width 0.2s ease,height 0.2s ease,border-color 0.2s ease,
+                     opacity 0.2s ease,background 0.15s ease,
+                     margin 0.2s ease,box-shadow 0.2s ease;
+          box-shadow:0 0 10px #00d1ff40,inset 0 0 8px #00d1ff10;
+        }
+        #tw-cursor-ring::before,#tw-cursor-ring::after {
+          content:''; position:absolute; background:#00d1ff; opacity:0.8;
+        }
+        #tw-cursor-ring::before { width:1px;height:8px;left:50%;top:-5px;transform:translateX(-50%); }
+        #tw-cursor-ring::after  { width:8px;height:1px;top:50%;left:-5px;transform:translateY(-50%); }
+        #tw-cursor-ring.tw-ring-hover {
+          width:52px;height:52px;border-color:#00d1ff;opacity:1;
+          background:rgba(0,209,255,0.05);margin-left:-8px;margin-top:-8px;
+        }
+        #tw-cursor-ring.tw-ring-click {
+          width:24px;height:24px;border-color:#ff1e50;opacity:1;
+          background:rgba(255,30,80,0.08);margin-left:6px;margin-top:6px;
+          box-shadow:0 0 16px #ff1e5080;
+        }
+        #tw-cursor-ring.tw-ring-click::before,
+        #tw-cursor-ring.tw-ring-click::after { background:#ff1e50; }
+      `}</style>
+
+      <div style={{ display: "flex", height: "100vh", background: C.bg, overflow: "hidden", position: "relative", fontFamily: C.sans }}>
+        {/* MOBILE SIDEBAR OVERLAY */}
+        {mobile && sidebarOpen && (
+          <div style={{
+            position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)",
+            zIndex: 99, backdropFilter: "blur(4px)",
+            animation: "fadeIn 0.2s ease-out",
+          }} onClick={() => setSidebarOpen(false)} />
+        )}
+        {/* GRID BACKGROUND */}
+        <div style={{
+          position: "fixed", 
+          inset: 0,
+          backgroundImage: `linear-gradient(rgba(0,209,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,209,255,0.04) 1px,transparent 1px)`,
+          backgroundSize: "40px 40px",
+          animation: "gridScroll 8s linear infinite",
+          pointerEvents: "none", 
+          zIndex: 0,
+        }} />
+
+        {/* SCANLINE */}
+        <div style={{
+          position: "fixed", 
+          top: 0, 
+          left: 0, 
+          right: 0, 
+          height: "2px",
+          background: `linear-gradient(transparent,${C.cyan}20,transparent)`,
+          animation: "scanline 8s linear infinite",
+          pointerEvents: "none", 
+          zIndex: 1, 
+          opacity: 0.3,
+        }} />
+
+        {/* STAGE 1: Full-screen red flash */}
+        {attackStage === 1 && (
+          <div style={{
+            position: "fixed", 
+            inset: 0, 
+            zIndex: 199,
+            background: `radial-gradient(ellipse at center, ${C.red}25 0%, transparent 70%)`,
+            animation: "fadeIn 0.2s ease-out",
+            pointerEvents: "none",
+          }} />
+        )}
+
+        {/* ATTACK SEQUENCE OVERLAY */}
+        {(attackStage === 1 || attackStage === 2 || attackStage === 3) && (
+          <div style={{
+            position: "fixed", 
+            inset: 0, 
+            zIndex: 200,
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "center",
+            background: "rgba(0,0,0,0.85)",
+            backdropFilter: "blur(6px)",
+            animation: "fadeIn 0.3s ease-out",
+          }}>
+            <div style={{
+              width: mobile ? "calc(100vw - 32px)" : 640,
+              maxWidth: mobile ? "calc(100vw - 32px)" : 640,
+              background: "#0a0e14",
+              border: `1px solid ${C.red}`,
+              borderRadius: 8,
+              boxShadow: `0 0 80px ${C.red}30, 0 0 160px ${C.red}10`,
+              overflow: "hidden",
+              animation: "criticalPulse 2s ease-in-out infinite",
+            }}>
+              {/* Header bar */}
+              <div style={{
+                background: `linear-gradient(90deg,${C.red}20,${C.red}08)`,
+                borderBottom: `1px solid ${C.red}40`,
+                padding: "14px 20px",
+                display: "flex", 
+                alignItems: "center", 
+                justifyContent: "space-between",
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <ShieldX size={20} color={C.red} style={{ filter: `drop-shadow(0 0 8px ${C.red})` }} />
+                  <span style={{
+                    fontSize: 13, 
+                    fontWeight: 800, 
+                    color: C.red,
+                    fontFamily: C.mono, 
+                    letterSpacing: 2,
+                    textShadow: `0 0 15px ${C.red}`,
+                  }}>INSIDER THREAT DETECTED</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <GlowDot color={C.red} pulse size={8} />
+                  <span style={{ fontSize: 10, color: C.red, fontFamily: C.mono, letterSpacing: 2 }}>LIVE</span>
+                </div>
+              </div>
+
+              {/* Employee identity */}
+              <div style={{
+                padding: "16px 20px",
+                borderBottom: `1px solid ${C.border}`,
+                display: "flex", 
+                alignItems: "center", 
+                gap: 14,
+                background: "rgba(255,30,80,0.04)",
+              }}>
+                <Avatar initials={topThreat.initials} size={44} level="Critical" />
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: C.text, fontFamily: C.sans }}>{topThreat.name}</div>
+                  <div style={{ fontSize: 11, color: C.textLow, fontFamily: C.mono, marginTop: 3 }}>
+                    {topThreat.role} · {topThreat.dept} · {topThreat.id}
+                  </div>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ fontSize: 9, color: C.textLow, fontFamily: C.mono, letterSpacing: 2, marginBottom: 4 }}>RISK INDEX</div>
+                  <div style={{
+                    fontSize: 44, 
+                    fontWeight: 800,
+                    fontFamily: C.mono,
+                    color: liveScore > 80 ? C.red : liveScore > 50 ? C.orange : C.yellow,
+                    textShadow: `0 0 30px ${liveScore > 80 ? C.red : C.orange}`,
+                    lineHeight: 1,
+                    transition: "color 0.3s",
+                  }}>{liveScore.toFixed(1)}</div>
+                  <div style={{ fontSize: 9, color: C.textLow, fontFamily: C.mono }}>/ 100</div>
+                </div>
+              </div>
+
+              {/* Risk score bar */}
+              <div style={{ padding: "12px 20px 4px", borderBottom: `1px solid ${C.border}` }}>
+                <div style={{
+                  width: "100%", 
+                  height: 6,
+                  background: "rgba(255,255,255,0.06)", 
+                  borderRadius: 3, 
+                  overflow: "hidden",
+                }}>
+                  <div style={{
+                    width: `${liveScore}%`, 
+                    height: "100%", 
+                    borderRadius: 3,
+                    background: `linear-gradient(90deg,${C.yellow},${C.orange},${C.red})`,
+                    boxShadow: `0 0 12px ${C.red}`,
+                    transition: "width 0.1s linear",
+                  }} />
+                </div>
+                <div style={{
+                  display: "flex", 
+                  justifyContent: "space-between",
+                  fontSize: 9, 
+                  color: C.textLow, 
+                  fontFamily: C.mono, 
+                  marginTop: 6,
+                }}>
+                  <span>LOW</span><span>MODERATE</span><span>HIGH</span><span style={{ color: C.red }}>CRITICAL</span>
+                </div>
+              </div>
+
+              {/* Terminal log */}
+              <div style={{
+                padding: "14px 20px",
+                fontFamily: "var(--mono-font,'JetBrains Mono',monospace)",
+                fontSize: 11,
+                lineHeight: 1.9,
+                height: 240,
+                overflowY: "auto",
+                background: "#06090f",
+              }}>
+                {logLines.length === 0 && (
+                  <span style={{ color: C.textLow }}>// initializing anomaly engine...<span style={{ animation: "blink 1s step-end infinite", display: "inline-block", width: 8, height: 12, background: C.cyan, verticalAlign: "middle", marginLeft: 4 }} /></span>
+                )}
+                {logLines.map((line, i) => (
+                  <div key={i} style={{
+                    color: line.color,
+                    animation: "slideInUp 0.2s ease-out",
+                    opacity: i < logLines.length - 1 ? 0.7 : 1,
+                  }}>
+                    <span style={{ color: C.textLow, marginRight: 8 }}>{String(i).padStart(2, "0")}</span>
+                    {line.text}
+                    {i === logLines.length - 1 && (
+                      <span style={{
+                        display: "inline-block", 
+                        width: 7, 
+                        height: 12,
+                        background: line.color, 
+                        verticalAlign: "middle", 
+                        marginLeft: 4,
+                        animation: "blink 0.8s step-end infinite",
+                      }} />
+                    )}
+                  </div>
+                ))}
+                <div ref={logEndRef} />
+              </div>
+
+              {/* Footer */}
+              <div style={{
+                padding: "12px 20px",
+                background: `rgba(255,30,80,0.06)`,
+                borderTop: `1px solid ${C.red}30`,
+                display: "flex", 
+                alignItems: "center", 
+                justifyContent: "space-between",
+              }}>
+                <div style={{ fontSize: 10, color: C.textLow, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)" }}>
+                  {logLines.length < ATTACK_LOGS.length
+                    ? `ANALYZING... ${logLines.length}/${ATTACK_LOGS.length} signals processed`
+                    : "REDIRECTING TO ALERT CENTER..."}
+                </div>
+                <div style={{ display: "flex", gap: 6 }}>
+                  {[C.red, C.orange, C.yellow].map((c, i) => (
+                    <div key={i} style={{
+                      width: 8, 
+                      height: 8, 
+                      borderRadius: "50%", 
+                      background: c,
+                      animation: `orbitPing ${1 + i * 0.3}s ease-out infinite`,
+                    }} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* SIDEBAR */}
+        <div style={{
+          width: mobile ? 260 : 236,
+          background: "rgba(10,14,20,0.85)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderRight: `1px solid ${C.border}`,
+          display: mobile ? (sidebarOpen ? "flex" : "none") : "flex", 
+          flexDirection: "column", 
+          flexShrink: 0,
+          position: mobile ? "fixed" : "relative", 
+          zIndex: mobile ? 100 : 10,
+          top: 0,
+          left: 0,
+          bottom: 0,
+          ...(mobile ? { boxShadow: "4px 0 24px rgba(0,0,0,0.5)", animation: "slideInLeft 0.25s ease-out" } : {}),
+        }}>
+          {mobile && (
+            <div style={{ padding: "16px 18px", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{
+                  width: 32, height: 32, borderRadius: 6,
+                  background: `linear-gradient(135deg,${C.cyan},#0088bb)`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  boxShadow: `0 0 20px ${C.cyan}40`,
+                }}><Shield size={16} color="#0a0e14" strokeWidth={2.5} /></div>
+                <span style={{ fontSize: 14, fontWeight: 800, color: C.text, fontFamily: C.sans }}>ThreatWatch</span>
+              </div>
+              <button onClick={() => setSidebarOpen(false)} style={{
+                background: "transparent", border: "none", color: C.textMid,
+                cursor: "pointer", padding: 4,
+              }}><X size={20} /></button>
+            </div>
+          )}
+          {!mobile && (
+          <div style={{ padding: "20px 18px", borderBottom: `1px solid ${C.border}` }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{
+                width: 38, 
+                height: 38, 
+                borderRadius: 8,
+                background: `linear-gradient(135deg,${C.cyan},#0088bb)`,
+                display: "flex", 
+                alignItems: "center", 
+                justifyContent: "center",
+                boxShadow: `0 0 20px ${C.cyan}40`,
+              }}><Shield size={20} color="#0a0e14" strokeWidth={2.5} /></div>
+              <div>
+                <div style={{ fontSize: 15, fontWeight: 800, color: C.text, fontFamily: C.sans, letterSpacing: 0.5 }}>ThreatWatch</div>
+                <div style={{ fontSize: 9, color: C.textLow, fontFamily: C.mono, letterSpacing: 2 }}>AI SECURITY PLATFORM</div>
+              </div>
+            </div>
+          </div>
+          )}
+
+          <div style={{ padding: "14px 10px", flex: 1 }}>
+            <div style={{ fontSize: 9, color: C.textMid, letterSpacing: 3, padding: "0 8px", marginBottom: 10, fontFamily: C.mono }}>NAVIGATION</div>
+            <div className="scroll-reveal-group">
+            {NAV.map(item => {
+              const active = page === item.id;
+              const { Icon } = item;
+              return (
+                <div key={item.id} className="nav-item" onClick={() => { setPage(item.id); setPageKey(k => k + 1); if (mobile) setSidebarOpen(false); }} style={{
+                  display: "flex", 
+                  alignItems: "center", 
+                  justifyContent: "space-between",
+                  padding: "11px 12px", 
+                  borderRadius: 6, 
+                  marginBottom: 2, 
+                  cursor: "pointer",
+                  background: active ? (item.id === "twin" ? `${C.purple}18` : `${C.cyan}10`) : "transparent",
+                  border: active ? (item.id === "twin" ? `1px solid ${C.purple}35` : `1px solid ${C.borderHi}`) : `1px solid transparent`,
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <Icon size={15} color={active ? (item.id === "twin" ? C.purple : C.cyan) : C.textLow} strokeWidth={1.8} />
+                    <span style={{ fontSize: 13, fontWeight: active ? 600 : 400, color: active ? C.text : C.textMid, fontFamily: C.sans }}>{item.label}</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    {item.badge && !active && (
+                      <span style={{
+                        background: `${C.purple}20`, 
+                        border: `1px solid ${C.purple}45`,
+                        color: C.purple, 
+                        fontSize: 7, 
+                        fontFamily: C.mono,
+                        padding: "1px 5px", 
+                        borderRadius: 3, 
+                        letterSpacing: 1,
+                      }}>{item.badge}</span>
+                    )}
+                    {active && <div style={{ width: 4, height: 4, borderRadius: "50%", background: item.id === "twin" ? C.purple : C.cyan, boxShadow: `0 0 6px ${item.id === "twin" ? C.purple : C.cyan}` }} />}
+                  </div>
+                </div>
+              );
+            })}
+            </div>
+          </div>
+
+          {!mobile && (
+          <div style={{ padding: "14px 18px", borderTop: `1px solid ${C.border}` }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+              <GlowDot color={C.green} pulse size={8} />
+              <span style={{ fontSize: 11, fontWeight: 700, color: C.green, fontFamily: C.mono }}>ML ENGINE ONLINE</span>
+            </div>
+            <div style={{ fontSize: 10, color: C.textMid, fontFamily: C.mono, lineHeight: 1.8 }}>
+              Last scan: 2 min ago<br />Models: v4.2.1 active
+            </div>
+            <div style={{
+              marginTop: 10, 
+              paddingTop: 10,
+              borderTop: `1px solid ${C.border}`,
+              fontSize: 8, 
+              letterSpacing: 2, 
+              lineHeight: 2,
+              fontFamily: C.mono,
+            }}>
+              <div style={{ color: `${C.cyan}90` }}>INSIGHT PROJECT</div>
+              <div style={{ color: `${C.cyan}60` }}>AI THREAT DETECTION</div>
+            </div>
+          </div>
+          )}
+        </div>
+
+        {/* MAIN CONTAINER */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", position: "relative", zIndex: 5 }}>
+          {/* Topbar */}
+          <div style={{
+            height: mobile ? 50 : 56,
+            background: "rgba(10,14,20,0.75)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            borderBottom: `1px solid ${C.border}`,
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "space-between",
+            padding: mobile ? "0 12px" : "0 24px", 
+            flexShrink: 0,
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: mobile ? 10 : 14, minWidth: 0, flex: 1 }}>
+              {mobile && (
+                <button onClick={() => setSidebarOpen(true)} style={{
+                  background: "transparent", border: "none", color: C.text,
+                  cursor: "pointer", padding: 4, flexShrink: 0,
+                }}><Menu size={22} /></button>
+              )}
+              <span style={{ fontSize: mobile ? 12 : 14, fontWeight: 700, color: C.text, fontFamily: C.sans, letterSpacing: 0.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {mobile ? "ThreatWatch" : "Insider Risk Monitoring Dashboard"}
+              </span>
+              {!mobile && (
+              <>
+              <span style={{
+                background: `${C.green}15`, 
+                border: `1px solid ${C.green}50`,
+                color: C.green, 
+                padding: "3px 12px", 
+                borderRadius: 4,
+                fontSize: 10, 
+                fontWeight: 700, 
+                fontFamily: "var(--mono-font,'JetBrains Mono',monospace)",
+                display: "flex", 
+                alignItems: "center", 
+                gap: 5,
+              }}>
+                <GlowDot color={C.green} pulse size={5} />
+                LIVE
+              </span>
+              <span style={{ fontSize: 10, color: C.textLow, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)" }}>{timeStr}</span>
+              </>
+              )}
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: mobile ? 8 : 14, flexShrink: 0 }}>
+              {mobile && (
+                <div style={{ position: "relative", cursor: "pointer", display: "flex", alignItems: "center" }}>
+                  <Bell size={18} color={C.textMid} />
+                  {attack && <div style={{
+                    position: "absolute", top: -4, right: -4, width: 14, height: 14,
+                    borderRadius: "50%", background: C.red, border: `2px solid ${C.bg}`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 7, color: "white", fontWeight: 700,
+                    animation: "orbitPing 1s ease-out infinite",
+                  }}>!</div>}
+                </div>
+              )}
+              {!mobile && (
+              <>
+              <div style={{ position: "relative", cursor: "pointer", display: "flex", alignItems: "center" }} onClick={() => setShowAboutModal(true)}>
+                <ShieldCheck size={20} color={C.cyan} style={{ animation: "pulse-animation 3s infinite" }} />
+              </div>
+
+              <div style={{ position: "relative", cursor: "pointer", display: "flex", alignItems: "center" }}>
+                <Bell size={20} color={C.textMid} />
+                {attack && <div style={{
+                  position: "absolute", 
+                  top: -4, 
+                  right: -4, 
+                  width: 16, 
+                  height: 16,
+                  borderRadius: "50%", 
+                  background: C.red, 
+                  border: `2px solid ${C.bg}`,
+                  display: "flex", 
+                  alignItems: "center", 
+                  justifyContent: "center",
+                  fontSize: 8, 
+                  color: "white", 
+                  fontWeight: 700,
+                  animation: "orbitPing 1s ease-out infinite",
+                }}>!</div>}
+              </div>
+
+              <button onClick={handleDemo} className="cyber-btn" style={{
+                background: demoActive
+                  ? `linear-gradient(135deg,${C.purple},#5b3fd4)`
+                  : `linear-gradient(135deg,${C.cyan}20,${C.cyan}08)`,
+                border: `1px solid ${demoActive ? C.purple : C.cyan}`,
+                color: demoActive ? "white" : C.cyan,
+                borderRadius: 4, 
+                padding: "8px 18px",
+                fontSize: 12, 
+                fontWeight: 700, 
+                cursor: "pointer",
+                fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", 
+                letterSpacing: 1,
+                boxShadow: demoActive ? `0 0 20px ${C.purple}50` : `0 0 12px ${C.cyan}15`,
+                display: "flex", 
+                alignItems: "center", 
+                gap: 8,
+                transition: "all 0.3s",
+              }}>
+                {demoActive
+                  ? <><span style={{ animation: "pulseGlow 1s ease-in-out infinite", display: "inline-block", width: 10, height: 10, borderRadius: 2, background: "white" }}></span> STOP DEMO</>
+                  : <><Sparkles size={14} strokeWidth={2} /> AUTO DEMO</>
+                }
+              </button>
+
+              <button onClick={handleAttack} className="cyber-btn" style={{
+                background: `linear-gradient(135deg,${C.red},#b00030)`,
+                border: `1px solid ${C.red}80`,
+                color: "white", 
+                borderRadius: 4, 
+                padding: "8px 20px",
+                fontSize: 12, 
+                fontWeight: 700, 
+                cursor: "pointer",
+                fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", 
+                letterSpacing: 1,
+                boxShadow: `0 0 20px ${C.red}40`,
+                display: "flex", 
+                alignItems: "center", 
+                gap: 8,
+              }}>
+                <Zap size={14} color="white" strokeWidth={2.5} />
+                SIMULATE INSIDER ATTACK
+              </button>
+
+              <div style={{
+                display: "flex", 
+                alignItems: "center", 
+                gap: 10,
+                background: C.panelAlt, 
+                border: `1px solid ${C.border}`,
+                borderRadius: 4, 
+                padding: "6px 14px",
+              }}>
+                <div style={{
+                  width: 30, 
+                  height: 30, 
+                  borderRadius: "50%",
+                  background: `linear-gradient(135deg, ${C.purple}, #5b3fd4)`,
+                  display: "flex", 
+                  alignItems: "center", 
+                  justifyContent: "center",
+                  fontSize: 12, 
+                  fontWeight: 900, 
+                  color: "white", 
+                  fontFamily: "var(--mono-font,'JetBrains Mono',monospace)",
+                  boxShadow: `0 0 10px ${C.purple}50`,
+                }}>S</div>
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: C.text, fontFamily: "var(--sans-font,'Inter',sans-serif)" }}>SOC Analyst</div>
+                  <div style={{ fontSize: 9, color: C.green, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 1 }}>● ACTIVE SESSION</div>
+                </div>
+              </div>
+              </>
+              )}
+            </div>
+          </div>
+
+          {/* Page body */}
+          <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
+            <div style={{
+              position: "absolute", 
+              top: 0, 
+              left: 0, 
+              right: 0, 
+              zIndex: 10,
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "flex-end",
+              padding: "6px 32px", 
+              pointerEvents: "none",
+            }}>
+              {loading && (
+                <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 9, color: C.cyan, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 1 }}>
+                  <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.cyan, animation: "pulseGlow 1s ease-in-out infinite" }} />
+                  LOADING DATA...
+                </div>
+              )}
+              {error && (
+                <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 9, color: C.orange, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 1 }}>
+                  <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.orange }} />
+                  OFFLINE — COPY employee_summary.json TO public/
+                </div>
+              )}
+              {!loading && !error && lastUpdate && (
+                <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 9, color: `${C.green}`, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 1 }}>
+                  <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.green, animation: "pulseGlow 3s ease-in-out infinite" }} />
+                  LIVE · UPDATED {lastUpdate.toLocaleTimeString()}
+                </div>
+              )}
+            </div>
+
+            {employees.length === 0
+              ? <SkeletonPage />
+              : <div key={pageKey} className="scroll-reveal is-visible" style={{ height: "100%", animation: "pageEnter 0.22s ease-out" }}>
+                  {page === "overview"    && <DashboardOverview attackDone={attack} employees={employees} onAnalyze={analyzeEmployee} lastUpdate={lastUpdate} />}
+                  {page === "leaderboard" && <RiskLeaderboard employees={employees} onAnalyze={analyzeEmployee} lastUpdate={lastUpdate} />}
+                  {page === "deepdive"    && <EmployeeDeepDive emp={selectedEmp || topThreat} employees={employees} onAnalyze={analyzeEmployee} />}
+                  {page === "forecast"    && <ForecastEngine employees={employees} onAnalyze={analyzeEmployee} />}
+                  {page === "alerts"      && <AlertCenter employees={employees} onAnalyze={analyzeEmployee} />}
+                  {page === "analytics"   && <SystemAnalytics employees={employees} lastUpdate={lastUpdate} />}
+                  {page === "twin"        && <BehavioralTwin employees={employees} onAnalyze={analyzeEmployee} />}
+                  {page === "soc"         && <AISOCAnalyst employees={employees} onAnalyze={analyzeEmployee} messages={messages} setMessages={setMessages} />}
+                </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      {/* Floating chatbot bubble */}
+      <FloatingChatBubble setPage={setPage} page={page} employees={employees} messages={messages} setMessages={setMessages} />
+
+      {/* Demo mode step indicator */}
+      {demoActive && demoStep >= 0 && (
+        <div style={{
+          position: "fixed", 
+          bottom: 20, 
+          left: "50%", 
+          transform: "translateX(-50%)",
+          zIndex: 400, 
+          background: "rgba(255,255,255,0.03)",
+          border: `1px solid ${C.purple}60`, 
+          borderRadius: 30,
+          padding: "10px 24px",
+          boxShadow: `0 0 30px ${C.purple}30`,
+          display: "flex", 
+          alignItems: "center", 
+          gap: 12,
+          animation: "slideInUp 0.3s ease-out",
+        }}>
+          <div style={{ display: "flex", gap: 4 }}>
+            {DEMO_STEPS.map((_, i) => (
+              <div key={i} style={{
+                width: i === demoStep ? 20 : 6,
+                height: 6, 
+                borderRadius: 3,
+                background: i < demoStep ? C.purple : i === demoStep ? C.cyan : C.border,
+                transition: "all 0.3s",
+              }} />
+            ))}
+          </div>
+          <span style={{ fontSize: 11, color: C.cyan, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 1, whiteSpace: "nowrap" }}>
+            {DEMO_STEPS[demoStep] || "Running demo..."}
+          </span>
+          <button onClick={() => { setDemoActive(false); setDemoStep(-1); }} style={{
+            background: "transparent", 
+            border: "none", 
+            color: C.textMid,
+            cursor: "pointer", 
+            fontSize: 14, 
+            padding: "0 4px",
+          }}>✕</button>
+        </div>
+      )}
+
+      {/* INFO / ABOUT MODAL */}
+      {showAboutModal && (
+        <div style={{
+          position: "fixed", 
+          top: 0, 
+          left: 0, 
+          right: 0, 
+          bottom: 0,
+          zIndex: 500, 
+          display: "flex", 
+          alignItems: "center", 
+          justifyContent: "center",
+          background: "rgba(3, 5, 8, 0.8)", 
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
+          animation: "fadeIn 0.25s ease-out"
+        }}>
+          <div style={{
+            width: mobile ? "calc(100vw - 32px)" : 560,
+            maxWidth: mobile ? "calc(100vw - 32px)" : 560,
+            maxHeight: "85vh",
+            background: "rgba(6, 12, 24, 0.98)",
+            border: `1.5px solid rgba(0, 209, 255, 0.4)`,
+            borderRadius: mobile ? 12 : 20,
+            boxShadow: "0 24px 64px rgba(0,0,0,0.95), 0 0 60px rgba(0, 209, 255, 0.25), inset 0 0 30px rgba(0, 209, 255, 0.05)",
+            display: "flex", 
+            flexDirection: "column",
+            animation: "scaleInModal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+            overflow: "hidden",
+            position: "relative"
+          }}>
+            <div style={{
+              position: "absolute", 
+              left: 0, 
+              right: 0, 
+              height: 2, 
+              zIndex: 10,
+              background: `linear-gradient(90deg, transparent, ${C.cyan}, transparent)`,
+              boxShadow: `0 0 8px ${C.cyan}`,
+              animation: "scanningSweep 4s linear infinite"
+            }} />
+
+            <div style={{
+              padding: mobile ? "20px 16px 14px" : "32px 32px 20px", 
+              display: "flex", 
+              flexDirection: "column", 
+              alignItems: "center",
+              position: "relative", 
+              textAlign: "center",
+              background: "linear-gradient(180deg, rgba(0, 209, 255, 0.08), transparent)"
+            }}>
+              <button
+                onClick={() => setShowAboutModal(false)}
+                style={{
+                  position: "absolute", 
+                  top: 20, 
+                  right: 24,
+                  background: "transparent", 
+                  border: "none", 
+                  color: C.textMid,
+                  cursor: "pointer", 
+                  fontSize: 20, 
+                  transition: "all 0.2s",
+                  fontFamily: "var(--sans-font, sans-serif)"
+                }}
+                onMouseEnter={e => {
+                  e.target.style.color = C.red;
+                  e.target.style.transform = "rotate(90deg)";
+                }}
+                onMouseLeave={e => {
+                  e.target.style.color = C.textMid;
+                  e.target.style.transform = "rotate(0deg)";
+                }}
+              >
+                ✕
+              </button>
+
+              <div style={{
+                marginBottom: 16,
+                animation: "floatY 4s infinite ease-in-out",
+                filter: `drop-shadow(0 0 15px ${C.cyan}40)`
+              }}>
+                <svg width="84" height="84" viewBox="0 0 24 24" fill="none" stroke={C.cyan} strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(0, 209, 255, 0.04)" />
+                  <circle cx="12" cy="11" r="3.5" stroke={C.red} strokeWidth="1.5" />
+                  <path d="M7.5 11h.01M16.5 11h.01" stroke={C.text} strokeWidth="2.5" />
+                </svg>
+              </div>
+
+                  <h1 style={{ fontSize: mobile ? 26 : 34, fontWeight: 900, color: C.text, fontFamily: C.sans, margin: "0 0 6px", letterSpacing: 0.5, textShadow: `0 0 20px ${C.cyan}30` }}>
+                ThreatWatch
+              </h1>
+              <p style={{ fontSize: 13.5, color: C.textMid, fontFamily: C.sans, margin: 0, letterSpacing: 0.5, textTransform: "uppercase", fontWeight: 600 }}>
+                AI-Powered Insider Threat Prediction System
+              </p>
+            </div>
+
+            <div style={{ flex: 1, overflowY: "auto", padding: mobile ? "0 16px 16px" : "0 32px 24px", display: "flex", flexDirection: "column", gap: 20 }}>
+              <div style={{ height: 1, background: `linear-gradient(90deg, transparent, ${C.cyan}25, transparent)` }} />
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                <div 
+                  style={{
+                    background: "rgba(255, 30, 80, 0.02)", 
+                    border: `1px solid rgba(255, 30, 80, 0.15)`,
+                    borderRadius: 10, 
+                    padding: "14px 18px", 
+                    transition: "all 0.25s"
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "rgba(255, 30, 80, 0.04)"; e.currentTarget.style.borderColor = "rgba(255, 30, 80, 0.35)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "rgba(255, 30, 80, 0.02)"; e.currentTarget.style.borderColor = "rgba(255, 30, 80, 0.15)"; }}
+                >
+                  <div style={{ fontSize: 10, color: C.red, fontFamily: C.mono, letterSpacing: 2, fontWeight: 800, marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }}>
+                    <span style={{ width: 5, height: 5, borderRadius: "50%", background: C.red }} /> THE PROBLEM
+                  </div>
+                  <p style={{ fontSize: 13, color: "#cbdcf0", fontFamily: C.sans, lineHeight: 1.75, margin: 0 }}>
+                    Insider threats take <span style={{ color: C.red, fontWeight: 700 }}>77 days</span> to detect on average and cost <span style={{ color: C.red, fontWeight: 700 }}>$15.38M</span> per incident. Traditional DLP systems miss <span style={{ color: C.red, fontWeight: 700 }}>60%</span> of attacks.
+                  </p>
+                </div>
+
+                <div 
+                  style={{
+                    background: "rgba(0, 209, 255, 0.02)", 
+                    border: `1px solid rgba(0, 209, 255, 0.15)`,
+                    borderRadius: 10, 
+                    padding: "14px 18px", 
+                    transition: "all 0.25s"
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "rgba(0, 209, 255, 0.04)"; e.currentTarget.style.borderColor = "rgba(0, 209, 255, 0.35)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "rgba(0, 209, 255, 0.02)"; e.currentTarget.style.borderColor = "rgba(0, 209, 255, 0.15)"; }}
+                >
+                  <div style={{ fontSize: 10, color: C.cyan, fontFamily: C.mono, letterSpacing: 2, fontWeight: 800, marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }}>
+                    <span style={{ width: 5, height: 5, borderRadius: "50%", background: C.cyan }} /> OUR SOLUTION
+                  </div>
+                  <p style={{ fontSize: 13, color: "#cbdcf0", fontFamily: C.sans, lineHeight: 1.75, margin: 0 }}>
+                    ThreatWatch uses behavioral AI to detect anomalous patterns across <span style={{ color: C.cyan, fontWeight: 700 }}>5 signal channels</span>, scoring threats in under <span style={{ color: C.cyan, fontWeight: 700 }}>2 seconds</span>.
+                  </p>
+                </div>
+              </div>
+
+              <div style={{ height: 1, background: `linear-gradient(90deg, transparent, ${C.cyan}25, transparent)` }} />
+
+              <div>
+                <div style={{ fontSize: 10, color: C.cyan, fontFamily: C.mono, letterSpacing: 2, fontWeight: 800, marginBottom: 12 }}>HOW IT WORKS</div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: mobile ? "center" : "space-between", background: "rgba(0, 209, 255, 0.03)", border: `1.5px dashed rgba(0, 209, 255, 0.2)`, borderRadius: 12, padding: mobile ? "14px 12px" : "14px 20px", flexWrap: mobile ? "wrap" : "nowrap", gap: mobile ? 8 : 0 }}>
+                  {[
+                    { label: "Monitor", Icon: Eye, color: C.cyan },
+                    { label: "Analyze", Icon: Radio, color: C.purple },
+                    { label: "Score", Icon: BarChart3, color: C.yellow },
+                    { label: "Alert", Icon: BellRing, color: C.red }
+                  ].map((step, idx) => {
+                    const { Icon } = step;
+                    return (
+                      <div key={idx} style={{ display: "flex", alignItems: "center", gap: 6, position: "relative" }}>
+                        <div style={{
+                          width: 24, 
+                          height: 24, 
+                          borderRadius: "50%",
+                          background: `${step.color}15`, 
+                          border: `1px solid ${step.color}35`,
+                          display: "flex", 
+                          alignItems: "center", 
+                          justifyContent: "center"
+                        }}>
+                          <Icon size={12} color={step.color} strokeWidth={2.5} />
+                        </div>
+                        <span style={{ fontSize: 11, fontWeight: 700, color: C.text, fontFamily: C.mono, letterSpacing: 0.5 }}>{step.label}</span>
+                        {idx < 3 && <span style={{ color: `${C.cyan}50`, fontSize: 10, marginLeft: 12, marginRight: 4, fontWeight: 800 }}>➔</span>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div style={{ height: 1, background: `linear-gradient(90deg, transparent, ${C.cyan}25, transparent)` }} />
+
+              <div>
+                <div style={{ fontSize: 10, color: C.cyan, fontFamily: C.mono, letterSpacing: 2, fontWeight: 800, marginBottom: 10 }}>TECH STACK</div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                  {["React", "FastAPI", "Python", "Isolation Forest", "Gemini AI", "Recharts", "Vite"].map((tech, idx) => (
+                    <span
+                      key={idx}
+                      style={{
+                        background: "rgba(0, 209, 255, 0.06)", 
+                        border: `1px solid rgba(0, 209, 255, 0.25)`,
+                        color: C.cyan, 
+                        borderRadius: 6, 
+                        padding: "5px 12px", 
+                        fontSize: 10.5, 
+                        fontWeight: 700,
+                        fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", 
+                        letterSpacing: 0.5,
+                        transition: "all 0.2s", 
+                        cursor: "default"
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = "rgba(0, 209, 255, 0.12)";
+                        e.currentTarget.style.borderColor = C.cyan;
+                        e.currentTarget.style.transform = "translateY(-1.5px)";
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background = "rgba(0, 209, 255, 0.06)";
+                        e.currentTarget.style.borderColor = "rgba(0, 209, 255, 0.25)";
+                        e.currentTarget.style.transform = "translateY(0px)";
+                      }}
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ height: 1, background: `linear-gradient(90deg, transparent, ${C.cyan}25, transparent)` }} />
+
+              <div>
+                <div style={{ fontSize: 10, color: C.cyan, fontFamily: C.mono, letterSpacing: 2, fontWeight: 800, marginBottom: 8 }}>THE TEAM</div>
+                <div 
+                  style={{ display: "flex", alignItems: "flex-start", gap: 14, background: "rgba(255, 255, 255, 0.02)", border: `1px solid ${C.border}`, borderRadius: 12, padding: "14px 16px", transition: "all 0.2s" }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(0, 209, 255, 0.3)"; e.currentTarget.style.background = "rgba(0, 209, 255, 0.01)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.background = "rgba(255, 255, 255, 0.02)"; }}
+                >
+                  <div style={{
+                    width: 36, 
+                    height: 36, 
+                    borderRadius: "50%", 
+                    background: `linear-gradient(135deg, ${C.cyan}, ${C.purple})`,
+                    display: "flex", 
+                    alignItems: "center", 
+                    justifyContent: "center", 
+                    color: C.bg, 
+                    fontWeight: 900, 
+                    fontSize: 14, 
+                    fontFamily: C.mono,
+                    boxShadow: `0 0 12px rgba(0, 209, 255, 0.3)`
+                  }}>
+                    S
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13.5, fontWeight: 800, color: C.text, fontFamily: C.sans, marginBottom: 2 }}>
+                      Sahal <span style={{ fontSize: 11, fontWeight: 400, color: C.textMid, marginLeft: 8 }}>Backend · ML · DevOps · Frontend</span>
+                    </div>
+                    <div style={{ fontSize: 10.5, color: C.textLow, fontFamily: C.mono }}>
+                      Government Polytechnic Palanpur · Sem 5
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{
+              padding: mobile ? "12px 16px 18px" : "16px 32px 22px", 
+              borderTop: `1px solid ${C.border}`,
+              background: "rgba(0, 8, 16, 0.6)", 
+              display: "flex", 
+              gap: 12, 
+              justifyContent: "flex-end",
+              flexWrap: "wrap",
+            }}>
+              <button
+                className="cyber-btn"
+                onClick={() => {
+                  setShowAboutModal(false);
+                  handleDemo();
+                }}
+                style={{
+                  background: `linear-gradient(135deg, ${C.purple}, #5b3fd4)`,
+                  border: "none", 
+                  color: "white", 
+                  borderRadius: 8, 
+                  padding: "11px 24px",
+                  fontSize: 12, 
+                  fontWeight: 700, 
+                  cursor: "pointer", 
+                  display: "flex", 
+                  alignItems: "center", 
+                  gap: 8,
+                  fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", 
+                  letterSpacing: 0.5,
+                  boxShadow: `0 0 15px ${C.purple}50`, 
+                  transition: "all 0.2s"
+                }}
+                onMouseEnter={e => e.currentTarget.style.boxShadow = `0 0 25px ${C.purple}80`}
+                onMouseLeave={e => e.currentTarget.style.boxShadow = `0 0 15px ${C.purple}50`}
+              >
+                Launch Auto Demo ➔
+              </button>
+
+              <button
+                className="cyber-btn"
+                onClick={() => setShowAboutModal(false)}
+                style={{
+                  background: "transparent", 
+                  border: `1.5px solid ${C.border}`, 
+                  color: C.textMid,
+                  borderRadius: 8, 
+                  padding: "11px 24px", 
+                  fontSize: 12, 
+                  fontWeight: 700, 
+                  cursor: "pointer",
+                  fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", 
+                  transition: "all 0.2s"
+                }}
+                onMouseEnter={e => {
+                  e.target.style.borderColor = C.cyan;
+                  e.target.style.color = C.cyan;
+                }}
+                onMouseLeave={e => {
+                  e.target.style.borderColor = C.border;
+                  e.target.style.color = C.textMid;
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}

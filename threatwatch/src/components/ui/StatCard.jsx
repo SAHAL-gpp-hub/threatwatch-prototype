@@ -12,12 +12,19 @@ export function StatCard({ label, value, sub, subColor=C.green, icon, delay=0, c
             textTransform:"uppercase", marginBottom:10,
             fontFamily: C.mono,
           }}>{label}</div>
-          <div style={{
-            fontSize:30, fontWeight:800, color: critical ? C.red : C.text,
-            lineHeight:1, fontFamily: C.mono,
-            textShadow: critical ? `0 0 20px ${C.red}60` : "none",
-            animation:"countUp 0.5s ease-out",
-          }}>{value}</div>
+          <div
+            className="scroll-counter"
+            data-target={typeof value === "number" ? value : undefined}
+            data-suffix={typeof value === "string" && isNaN(value) ? value.replace(/[0-9.]/g,"") : ""}
+            style={{
+              fontSize:30, fontWeight:800, color: critical ? C.red : C.text,
+              lineHeight:1, fontFamily: C.mono,
+              textShadow: critical ? `0 0 20px ${C.red}60` : "none",
+              animation:"countUp 0.5s ease-out",
+            }}
+          >
+            {value}
+          </div>
           {sub && <div style={{fontSize:11,color:subColor,marginTop:8,fontFamily:C.mono}}>{sub}</div>}
         </div>
         {icon && (
