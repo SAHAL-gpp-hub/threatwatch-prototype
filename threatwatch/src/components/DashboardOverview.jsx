@@ -9,8 +9,10 @@ import { GlowDot } from "./ui/GlowDot.jsx";
 import { TT } from "./ui/Tooltip.jsx";
 import { RiskTable } from "./RiskTable.jsx";
 import { generateReport } from "../reportGenerator.js";
+import { useMobile } from "../utils/useMobile.js";
 
 export function DashboardOverview({ attackDone, employees=[], onAnalyze, lastUpdate=null }) {
+  const mobile = useMobile();
   // Build last-7-day alert activity from employee timelines (days 24-30)
   const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
   const alertActivity = DAYS.map((day, i) => {
@@ -32,13 +34,13 @@ export function DashboardOverview({ attackDone, employees=[], onAnalyze, lastUpd
   ];
 
   return (
-    <div style={{padding:"28px 32px",overflowY:"auto",height:"100%"}}>
-      <div style={{marginBottom:26,animation:"glitchIn 0.5s ease-out"}}>
+    <div style={{padding:mobile?"16px 12px":"28px 32px",overflowY:"auto",height:"100%"}}>
+      <div style={{marginBottom:mobile?18:26,animation:"glitchIn 0.5s ease-out"}}>
         <div style={{fontSize:9,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:4,marginBottom:6}}>// SYSTEM STATUS: OPERATIONAL</div>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
-          <div>
-            <h2 style={{fontSize:26,fontWeight:900,color:C.text,margin:0,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>DASHBOARD OVERVIEW</h2>
-            <p style={{color:C.textMid,fontSize:11,margin:"6px 0 0",fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>REAL-TIME BEHAVIORAL RISK INTELLIGENCE — LIVE MONITORING ACTIVE</p>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:12}}>
+          <div style={{minWidth:0,flex:1}}>
+            <h2 style={{fontSize:mobile?18:26,fontWeight:900,color:C.text,margin:0,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:mobile?1:2}}>DASHBOARD OVERVIEW</h2>
+            <p style={{color:C.textMid,fontSize:mobile?10:11,margin:"6px 0 0",fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>REAL-TIME BEHAVIORAL RISK INTELLIGENCE — LIVE MONITORING ACTIVE</p>
           </div>
           <button id="no-print" className="cyber-btn" onClick={()=>generateReport(employees)} style={{
             background:`linear-gradient(135deg,${C.cyan}20,${C.cyan}08)`,
@@ -54,20 +56,28 @@ export function DashboardOverview({ attackDone, employees=[], onAnalyze, lastUpd
         </div>
       </div>
 
-      <div style={{display:"flex",gap:14,marginBottom:18}}>
+      <div style={{display:"flex",gap:14,marginBottom:18,flexWrap:"wrap"}}>
+        <div style={{flex:mobile?"1 1 calc(50% - 7px)":"1 1 0",minWidth:mobile?0:140}}>
         <StatCard label="Employees Monitored" value={employees.length} sub="Active ML surveillance" icon={<Users size={18} color={C.cyan}/>} delay={0}/>
+        </div>
+        <div style={{flex:mobile?"1 1 calc(50% - 7px)":"1 1 0",minWidth:mobile?0:140}}>
         <StatCard label="Active Alerts"      value={attackDone ? highCount+critCount+3 : highCount+critCount} sub={attackDone?"+3 since attack":"+1 today"} subColor={C.orange} icon={<Zap size={18} color={C.orange}/>} delay={60}/>
+        </div>
+        <div style={{flex:mobile?"1 1 calc(50% - 7px)":"1 1 0",minWidth:mobile?0:140}}>
         <StatCard label="High Risk"          value={attackDone ? highCount+1 : highCount} sub={`${highCount} employees flagged`} subColor={C.orange} icon={<Flame size={18} color={C.orange}/>} delay={120}/>
+        </div>
+        <div style={{flex:mobile?"1 1 calc(50% - 7px)":"1 1 0",minWidth:mobile?0:140}}>
         <StatCard label="Critical Threats"   value={attackDone ? critCount+1 : critCount} sub={critCount>0?"Immediate action required":"All clear"} subColor={C.red} icon={<Crosshair size={18} color={C.red}/>} delay={180} critical={attackDone||critCount>0}/>
+        </div>
       </div>
 
-      <div style={{display:"grid",gridTemplateColumns:"1fr 280px",gap:14,marginBottom:14}}>
-        <Panel style={{padding:"22px"}} animate={false}>
+      <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"1fr 280px",gap:14,marginBottom:14}}>
+        <Panel style={{padding:mobile?"16px":"22px"}} animate={false}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
             <SectionLabel>Alert Activity — 7 Days</SectionLabel>
             {lastUpdate && <span style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>LIVE</span>}
           </div>
-          <ResponsiveContainer width="100%" height={190}>
+          <ResponsiveContainer width="100%" height={mobile?150:190}>
             <AreaChart data={alertActivity}>
               <defs>
                 <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1">
@@ -83,7 +93,7 @@ export function DashboardOverview({ attackDone, employees=[], onAnalyze, lastUpd
           </ResponsiveContainer>
         </Panel>
 
-        <Panel style={{padding:"22px"}} animate={false}>
+        <Panel style={{padding:mobile?"16px":"22px"}} animate={false}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
             <SectionLabel>Risk Distribution</SectionLabel>
             {lastUpdate && <span style={{fontSize:9,color:C.textMid,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:1}}>LIVE</span>}
@@ -107,7 +117,7 @@ export function DashboardOverview({ attackDone, employees=[], onAnalyze, lastUpd
         </Panel>
       </div>
 
-      <Panel style={{padding:"22px"}} animate={false}>
+      <Panel style={{padding:mobile?"16px":"22px"}} animate={false}>
         <SectionLabel>Employee Risk Ranking — Top Threats</SectionLabel>
         <RiskTable employees={employees.slice(0,5)} delay={200} onAnalyze={onAnalyze}/>
       </Panel>

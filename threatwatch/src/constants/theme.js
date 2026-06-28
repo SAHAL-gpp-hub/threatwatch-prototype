@@ -275,4 +275,25 @@ export const GLOBAL_CSS = `
   }
 
   body { font-family: 'Inter', sans-serif; }
+
+  /* ── MOBILE OVERRIDES ── */
+  html, body, #root {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+  }
+
+  @media (max-width: 768px) {
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+    table {
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .cyber-btn:hover::before { left: -100% !important; }
+    .card-hover:hover { transform: none !important; }
+    .cyber-btn:hover { transform: none !important; }
+  }
 `;

@@ -15,11 +15,14 @@ import {
   BarChart3, 
   Bot, 
   Eye, 
-  Radio 
+  Radio,
+  Menu,
+  X 
 } from "lucide-react";
 
 import { GLOBAL_CSS, C } from "./constants/theme";
 import { useData, EMPTY_EMP } from "./utils/data";
+import { useMobile } from "./utils/useMobile";
 
 import GlowDot from "./components/ui/GlowDot";
 import Avatar from "./components/ui/Avatar";
@@ -56,6 +59,8 @@ export default function App() {
   const [demoStep, setDemoStep] = useState(-1);
   const [pageKey, setPageKey] = useState(0);
   const [showAboutModal, setShowAboutModal] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const mobile = useMobile();
 
   const [messages, setMessages] = useState([]);
 
@@ -187,6 +192,14 @@ export default function App() {
       <style>{GLOBAL_CSS}</style>
 
       <div style={{ display: "flex", height: "100vh", background: C.bg, overflow: "hidden", position: "relative", fontFamily: C.sans }}>
+        {/* MOBILE SIDEBAR OVERLAY */}
+        {mobile && sidebarOpen && (
+          <div style={{
+            position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)",
+            zIndex: 99, backdropFilter: "blur(4px)",
+            animation: "fadeIn 0.2s ease-out",
+          }} onClick={() => setSidebarOpen(false)} />
+        )}
         {/* GRID BACKGROUND */}
         <div style={{
           position: "fixed", 
@@ -238,7 +251,8 @@ export default function App() {
             animation: "fadeIn 0.3s ease-out",
           }}>
             <div style={{
-              width: 640,
+              width: mobile ? "calc(100vw - 32px)" : 640,
+              maxWidth: mobile ? "calc(100vw - 32px)" : 640,
               background: "#0a0e14",
               border: `1px solid ${C.red}`,
               borderRadius: 8,
@@ -402,17 +416,39 @@ export default function App() {
 
         {/* SIDEBAR */}
         <div style={{
-          width: 236,
+          width: mobile ? 260 : 236,
           background: "rgba(10,14,20,0.85)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
           borderRight: `1px solid ${C.border}`,
-          display: "flex", 
+          display: mobile ? (sidebarOpen ? "flex" : "none") : "flex", 
           flexDirection: "column", 
           flexShrink: 0,
-          position: "relative", 
-          zIndex: 10,
+          position: mobile ? "fixed" : "relative", 
+          zIndex: mobile ? 100 : 10,
+          top: 0,
+          left: 0,
+          bottom: 0,
+          ...(mobile ? { boxShadow: "4px 0 24px rgba(0,0,0,0.5)", animation: "slideInLeft 0.25s ease-out" } : {}),
         }}>
+          {mobile && (
+            <div style={{ padding: "16px 18px", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{
+                  width: 32, height: 32, borderRadius: 6,
+                  background: `linear-gradient(135deg,${C.cyan},#0088bb)`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  boxShadow: `0 0 20px ${C.cyan}40`,
+                }}><Shield size={16} color="#0a0e14" strokeWidth={2.5} /></div>
+                <span style={{ fontSize: 14, fontWeight: 800, color: C.text, fontFamily: C.sans }}>ThreatWatch</span>
+              </div>
+              <button onClick={() => setSidebarOpen(false)} style={{
+                background: "transparent", border: "none", color: C.textMid,
+                cursor: "pointer", padding: 4,
+              }}><X size={20} /></button>
+            </div>
+          )}
+          {!mobile && (
           <div style={{ padding: "20px 18px", borderBottom: `1px solid ${C.border}` }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{
@@ -431,6 +467,7 @@ export default function App() {
               </div>
             </div>
           </div>
+          )}
 
           <div style={{ padding: "14px 10px", flex: 1 }}>
             <div style={{ fontSize: 9, color: C.textMid, letterSpacing: 3, padding: "0 8px", marginBottom: 10, fontFamily: C.mono }}>NAVIGATION</div>
@@ -438,7 +475,7 @@ export default function App() {
               const active = page === item.id;
               const { Icon } = item;
               return (
-                <div key={item.id} className="nav-item" onClick={() => { setPage(item.id); setPageKey(k => k + 1); }} style={{
+                <div key={item.id} className="nav-item" onClick={() => { setPage(item.id); setPageKey(k => k + 1); if (mobile) setSidebarOpen(false); }} style={{
                   display: "flex", 
                   alignItems: "center", 
                   justifyContent: "space-between",
@@ -473,6 +510,7 @@ export default function App() {
             })}
           </div>
 
+          {!mobile && (
           <div style={{ padding: "14px 18px", borderTop: `1px solid ${C.border}` }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
               <GlowDot color={C.green} pulse size={8} />
@@ -494,13 +532,14 @@ export default function App() {
               <div style={{ color: `${C.cyan}60` }}>AI THREAT DETECTION</div>
             </div>
           </div>
+          )}
         </div>
 
         {/* MAIN CONTAINER */}
         <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", position: "relative", zIndex: 5 }}>
           {/* Topbar */}
           <div style={{
-            height: 56,
+            height: mobile ? 50 : 56,
             background: "rgba(10,14,20,0.75)",
             backdropFilter: "blur(20px)",
             WebkitBackdropFilter: "blur(20px)",
@@ -508,13 +547,21 @@ export default function App() {
             display: "flex", 
             alignItems: "center", 
             justifyContent: "space-between",
-            padding: "0 24px", 
+            padding: mobile ? "0 12px" : "0 24px", 
             flexShrink: 0,
           }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <span style={{ fontSize: 14, fontWeight: 700, color: C.text, fontFamily: C.sans, letterSpacing: 0.3 }}>
-                Insider Risk Monitoring Dashboard
+            <div style={{ display: "flex", alignItems: "center", gap: mobile ? 10 : 14, minWidth: 0, flex: 1 }}>
+              {mobile && (
+                <button onClick={() => setSidebarOpen(true)} style={{
+                  background: "transparent", border: "none", color: C.text,
+                  cursor: "pointer", padding: 4, flexShrink: 0,
+                }}><Menu size={22} /></button>
+              )}
+              <span style={{ fontSize: mobile ? 12 : 14, fontWeight: 700, color: C.text, fontFamily: C.sans, letterSpacing: 0.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {mobile ? "ThreatWatch" : "Insider Risk Monitoring Dashboard"}
               </span>
+              {!mobile && (
+              <>
               <span style={{
                 background: `${C.green}15`, 
                 border: `1px solid ${C.green}50`,
@@ -532,8 +579,24 @@ export default function App() {
                 LIVE
               </span>
               <span style={{ fontSize: 10, color: C.textLow, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)" }}>{timeStr}</span>
+              </>
+              )}
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: mobile ? 8 : 14, flexShrink: 0 }}>
+              {mobile && (
+                <div style={{ position: "relative", cursor: "pointer", display: "flex", alignItems: "center" }}>
+                  <Bell size={18} color={C.textMid} />
+                  {attack && <div style={{
+                    position: "absolute", top: -4, right: -4, width: 14, height: 14,
+                    borderRadius: "50%", background: C.red, border: `2px solid ${C.bg}`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 7, color: "white", fontWeight: 700,
+                    animation: "orbitPing 1s ease-out infinite",
+                  }}>!</div>}
+                </div>
+              )}
+              {!mobile && (
+              <>
               <div style={{ position: "relative", cursor: "pointer", display: "flex", alignItems: "center" }} onClick={() => setShowAboutModal(true)}>
                 <ShieldCheck size={20} color={C.cyan} style={{ animation: "pulse-animation 3s infinite" }} />
               </div>
@@ -632,6 +695,8 @@ export default function App() {
                   <div style={{ fontSize: 9, color: C.green, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 1 }}>● ACTIVE SESSION</div>
                 </div>
               </div>
+              </>
+              )}
             </div>
           </div>
 
@@ -664,7 +729,7 @@ export default function App() {
               {!loading && !error && lastUpdate && (
                 <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 9, color: `${C.green}`, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 1 }}>
                   <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.green, animation: "pulseGlow 3s ease-in-out infinite" }} />
-                  LIVE · UPDATED {lastUpdate.toLocaleTimeString()} · REFRESHING EVERY 15s
+                  LIVE · UPDATED {lastUpdate.toLocaleTimeString()}
                 </div>
               )}
             </div>
@@ -750,11 +815,12 @@ export default function App() {
           animation: "fadeIn 0.25s ease-out"
         }}>
           <div style={{
-            width: 560,
+            width: mobile ? "calc(100vw - 32px)" : 560,
+            maxWidth: mobile ? "calc(100vw - 32px)" : 560,
             maxHeight: "85vh",
             background: "rgba(6, 12, 24, 0.98)",
             border: `1.5px solid rgba(0, 209, 255, 0.4)`,
-            borderRadius: 20,
+            borderRadius: mobile ? 12 : 20,
             boxShadow: "0 24px 64px rgba(0,0,0,0.95), 0 0 60px rgba(0, 209, 255, 0.25), inset 0 0 30px rgba(0, 209, 255, 0.05)",
             display: "flex", 
             flexDirection: "column",
@@ -774,7 +840,7 @@ export default function App() {
             }} />
 
             <div style={{
-              padding: "32px 32px 20px", 
+              padding: mobile ? "20px 16px 14px" : "32px 32px 20px", 
               display: "flex", 
               flexDirection: "column", 
               alignItems: "center",
@@ -820,7 +886,7 @@ export default function App() {
                 </svg>
               </div>
 
-              <h1 style={{ fontSize: 34, fontWeight: 900, color: C.text, fontFamily: C.sans, margin: "0 0 6px", letterSpacing: 0.5, textShadow: `0 0 20px ${C.cyan}30` }}>
+                  <h1 style={{ fontSize: mobile ? 26 : 34, fontWeight: 900, color: C.text, fontFamily: C.sans, margin: "0 0 6px", letterSpacing: 0.5, textShadow: `0 0 20px ${C.cyan}30` }}>
                 ThreatWatch
               </h1>
               <p style={{ fontSize: 13.5, color: C.textMid, fontFamily: C.sans, margin: 0, letterSpacing: 0.5, textTransform: "uppercase", fontWeight: 600 }}>
@@ -828,7 +894,7 @@ export default function App() {
               </p>
             </div>
 
-            <div style={{ flex: 1, overflowY: "auto", padding: "0 32px 24px", display: "flex", flexDirection: "column", gap: 20 }}>
+            <div style={{ flex: 1, overflowY: "auto", padding: mobile ? "0 16px 16px" : "0 32px 24px", display: "flex", flexDirection: "column", gap: 20 }}>
               <div style={{ height: 1, background: `linear-gradient(90deg, transparent, ${C.cyan}25, transparent)` }} />
 
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -875,7 +941,7 @@ export default function App() {
 
               <div>
                 <div style={{ fontSize: 10, color: C.cyan, fontFamily: C.mono, letterSpacing: 2, fontWeight: 800, marginBottom: 12 }}>HOW IT WORKS</div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0, 209, 255, 0.03)", border: `1.5px dashed rgba(0, 209, 255, 0.2)`, borderRadius: 12, padding: "14px 20px" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: mobile ? "center" : "space-between", background: "rgba(0, 209, 255, 0.03)", border: `1.5px dashed rgba(0, 209, 255, 0.2)`, borderRadius: 12, padding: mobile ? "14px 12px" : "14px 20px", flexWrap: mobile ? "wrap" : "nowrap", gap: mobile ? 8 : 0 }}>
                   {[
                     { label: "Monitor", Icon: Eye, color: C.cyan },
                     { label: "Analyze", Icon: Radio, color: C.purple },
@@ -981,12 +1047,13 @@ export default function App() {
             </div>
 
             <div style={{
-              padding: "16px 32px 22px", 
+              padding: mobile ? "12px 16px 18px" : "16px 32px 22px", 
               borderTop: `1px solid ${C.border}`,
               background: "rgba(0, 8, 16, 0.6)", 
               display: "flex", 
               gap: 12, 
-              justifyContent: "flex-end"
+              justifyContent: "flex-end",
+              flexWrap: "wrap",
             }}>
               <button
                 className="cyber-btn"

@@ -14,8 +14,10 @@ import { C, LEVEL_C } from "../constants/theme";
 import Panel from "./ui/Panel";
 import Avatar from "./ui/Avatar";
 import TT from "./ui/Tooltip";
+import { useMobile } from "../utils/useMobile";
 
 export default function ForecastEngine({ employees = [], onAnalyze }) {
+  const mobile = useMobile();
   const [selectedId, setSelectedId] = useState(null);
   const emp = selectedId ? employees.find(e => e.id === selectedId) || employees[0] : employees[0];
 
@@ -69,21 +71,21 @@ export default function ForecastEngine({ employees = [], onAnalyze }) {
   const escalating = orgForecasts.filter(e => e.delta > 5).length;
 
   return (
-    <div style={{ padding: "28px 32px", overflowY: "auto", height: "100%" }}>
+    <div style={{ padding: mobile ? "16px 12px" : "28px 32px", overflowY: "auto", height: "100%" }}>
       {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: mobile ? "stretch" : "flex-start", marginBottom: mobile ? 16 : 24, flexDirection: mobile ? "column" : "row", gap: mobile ? 14 : 0 }}>
         <div>
           <div style={{ fontSize: 9, color: C.cyan, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 4, marginBottom: 6 }}>
             // PREDICTIVE ANALYTICS ENGINE
           </div>
-          <h2 style={{ fontSize: 26, fontWeight: 900, color: C.text, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 2 }}>
+          <h2 style={{ fontSize: mobile ? 18 : 26, fontWeight: 900, color: C.text, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: mobile ? 1 : 2 }}>
             THREAT FORECAST
           </h2>
-          <p style={{ color: C.textMid, fontSize: 11, marginTop: 6, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 1 }}>
+          <p style={{ color: C.textMid, fontSize: mobile ? 10 : 11, marginTop: 6, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 1 }}>
             7-DAY TRAJECTORY PREDICTION · LINEAR REGRESSION ON 30-DAY BEHAVIORAL BASELINE
           </p>
         </div>
-        <div style={{ display: "flex", gap: 10 }}>
+        <div style={{ display: "flex", gap: mobile ? 6 : 10, flexWrap: "wrap" }}>
           {[
             { label: "FORECASTED THREATS", val: orgForecasts.filter(e => e.forecastScore >= 60).length, color: C.red },
             { label: "ESCALATING NOW", val: escalating, color: C.orange },
@@ -94,19 +96,21 @@ export default function ForecastEngine({ employees = [], onAnalyze }) {
               background: `linear-gradient(135deg,${s.color}12,${s.color}05)`,
               border: `1px solid ${s.color}40`, 
               borderRadius: 6, 
-              padding: "10px 18px",
+              padding: mobile ? "8px 10px" : "10px 18px",
+              flex: mobile ? "1 1 calc(33% - 4px)" : "0 0 auto",
+              minWidth: mobile ? 90 : "auto",
             }}>
-              <div style={{ fontSize: 22, fontWeight: 900, color: s.color, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", lineHeight: 1 }}>{s.val}</div>
-              <div style={{ fontSize: 8, color: s.color, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 2, marginTop: 5, opacity: 0.8 }}>{s.label}</div>
+              <div style={{ fontSize: mobile ? 18 : 22, fontWeight: 900, color: s.color, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", lineHeight: 1 }}>{s.val}</div>
+              <div style={{ fontSize: mobile ? 7 : 8, color: s.color, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: mobile ? 1 : 2, marginTop: 5, opacity: 0.8 }}>{s.label}</div>
             </div>
           ))}
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 16, marginBottom: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 320px", gap: mobile ? 14 : 16, marginBottom: 16 }}>
         {/* Left: Individual forecast chart */}
-        <Panel style={{ padding: "22px" }} animate={false}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+        <Panel style={{ padding: mobile ? "16px" : "22px" }} animate={false}>
+          <div style={{ display: "flex", justifyContent: mobile ? "flex-start" : "space-between", alignItems: "center", marginBottom: 18, flexDirection: mobile ? "column" : "row", gap: mobile ? 10 : 0 }}>
             <div style={{ fontSize: 11, color: C.cyan, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 2 }}>
               INDIVIDUAL TRAJECTORY FORECAST
             </div>
@@ -123,6 +127,8 @@ export default function ForecastEngine({ employees = [], onAnalyze }) {
                 fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", 
                 cursor: "pointer", 
                 outline: "none",
+                width: mobile ? "100%" : "auto",
+                maxWidth: "100%",
               }}>
               {employees.map(e => (
                 <option key={e.id} value={e.id}>{e.name} — {e.level} ({e.score})</option>
@@ -134,26 +140,27 @@ export default function ForecastEngine({ employees = [], onAnalyze }) {
             <div style={{
               display: "flex", 
               alignItems: "center", 
-              gap: 14,
-              padding: "12px 16px", 
+              gap: mobile ? 10 : 14,
+              padding: mobile ? "10px" : "12px 16px", 
               marginBottom: 16,
               background: `${LEVEL_C[emp.level]}08`,
               border: `1px solid ${LEVEL_C[emp.level]}30`, 
               borderRadius: 6,
+              flexWrap: mobile ? "wrap" : "nowrap",
             }}>
-              <Avatar initials={emp.initials} size={38} level={emp.level} />
-              <div style={{ flex: 1 }}>
+              <Avatar initials={emp.initials} size={mobile ? 32 : 38} level={emp.level} />
+              <div style={{ flex: mobile ? "1 1 calc(100% - 42px)" : 1, minWidth: 0 }}>
                 <div style={{ fontSize: 14, fontWeight: 700, color: C.text, fontFamily: "var(--sans-font,'Inter',sans-serif)" }}>{emp.name}</div>
                 <div style={{ fontSize: 10, color: C.textMid, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)" }}>{emp.role} · {emp.dept}</div>
               </div>
               <div style={{ textAlign: "right" }}>
                 <div style={{ fontSize: 9, color: C.textMid, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 1, marginBottom: 4 }}>CURRENT</div>
-                <div style={{ fontSize: 20, fontWeight: 900, color: LEVEL_C[emp.level], fontFamily: "var(--mono-font,'JetBrains Mono',monospace)" }}>{emp.score}</div>
+                <div style={{ fontSize: mobile ? 16 : 20, fontWeight: 900, color: LEVEL_C[emp.level], fontFamily: "var(--mono-font,'JetBrains Mono',monospace)" }}>{emp.score}</div>
               </div>
-              <div style={{ width: 1, height: 36, background: C.border }} />
+              {!mobile && <div style={{ width: 1, height: 36, background: C.border }} />}
               <div style={{ textAlign: "right" }}>
                 <div style={{ fontSize: 9, color: C.textMid, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 1, marginBottom: 4 }}>FORECAST D+7</div>
-                <div style={{ fontSize: 20, fontWeight: 900, color: traj.color, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)" }}>
+                <div style={{ fontSize: mobile ? 16 : 20, fontWeight: 900, color: traj.color, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)" }}>
                   {forecast7[6]?.score ?? "—"}
                 </div>
               </div>
@@ -172,7 +179,7 @@ export default function ForecastEngine({ employees = [], onAnalyze }) {
             </div>
           )}
 
-          <ResponsiveContainer width="100%" height={220}>
+          <ResponsiveContainer width="100%" height={mobile ? 180 : 220}>
             <ComposedChart data={chartData} margin={{ left: -10, right: 10 }}>
               <defs>
                 <linearGradient id="histGrad" x1="0" y1="0" x2="0" y2="1">
@@ -200,7 +207,7 @@ export default function ForecastEngine({ employees = [], onAnalyze }) {
             </ComposedChart>
           </ResponsiveContainer>
 
-          <div style={{ display: "flex", gap: 20, marginTop: 8, justifyContent: "center" }}>
+          <div style={{ display: "flex", gap: mobile ? 12 : 20, marginTop: 8, justifyContent: "center", flexWrap: "wrap" }}>
             {[
               ["Historical", emp ? LEVEL_C[emp.level] : C.cyan, "solid"],
               ["7-Day Forecast", traj.color || C.cyan, "dashed"],
@@ -225,16 +232,17 @@ export default function ForecastEngine({ employees = [], onAnalyze }) {
           {emp && (
             <div style={{
               marginTop: 14, 
-              padding: "12px 16px",
+              padding: mobile ? "10px" : "12px 16px",
               background: `${traj.color}10`, 
               border: `1px solid ${traj.color}30`, 
               borderRadius: 4,
               display: "flex", 
               gap: 12, 
               alignItems: "center",
+              flexWrap: mobile ? "wrap" : "nowrap",
             }}>
               <div style={{ fontSize: 22, color: traj.color }}>{traj.icon}</div>
-              <div>
+              <div style={{ flex: mobile ? "1 1 calc(100% - 34px)" : 1, minWidth: 0 }}>
                 <div style={{ fontSize: 12, color: traj.color, fontWeight: 700, fontFamily: "var(--sans-font,'Inter',sans-serif)", letterSpacing: 1 }}>
                   FORECAST: {traj.label}
                 </div>
@@ -243,7 +251,7 @@ export default function ForecastEngine({ employees = [], onAnalyze }) {
                 </div>
               </div>
               <button className="cyber-btn" onClick={() => onAnalyze && onAnalyze(emp)} style={{
-                marginLeft: "auto", 
+                marginLeft: mobile ? 0 : "auto", 
                 background: `${C.cyan}15`, 
                 border: `1px solid ${C.cyan}40`,
                 color: C.cyan, 
@@ -260,7 +268,7 @@ export default function ForecastEngine({ employees = [], onAnalyze }) {
         </Panel>
 
         {/* Right: Organisation forecast ranking */}
-        <Panel style={{ padding: "22px" }} animate={false}>
+        <Panel style={{ padding: mobile ? "16px" : "22px" }} animate={false}>
           <div style={{ fontSize: 11, color: C.cyan, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 2, marginBottom: 16 }}>
             ORG-WIDE 7-DAY FORECAST
           </div>
@@ -330,13 +338,13 @@ export default function ForecastEngine({ employees = [], onAnalyze }) {
       </div>
 
       {/* Model info footer */}
-      <Panel style={{ padding: "16px 22px" }} animate={false}>
-        <div style={{ display: "flex", gap: 32, alignItems: "center", flexWrap: "wrap" }}>
-          <div>
+      <Panel style={{ padding: mobile ? "12px 16px" : "16px 22px" }} animate={false}>
+        <div style={{ display: "flex", gap: mobile ? 16 : 32, alignItems: "center", flexWrap: "wrap"}}>
+          <div style={{ flex: mobile ? "1 1 100%" : "0 0 auto" }}>
             <div style={{ fontSize: 9, color: C.cyan, fontFamily: "var(--mono-font,'JetBrains Mono',monospace)", letterSpacing: 3, marginBottom: 6 }}>FORECAST MODEL</div>
             <div style={{ fontSize: 13, fontWeight: 700, color: C.text, fontFamily: "var(--sans-font,'Inter',sans-serif)" }}>Linear Regression (OLS) on 10-Day Rolling Window</div>
           </div>
-          <div style={{ width: 1, height: 36, background: C.border }} />
+          {!mobile && <div style={{ width: 1, height: 36, background: C.border }} />}
           {[
             ["Training Window", "Last 10 days"],
             ["Forecast Horizon", "7 days"],

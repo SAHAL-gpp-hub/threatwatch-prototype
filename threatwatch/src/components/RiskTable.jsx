@@ -7,7 +7,8 @@ import { CyberBadge } from "./ui/CyberBadge.jsx";
 
 export function RiskTable({ employees, delay=0, onAnalyze }) {
   return (
-    <table style={{width:"100%",borderCollapse:"collapse"}}>
+    <div style={{overflowX:"auto",WebkitOverflowScrolling:"touch"}}>
+    <table style={{width:"100%",minWidth:680,borderCollapse:"collapse"}}>
       <thead>
         <tr style={{borderBottom:`1px solid ${C.border}`}}>
           {["#","Employee","Dept","Risk Score","Level","Trend","Last Activity","Action"].map(h=>(
@@ -16,6 +17,7 @@ export function RiskTable({ employees, delay=0, onAnalyze }) {
               fontSize:10,color:C.textLow,fontWeight:700,
               letterSpacing:2,textTransform:"uppercase",
               fontFamily: C.mono,
+              whiteSpace:"nowrap",
             }}>{h}</th>
           ))}
         </tr>
@@ -61,6 +63,7 @@ export function RiskTable({ employees, delay=0, onAnalyze }) {
         ))}
       </tbody>
     </table>
+    </div>
   );
 }
 export default RiskTable;

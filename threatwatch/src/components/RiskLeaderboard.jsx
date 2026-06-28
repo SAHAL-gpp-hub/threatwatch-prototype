@@ -9,22 +9,24 @@ import { SectionLabel } from "./ui/SectionLabel.jsx";
 import { TT } from "./ui/Tooltip.jsx";
 import { EMPTY_EMP, buildRadar } from "../utils/data.js";
 import { RiskTable } from "./RiskTable.jsx";
+import { useMobile } from "../utils/useMobile.js";
 
 export function RiskLeaderboard({ employees=[], onAnalyze, lastUpdate=null }) {
+  const mobile = useMobile();
   const top3 = employees.slice(0,3);
   return (
-    <div style={{padding:"28px 32px",overflowY:"auto",height:"100%"}}>
-      <div style={{marginBottom:26}}>
+    <div style={{padding:mobile?"16px 12px":"28px 32px",overflowY:"auto",height:"100%"}}>
+      <div style={{marginBottom:mobile?18:26}}>
         <div style={{fontSize:9,color:C.cyan,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:4,marginBottom:6}}>// THREAT INTELLIGENCE</div>
-        <h2 style={{fontSize:26,fontWeight:900,color:C.text,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:2}}>RISK LEADERBOARD</h2>
-        <p style={{color:C.textLow,fontSize:11,marginTop:6,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>EMPLOYEES RANKED BY BEHAVIORAL THREAT SCORE</p>
+        <h2 style={{fontSize:mobile?18:26,fontWeight:900,color:C.text,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",letterSpacing:mobile?1:2}}>RISK LEADERBOARD</h2>
+        <p style={{color:C.textLow,fontSize:mobile?10:11,marginTop:6,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}}>EMPLOYEES RANKED BY BEHAVIORAL THREAT SCORE</p>
       </div>
 
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:14,marginBottom:18}}>
+      <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"1fr 1fr 1fr",gap:14,marginBottom:18}}>
         {top3.map((e,i)=>{
           const c = LEVEL_C[e.level];
           return (
-            <Panel key={e.id} style={{padding:"22px",animationDelay:`${i*100}ms`,cursor:"pointer"}} critical={e.level==="Critical"}
+            <Panel key={e.id} style={{padding:mobile?"16px":"22px",animationDelay:`${i*100}ms`,cursor:"pointer"}} critical={e.level==="Critical"}
               onClick={()=>onAnalyze&&onAnalyze(e)}>
               <div style={{position:"absolute",top:16,right:16}}>
                 {i===0 ? <Trophy size={22} color="#ffd700" strokeWidth={1.5}/> : i===1 ? <Trophy size={20} color="#94a3b8" strokeWidth={1.5}/> : <Trophy size={18} color="#cd7f32" strokeWidth={1.5}/>}
@@ -70,12 +72,12 @@ export function RiskLeaderboard({ employees=[], onAnalyze, lastUpdate=null }) {
         })}
       </div>
 
-      <div style={{display:"grid",gridTemplateColumns:"1fr 260px",gap:14,marginBottom:14}}>
-        <Panel style={{padding:"22px"}} animate={false}>
+      <div style={{display:"grid",gridTemplateColumns:mobile?"1fr":"1fr 260px",gap:14,marginBottom:14}}>
+        <Panel style={{padding:mobile?"16px":"22px"}} animate={false}>
           <SectionLabel>Risk Score Comparison — All Employees</SectionLabel>
-          <ResponsiveContainer width="100%" height={190}>
+          <ResponsiveContainer width="100%" height={mobile?160:190}>
             <BarChart data={employees.map(e=>({n:e.name.split(" ")[0],s:e.score,l:e.level}))}>
-              <XAxis dataKey="n" tick={{fill:C.textLow,fontSize:10,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}} axisLine={false} tickLine={false}/>
+              <XAxis dataKey="n" tick={{fill:C.textLow,fontSize:mobile?9:10,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)"}} axisLine={false} tickLine={false}/>
               <YAxis domain={[0,100]} tick={{fill:C.textLow,fontSize:10}} axisLine={false} tickLine={false}/>
               <Tooltip content={<TT/>}/>
               <Bar dataKey="s" name="Score" radius={[3,3,0,0]}>
@@ -87,7 +89,7 @@ export function RiskLeaderboard({ employees=[], onAnalyze, lastUpdate=null }) {
           </ResponsiveContainer>
         </Panel>
 
-        <Panel style={{padding:"22px"}} animate={false}>
+        <Panel style={{padding:mobile?"16px":"22px"}} animate={false}>
           <SectionLabel>Threat Profile</SectionLabel>
           <div style={{fontSize:11,color:C.textLow,fontFamily:"var(--mono-font,'JetBrains Mono',monospace)",marginBottom:8}}>{(top3[0]||EMPTY_EMP).name} — #1</div>
           <ResponsiveContainer width="100%" height={150}>
@@ -106,7 +108,7 @@ export function RiskLeaderboard({ employees=[], onAnalyze, lastUpdate=null }) {
         </Panel>
       </div>
 
-      <Panel style={{padding:"22px"}} animate={false}>
+      <Panel style={{padding:mobile?"16px":"22px"}} animate={false}>
         <SectionLabel>Full Rankings</SectionLabel>
         <RiskTable employees={employees} delay={100} onAnalyze={onAnalyze}/>
       </Panel>
